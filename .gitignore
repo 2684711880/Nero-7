@@ -1,0 +1,25 @@
+# ROS / colcon output
+sim_ws/build/
+sim_ws/install/
+sim_ws/log/
+
+# Python and editor caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+.vscode/
+.idea/
+*~
+*.swp
+.DS_Store
+
+# Runtime output and private local configuration
+*.log
+core
+core.*
+.env
+.env.*
+!.env.example
+*.pem
+*.key

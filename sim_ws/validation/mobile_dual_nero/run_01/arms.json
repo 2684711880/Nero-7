@@ -1,0 +1,18 @@
+{
+  "source_log": "/home/a/.ros/log/verify_dual_89792_1791948706841.log",
+  "checks": [
+    "[INFO] [1791948710.078145786] [verify_dual]: PASS left_arm -> ready: 28 points, max joint error 0.000091 rad",
+    "[INFO] [1791948712.648337239] [verify_dual]: PASS left_arm -> home: 26 points, max joint error 0.000092 rad",
+    "[INFO] [1791948712.676180950] [verify_dual]: PASS left_arm IK pose planning: 24 points",
+    "[INFO] [1791948715.880625279] [verify_dual]: PASS right_arm -> ready: 28 points, max joint error 0.000092 rad",
+    "[INFO] [1791948718.453579592] [verify_dual]: PASS right_arm -> home: 27 points, max joint error 0.000085 rad",
+    "[INFO] [1791948718.485577837] [verify_dual]: PASS right_arm IK pose planning: 38 points",
+    "[INFO] [1791948721.529817973] [verify_dual]: PASS both_arms -> ready: 27 points, max joint error 0.000105 rad",
+    "[INFO] [1791948724.101769396] [verify_dual]: PASS both_arms -> home: 27 points, max joint error 0.000142 rad",
+    "[INFO] [1791948726.163816940] [verify_dual]: PASS left_gripper -> open: 16 points, max joint error 0.000084 m",
+    "[INFO] [1791948728.742282579] [verify_dual]: PASS left_gripper -> close: 26 points, max joint error 0.000097 m",
+    "[INFO] [1791948730.817711246] [verify_dual]: PASS right_gripper -> open: 16 points, max joint error 0.000091 m",
+    "[INFO] [1791948733.405931955] [verify_dual]: PASS right_gripper -> close: 26 points, max joint error 0.000089 m"
+  ],
+  "passed": true
+}

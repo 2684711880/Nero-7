@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+"""Verify physical carriage of both wrists during chassis translation."""
+import argparse
+import json
+import time
+import numpy as np
+import rclpy
+from rclpy.node import Node
+from gazebo_msgs.msg import ModelStates, LinkStates
+from geometry_msgs.msg import Twist
+from sensor_msgs.msg import JointState
+
+
+class Verify(Node):
+    def __init__(self):
+        super().__init__('verify_mobile_assembly')
+        self.body = None
+        self.links = {}
+        self.joints = None
+        self.pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.create_subscription(ModelStates, '/gazebo/model_states', self.on_models, 10)
+        self.create_subscription(LinkStates, '/gazebo/link_states', self.on_links, 10)
+        self.create_subscription(JointState, '/joint_states', self.on_joints, 10)
+
+    def on_models(self, m):
+        if 'mobile_dual_nero' in m.name:
+            self.body = m.pose[m.name.index('mobile_dual_nero')]
+
+    def on_links(self, m):
+        self.links = dict(zip(m.name, m.pose))
+
+    def on_joints(self, m):
+        self.joints = m
+
+    def wait(self, seconds, speed):
+        end = time.monotonic()+seconds
+        while time.monotonic()<end:
+            m = Twist();m.linear.x = speed;self.pub.publish(m)
+            rclpy.spin_once(self, timeout_sec=.02)
+
+    def snapshot(self):
+        keys = ['mobile_dual_nero::left_link7', 'mobile_dual_nero::right_link7']
+        poses = [self.body] + [self.links[k] for k in keys]
+        return np.array([[p.position.x,p.position.y,p.position.z] for p in poses])
+
+
+def main():
+    parser = argparse.ArgumentParser();parser.add_argument('--output', required=True)
+    args, ros_args = parser.parse_known_args()
+    rclpy.init(args=ros_args);n=Verify();report={}
+    try:
+        end=time.monotonic()+20
+        while not n.body or not n.joints or 'mobile_dual_nero::left_link7' not in n.links:
+            rclpy.spin_once(n,timeout_sec=.1)
+            if time.monotonic()>end:raise RuntimeError('Missing physical model/link/joint state')
+        n.wait(2.,0.);before=n.snapshot()
+        n.wait(5.,.1);n.wait(1.5,0.);after=n.snapshot()
+        delta=after-before
+        carried_error=max(float(np.linalg.norm(d-delta[0])) for d in delta[1:])
+        q=n.body.orientation
+        tilt=float(np.hypot(q.x,q.y))
+        report={'joint_count':len(n.joints.name), 'physical_displacements':delta.tolist(),
+                'wrist_carriage_error_m':carried_error,'tilt_quaternion_xy_norm':tilt,
+                'passed':bool(len(n.joints.name)==26 and delta[0,0]>.2 and
+                              abs(delta[0,1])<.05 and carried_error<.03 and tilt<.1)}
+        print(json.dumps(report),flush=True)
+    finally:
+        n.pub.publish(Twist())
+        from pathlib import Path
+        p=Path(args.output);p.parent.mkdir(parents=True,exist_ok=True)
+        p.write_text(json.dumps(report,indent=2)+'\n')
+        n.destroy_node();rclpy.shutdown()
+    if not report.get('passed'):raise SystemExit(1)
+
+
+if __name__=='__main__':main()

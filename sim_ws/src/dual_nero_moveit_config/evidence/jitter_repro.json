@@ -1,0 +1,17 @@
+{
+  "left_joint_goal": [
+    0.24945580036108383,
+    1.3675771693520247,
+    -0.6147279790673404,
+    0.024766498244553972,
+    0.3055504874800332,
+    0.7398171425036153,
+    0.1956601987304841
+  ],
+  "observed_6s_peak_to_peak_rad": {
+    "left_joint3": 1.103319,
+    "left_joint5": 1.910706,
+    "left_joint7": 2.182328
+  },
+  "notes": "Captured from controller reference and /joint_states during user reported idle oscillation. Two launch instances present."
+}

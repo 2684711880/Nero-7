@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from ranger_air_gazebo.controller import main
+if __name__ == '__main__':
+    main()

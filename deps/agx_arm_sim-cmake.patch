@@ -1,0 +1,20 @@
+diff --git a/agx_arm_description/CMakeLists.txt b/agx_arm_description/CMakeLists.txt
+index 59c2892..ac4184f 100644
+--- a/agx_arm_description/CMakeLists.txt
++++ b/agx_arm_description/CMakeLists.txt
+@@ -16,10 +16,14 @@ install(
+     rviz
+     scripts
+     meshes
+-    mujoco
+   DESTINATION share/${PROJECT_NAME}/
+ )
+ 
++# Some checkouts do not include the optional MuJoCo resources.
++if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mujoco")
++  install(DIRECTORY mujoco DESTINATION share/${PROJECT_NAME}/)
++endif()
++
+ # 安装 agx_arm_urdf 子模块（URDF + mesh 文件）
+ # 使用前请执行: git submodule update --init --recursive
+ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/agx_arm_urdf")

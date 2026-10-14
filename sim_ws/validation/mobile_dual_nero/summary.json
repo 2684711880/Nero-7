@@ -1,0 +1,12 @@
+{
+  "mount_xyz": [
+    0.0,
+    0.0,
+    0.275
+  ],
+  "joint_count": 26,
+  "model_mass_kg": 32.34695304022688,
+  "assembly": true,
+  "motion": true,
+  "arms_after_driving": true
+}

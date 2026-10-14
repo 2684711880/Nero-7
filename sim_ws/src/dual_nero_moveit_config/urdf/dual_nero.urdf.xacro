@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dual_nero">
+  <xacro:arg name="use_gazebo" default="true"/>
+  <xacro:include filename="$(find dual_nero_moveit_config)/urdf/dual_nero.urdf"/>
+  <xacro:include filename="$(find dual_nero_moveit_config)/config/dual_nero.ros2_control.xacro"/>
+</robot>

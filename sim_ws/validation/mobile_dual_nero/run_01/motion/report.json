@@ -1,0 +1,121 @@
+{
+  "tests": [
+    {
+      "name": "forward",
+      "command": [
+        0.15,
+        0.0,
+        0.0
+      ],
+      "body_dx": 0.6774414186755597,
+      "body_dy": 2.4504984597701826e-08,
+      "delta_yaw": 1.8932910436665068e-08,
+      "stopped": false,
+      "odom_position_error": 0.0011934801419990607,
+      "odom_yaw_error": 2.2294236348228787e-06,
+      "passed": false
+    },
+    {
+      "name": "backward",
+      "command": [
+        -0.15,
+        0.0,
+        0.0
+      ],
+      "body_dx": -0.5145262368833827,
+      "body_dy": -3.27783677260901e-08,
+      "delta_yaw": 2.922195418737924e-08,
+      "stopped": false,
+      "odom_position_error": 0.0024659666045142425,
+      "odom_yaw_error": 1.8075673223219004e-06,
+      "passed": false
+    },
+    {
+      "name": "left",
+      "command": [
+        0.0,
+        0.15,
+        0.0
+      ],
+      "body_dx": -0.011260083455498174,
+      "body_dy": 0.2084095230962036,
+      "delta_yaw": 0.0002585404989245066,
+      "stopped": false,
+      "odom_position_error": 0.002395850827242331,
+      "odom_yaw_error": 0.00020226224990496555,
+      "passed": false
+    },
+    {
+      "name": "right",
+      "command": [
+        0.0,
+        -0.15,
+        0.0
+      ],
+      "body_dx": 7.297415845184432e-05,
+      "body_dy": -0.4994710027463107,
+      "delta_yaw": 0.0001050295336389242,
+      "stopped": false,
+      "odom_position_error": 0.002691885586502974,
+      "odom_yaw_error": 2.6203089167898454e-05,
+      "passed": false
+    },
+    {
+      "name": "ccw",
+      "command": [
+        0.0,
+        0.0,
+        0.4
+      ],
+      "body_dx": -0.00023514999340872354,
+      "body_dy": -0.016437501858537547,
+      "delta_yaw": 1.0392596309406896,
+      "stopped": false,
+      "odom_position_error": 0.01606837804018902,
+      "odom_yaw_error": 0.005523567996159828,
+      "passed": false
+    },
+    {
+      "name": "cw",
+      "command": [
+        0.0,
+        0.0,
+        -0.4
+      ],
+      "body_dx": 2.3790139888368366e-05,
+      "body_dy": -0.00012329167851400465,
+      "delta_yaw": -0.7678852438535984,
+      "stopped": false,
+      "odom_position_error": 0.013501504930417081,
+      "odom_yaw_error": 0.009693794861833416,
+      "passed": false
+    },
+    {
+      "name": "combined",
+      "command": [
+        0.1,
+        0.05,
+        0.2
+      ],
+      "body_dx": 0.00365606351370225,
+      "body_dy": 0.0017052759000557726,
+      "delta_yaw": -0.028223454583996832,
+      "stopped": false,
+      "odom_position_error": 0.000853879846047883,
+      "odom_yaw_error": 0.005320459319311744,
+      "passed": false
+    },
+    {
+      "name": "command_timeout",
+      "wheel_rates": [
+        0.0012077983676577618,
+        -0.0012104726728993476,
+        0.0011939877596444395,
+        -0.0011977537232232042
+      ],
+      "body_speed": 7.247942768820772e-05,
+      "passed": true
+    }
+  ],
+  "passed": false
+}

@@ -1,0 +1,9 @@
+{
+  "old_missing_unique_meshes": 41,
+  "new_missing_unique_meshes": 0,
+  "paths": [
+    "/home/a/Nero-7/sim_ws/install/mobile_dual_nero/share",
+    "/home/a/Nero-7/sim_ws/install/ranger_air_description/share",
+    "/home/a/Nero-7/sim_ws/install/dual_nero_moveit_config/share"
+  ]
+}

@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+"""Latched keyboard commands with periodic publishing and explicit stop."""
+import select
+import sys
+import termios
+import tty
+import rclpy
+from geometry_msgs.msg import Twist
+
+
+def main():
+    if not sys.stdin.isatty():
+        raise SystemExit('Run air_keyboard in an interactive terminal.')
+    rclpy.init()
+    node = rclpy.create_node('air_keyboard')
+    speed = float(node.declare_parameter('speed', .15).value)
+    turn = float(node.declare_parameter('turn', .4).value)
+    if not (0. < speed <= .4 and 0. < turn <= .8):
+        raise SystemExit('speed must be in (0, 0.4], turn in (0, 0.8].')
+    pub = node.create_publisher(Twist, '/cmd_vel', 10)
+    keys = {'w':(speed,0.,0.), 's':(-speed,0.,0.), 'a':(0.,speed,0.),
+            'd':(0.,-speed,0.), 'q':(0.,0.,turn), 'e':(0.,0.,-turn)}
+    saved = termios.tcgetattr(sys.stdin)
+    values = (0.,0.,0.)
+    print('AIR: W/S forward/back; A/D strafe; Q/E rotate; SPACE stop; Ctrl-C exit.\n'
+          'A motion key keeps moving until another key or SPACE. Keep this terminal open.', flush=True)
+    try:
+        tty.setcbreak(sys.stdin.fileno())
+        while rclpy.ok():
+            ready, _, _ = select.select([sys.stdin], [], [], .05)
+            if ready:
+                key = sys.stdin.read(1).lower()
+                if key in ('\x03', '\x04', ''):
+                    break
+                values = keys.get(key, (0.,0.,0.))
+                print('\rcommand vx=%+.2f vy=%+.2f wz=%+.2f   ' % values, end='', flush=True)
+            msg = Twist()
+            msg.linear.x, msg.linear.y, msg.angular.z = values
+            pub.publish(msg)
+            rclpy.spin_once(node, timeout_sec=0.)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, saved)
+        if rclpy.ok():
+            pub.publish(Twist())
+        node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+        print('\nStopped.')
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,326 @@
+<robot name="mobile_dual_nero">
+  <group name="left_arm">
+    <chain base_link="left_arm_base" tip_link="left_gripper_base" />
+  </group>
+  <group name="left_gripper">
+    <joint name="left_gripper_joint1" />
+    <joint name="left_gripper_joint2" />
+  </group>
+  <end_effector name="left_eef" parent_link="left_gripper_base" group="left_gripper" parent_group="left_arm" />
+  <group name="right_arm">
+    <chain base_link="right_arm_base" tip_link="right_gripper_base" />
+  </group>
+  <group name="right_gripper">
+    <joint name="right_gripper_joint1" />
+    <joint name="right_gripper_joint2" />
+  </group>
+  <end_effector name="right_eef" parent_link="right_gripper_base" group="right_gripper" parent_group="right_arm" />
+  <group name="both_arms">
+    <group name="left_arm" />
+    <group name="right_arm" />
+  </group>
+  <group_state name="home" group="left_arm">
+    <joint name="left_joint1" value="0.0" />
+    <joint name="left_joint2" value="0.0" />
+    <joint name="left_joint3" value="0.0" />
+    <joint name="left_joint4" value="0.0" />
+    <joint name="left_joint5" value="0.0" />
+    <joint name="left_joint6" value="0.0" />
+    <joint name="left_joint7" value="0.0" />
+  </group_state>
+  <group_state name="ready" group="left_arm">
+    <joint name="left_joint1" value="0.0" />
+    <joint name="left_joint2" value="0.0" />
+    <joint name="left_joint3" value="0.0" />
+    <joint name="left_joint4" value="0.3" />
+    <joint name="left_joint5" value="0.0" />
+    <joint name="left_joint6" value="0.0" />
+    <joint name="left_joint7" value="0.0" />
+  </group_state>
+  <group_state name="home" group="right_arm">
+    <joint name="right_joint1" value="0.0" />
+    <joint name="right_joint2" value="0.0" />
+    <joint name="right_joint3" value="0.0" />
+    <joint name="right_joint4" value="0.0" />
+    <joint name="right_joint5" value="0.0" />
+    <joint name="right_joint6" value="0.0" />
+    <joint name="right_joint7" value="0.0" />
+  </group_state>
+  <group_state name="ready" group="right_arm">
+    <joint name="right_joint1" value="0.0" />
+    <joint name="right_joint2" value="0.0" />
+    <joint name="right_joint3" value="0.0" />
+    <joint name="right_joint4" value="0.3" />
+    <joint name="right_joint5" value="0.0" />
+    <joint name="right_joint6" value="0.0" />
+    <joint name="right_joint7" value="0.0" />
+  </group_state>
+  <group_state name="home" group="both_arms">
+    <joint name="left_joint1" value="0.0" />
+    <joint name="left_joint2" value="0.0" />
+    <joint name="left_joint3" value="0.0" />
+    <joint name="left_joint4" value="0.0" />
+    <joint name="left_joint5" value="0.0" />
+    <joint name="left_joint6" value="0.0" />
+    <joint name="left_joint7" value="0.0" />
+    <joint name="right_joint1" value="0.0" />
+    <joint name="right_joint2" value="0.0" />
+    <joint name="right_joint3" value="0.0" />
+    <joint name="right_joint4" value="0.0" />
+    <joint name="right_joint5" value="0.0" />
+    <joint name="right_joint6" value="0.0" />
+    <joint name="right_joint7" value="0.0" />
+  </group_state>
+  <group_state name="ready" group="both_arms">
+    <joint name="left_joint1" value="0.0" />
+    <joint name="left_joint2" value="0.0" />
+    <joint name="left_joint3" value="0.0" />
+    <joint name="left_joint4" value="0.3" />
+    <joint name="left_joint5" value="0.0" />
+    <joint name="left_joint6" value="0.0" />
+    <joint name="left_joint7" value="0.0" />
+    <joint name="right_joint1" value="0.0" />
+    <joint name="right_joint2" value="0.0" />
+    <joint name="right_joint3" value="0.0" />
+    <joint name="right_joint4" value="0.3" />
+    <joint name="right_joint5" value="0.0" />
+    <joint name="right_joint6" value="0.0" />
+    <joint name="right_joint7" value="0.0" />
+  </group_state>
+  <group_state name="open" group="left_gripper">
+    <joint name="left_gripper_joint1" value="0.04" />
+    <joint name="left_gripper_joint2" value="-0.04" />
+  </group_state>
+  <group_state name="close" group="left_gripper">
+    <joint name="left_gripper_joint1" value="0.0" />
+    <joint name="left_gripper_joint2" value="-0.0" />
+  </group_state>
+  <group_state name="open" group="right_gripper">
+    <joint name="right_gripper_joint1" value="0.04" />
+    <joint name="right_gripper_joint2" value="-0.04" />
+  </group_state>
+  <group_state name="close" group="right_gripper">
+    <joint name="right_gripper_joint1" value="0.0" />
+    <joint name="right_gripper_joint2" value="-0.0" />
+  </group_state>
+  <disable_collisions link1="dual_nero_base_link" link2="camera_bottom_screw_frame" reason="RigidAssembly" />
+  <disable_collisions link1="dual_nero_base_link" link2="dual_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="dual_nero_base_link" link2="left_arm_base" reason="RigidAssembly" />
+  <disable_collisions link1="dual_nero_base_link" link2="left_link1" reason="Adjacent" />
+  <disable_collisions link1="dual_nero_base_link" link2="right_arm_base" reason="RigidAssembly" />
+  <disable_collisions link1="dual_nero_base_link" link2="right_link1" reason="Adjacent" />
+  <disable_collisions link1="dual_nero_base_link" link2="top_camera_stand_Link" reason="RigidAssembly" />
+  <disable_collisions link1="dual_nero_base_link" link2="top_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="dual_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="left_arm_base" reason="RigidAssembly" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="left_link1" reason="Adjacent" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="right_arm_base" reason="RigidAssembly" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="right_link1" reason="Adjacent" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="top_camera_stand_Link" reason="RigidAssembly" />
+  <disable_collisions link1="camera_bottom_screw_frame" link2="top_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="dual_camera_link" link2="left_arm_base" reason="RigidAssembly" />
+  <disable_collisions link1="dual_camera_link" link2="left_link1" reason="Adjacent" />
+  <disable_collisions link1="dual_camera_link" link2="right_arm_base" reason="RigidAssembly" />
+  <disable_collisions link1="dual_camera_link" link2="right_link1" reason="Adjacent" />
+  <disable_collisions link1="dual_camera_link" link2="top_camera_stand_Link" reason="RigidAssembly" />
+  <disable_collisions link1="dual_camera_link" link2="top_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_arm_base" link2="left_gripper_base" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_gripper_flange" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_gripper_link1" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_gripper_link2" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_link1" reason="Adjacent" />
+  <disable_collisions link1="left_arm_base" link2="left_link2" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_link3" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="left_link7" reason="Never" />
+  <disable_collisions link1="left_arm_base" link2="top_camera_stand_Link" reason="RigidAssembly" />
+  <disable_collisions link1="left_arm_base" link2="top_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_camera_stand_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_camera_bottom_screw_frame" link2="left_link7" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_link" link2="left_camera_stand_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_link" link2="left_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_link" link2="left_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_link" link2="left_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_link" link2="left_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="left_camera_link" link2="left_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="left_camera_link" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_camera_link" link2="left_link7" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_camera_stand_link" link2="left_link7" reason="RigidAssembly" />
+  <disable_collisions link1="left_d435_camera_link" link2="left_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="left_d435_camera_link" link2="left_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="left_d435_camera_link" link2="left_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="left_d435_camera_link" link2="left_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="left_d435_camera_link" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_d435_camera_link" link2="left_link7" reason="RigidAssembly" />
+  <disable_collisions link1="left_gripper_base" link2="left_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="left_gripper_base" link2="left_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_base" link2="left_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_base" link2="left_link1" reason="Never" />
+  <disable_collisions link1="left_gripper_base" link2="left_link2" reason="Never" />
+  <disable_collisions link1="left_gripper_base" link2="left_link3" reason="Never" />
+  <disable_collisions link1="left_gripper_base" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_gripper_base" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_gripper_base" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_base" link2="left_link7" reason="RigidAssembly" />
+  <disable_collisions link1="left_gripper_flange" link2="left_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_flange" link2="left_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_flange" link2="left_link1" reason="Never" />
+  <disable_collisions link1="left_gripper_flange" link2="left_link2" reason="Never" />
+  <disable_collisions link1="left_gripper_flange" link2="left_link3" reason="Never" />
+  <disable_collisions link1="left_gripper_flange" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_gripper_flange" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_flange" link2="left_link7" reason="RigidAssembly" />
+  <disable_collisions link1="left_gripper_link1" link2="left_gripper_link2" reason="Default" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link1" reason="Never" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link2" reason="Never" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link3" reason="Never" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_gripper_link1" link2="left_link7" reason="Adjacent" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link1" reason="Never" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link2" reason="Never" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link3" reason="Never" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_gripper_link2" link2="left_link7" reason="Adjacent" />
+  <disable_collisions link1="left_link1" link2="left_link2" reason="Adjacent" />
+  <disable_collisions link1="left_link1" link2="left_link3" reason="Never" />
+  <disable_collisions link1="left_link1" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_link1" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_link1" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_link1" link2="left_link7" reason="Never" />
+  <disable_collisions link1="left_link1" link2="top_camera_stand_Link" reason="Adjacent" />
+  <disable_collisions link1="left_link1" link2="top_d435_camera_link" reason="Adjacent" />
+  <disable_collisions link1="left_link2" link2="left_link3" reason="Adjacent" />
+  <disable_collisions link1="left_link2" link2="left_link4" reason="Never" />
+  <disable_collisions link1="left_link2" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_link2" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_link2" link2="left_link7" reason="Never" />
+  <disable_collisions link1="left_link3" link2="left_link4" reason="Adjacent" />
+  <disable_collisions link1="left_link3" link2="left_link5" reason="Never" />
+  <disable_collisions link1="left_link3" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_link3" link2="left_link7" reason="Never" />
+  <disable_collisions link1="left_link4" link2="left_link5" reason="Adjacent" />
+  <disable_collisions link1="left_link4" link2="left_link6" reason="Never" />
+  <disable_collisions link1="left_link4" link2="left_link7" reason="Never" />
+  <disable_collisions link1="left_link5" link2="left_link6" reason="Adjacent" />
+  <disable_collisions link1="left_link5" link2="left_link7" reason="Never" />
+  <disable_collisions link1="left_link6" link2="left_link7" reason="Adjacent" />
+  <disable_collisions link1="right_arm_base" link2="right_gripper_base" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_gripper_flange" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_gripper_link1" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_gripper_link2" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_link1" reason="Adjacent" />
+  <disable_collisions link1="right_arm_base" link2="right_link2" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_link3" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="right_link7" reason="Never" />
+  <disable_collisions link1="right_arm_base" link2="top_camera_stand_Link" reason="RigidAssembly" />
+  <disable_collisions link1="right_arm_base" link2="top_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_camera_stand_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_camera_bottom_screw_frame" link2="right_link7" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_link" link2="right_camera_stand_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_link" link2="right_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_link" link2="right_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_link" link2="right_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_link" link2="right_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="right_camera_link" link2="right_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="right_camera_link" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_camera_link" link2="right_link7" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_d435_camera_link" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_camera_stand_link" link2="right_link7" reason="RigidAssembly" />
+  <disable_collisions link1="right_d435_camera_link" link2="right_gripper_base" reason="RigidAssembly" />
+  <disable_collisions link1="right_d435_camera_link" link2="right_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="right_d435_camera_link" link2="right_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="right_d435_camera_link" link2="right_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="right_d435_camera_link" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_d435_camera_link" link2="right_link7" reason="RigidAssembly" />
+  <disable_collisions link1="right_gripper_base" link2="right_gripper_flange" reason="RigidAssembly" />
+  <disable_collisions link1="right_gripper_base" link2="right_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_base" link2="right_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_base" link2="right_link1" reason="Never" />
+  <disable_collisions link1="right_gripper_base" link2="right_link2" reason="Never" />
+  <disable_collisions link1="right_gripper_base" link2="right_link3" reason="Never" />
+  <disable_collisions link1="right_gripper_base" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_gripper_base" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_gripper_base" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_base" link2="right_link7" reason="RigidAssembly" />
+  <disable_collisions link1="right_gripper_flange" link2="right_gripper_link1" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_flange" link2="right_gripper_link2" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_flange" link2="right_link1" reason="Never" />
+  <disable_collisions link1="right_gripper_flange" link2="right_link2" reason="Never" />
+  <disable_collisions link1="right_gripper_flange" link2="right_link3" reason="Never" />
+  <disable_collisions link1="right_gripper_flange" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_gripper_flange" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_flange" link2="right_link7" reason="RigidAssembly" />
+  <disable_collisions link1="right_gripper_link1" link2="right_gripper_link2" reason="Default" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link1" reason="Never" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link2" reason="Never" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link3" reason="Never" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_gripper_link1" link2="right_link7" reason="Adjacent" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link1" reason="Never" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link2" reason="Never" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link3" reason="Never" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_gripper_link2" link2="right_link7" reason="Adjacent" />
+  <disable_collisions link1="right_link1" link2="right_link2" reason="Adjacent" />
+  <disable_collisions link1="right_link1" link2="right_link3" reason="Never" />
+  <disable_collisions link1="right_link1" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_link1" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_link1" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_link1" link2="right_link7" reason="Never" />
+  <disable_collisions link1="right_link1" link2="top_camera_stand_Link" reason="Adjacent" />
+  <disable_collisions link1="right_link1" link2="top_d435_camera_link" reason="Adjacent" />
+  <disable_collisions link1="right_link2" link2="right_link3" reason="Adjacent" />
+  <disable_collisions link1="right_link2" link2="right_link4" reason="Never" />
+  <disable_collisions link1="right_link2" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_link2" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_link2" link2="right_link7" reason="Never" />
+  <disable_collisions link1="right_link3" link2="right_link4" reason="Adjacent" />
+  <disable_collisions link1="right_link3" link2="right_link5" reason="Never" />
+  <disable_collisions link1="right_link3" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_link3" link2="right_link7" reason="Never" />
+  <disable_collisions link1="right_link4" link2="right_link5" reason="Adjacent" />
+  <disable_collisions link1="right_link4" link2="right_link6" reason="Never" />
+  <disable_collisions link1="right_link4" link2="right_link7" reason="Never" />
+  <disable_collisions link1="right_link5" link2="right_link6" reason="Adjacent" />
+  <disable_collisions link1="right_link5" link2="right_link7" reason="Never" />
+  <disable_collisions link1="right_link6" link2="right_link7" reason="Adjacent" />
+  <disable_collisions link1="top_camera_stand_Link" link2="top_d435_camera_link" reason="RigidAssembly" />
+  <virtual_joint name="mobile_base_joint" type="planar" parent_frame="odom" child_link="base_link" /><passive_joint name="fl_steering_joint" /><passive_joint name="fl_wheel_joint" /><passive_joint name="fr_steering_joint" /><passive_joint name="fr_wheel_joint" /><passive_joint name="rr_steering_joint" /><passive_joint name="rr_wheel_joint" /><passive_joint name="rl_steering_joint" /><passive_joint name="rl_wheel_joint" /><disable_collisions link1="base_link" link2="arm_mount_plate" reason="Adjacent" /><disable_collisions link1="arm_mount_plate" link2="dual_nero_base_link" reason="Adjacent" /></robot>

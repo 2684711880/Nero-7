@@ -1,0 +1,5 @@
+# Preserve imported CAD assets byte-for-byte and avoid enormous text diffs.
+*.dae binary
+*.stl binary
+*.STL binary
+*.usd binary

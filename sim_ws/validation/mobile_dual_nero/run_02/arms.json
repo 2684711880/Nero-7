@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "[verify_dual-1] [INFO] [1791949123.731231895] [verify_dual]: PASS left_arm -> ready: 28 points, max joint error 0.000098 rad",
+    "[verify_dual-1] [INFO] [1791949126.303119355] [verify_dual]: PASS left_arm -> home: 26 points, max joint error 0.000097 rad",
+    "[verify_dual-1] [INFO] [1791949126.339482000] [verify_dual]: PASS left_arm IK pose planning: 22 points",
+    "[verify_dual-1] [INFO] [1791949129.533384205] [verify_dual]: PASS right_arm -> ready: 28 points, max joint error 0.000090 rad",
+    "[verify_dual-1] [INFO] [1791949132.101211587] [verify_dual]: PASS right_arm -> home: 26 points, max joint error 0.000088 rad",
+    "[verify_dual-1] [INFO] [1791949132.134272007] [verify_dual]: PASS right_arm IK pose planning: 34 points",
+    "[verify_dual-1] [INFO] [1791949135.186386779] [verify_dual]: PASS both_arms -> ready: 27 points, max joint error 0.000091 rad",
+    "[verify_dual-1] [INFO] [1791949137.768112707] [verify_dual]: PASS both_arms -> home: 27 points, max joint error 0.000120 rad",
+    "[verify_dual-1] [INFO] [1791949139.861111517] [verify_dual]: PASS left_gripper -> open: 16 points, max joint error 0.000077 m",
+    "[verify_dual-1] [INFO] [1791949142.451513915] [verify_dual]: PASS left_gripper -> close: 26 points, max joint error 0.000093 m",
+    "[verify_dual-1] [INFO] [1791949144.525641942] [verify_dual]: PASS right_gripper -> open: 17 points, max joint error 0.000046 m",
+    "[verify_dual-1] [INFO] [1791949147.107217494] [verify_dual]: PASS right_gripper -> close: 26 points, max joint error 0.000098 m"
+  ],
+  "passed": true
+}
