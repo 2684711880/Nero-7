@@ -17,9 +17,11 @@ ROS 2 Humble / Gazebo Classic 11 整车仿真：RANGER AIR 四轮独立转向底
 
 已测试 Ubuntu 22.04、ROS 2 Humble、Gazebo Classic 11.10.2。需要安装 ROS 2 开发环境、Gazebo ROS 集成、gazebo_ros2_control、ros2_control/ros2_controllers、MoveIt 2、KDL、OMPL、xacro、RViz2、colcon 和 rosdep。
 
-克隆本仓库后运行：
+克隆本仓库并编译整车：
 
 ```bash
+git clone https://github.com/2684711880/Nero-7.git
+cd Nero-7
 bash scripts/build.sh
 ```
 

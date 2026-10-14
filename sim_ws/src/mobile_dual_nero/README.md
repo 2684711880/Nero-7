@@ -66,7 +66,7 @@ ros2 launch mobile_dual_nero gazebo_moveit.launch.py \
 - `run_01/arms.json`：装车后左右臂、双臂 ready/home、两侧夹爪开合及两侧末端 IK 规划，共 12 项检查通过。
 - `run_01/motion/`：保留首次发现固定时间步长问题的失败记录。
 - `run_02/motion/report.json`：修正控制定时后，带双臂底盘 8 项运动与停车测试通过，含独立 Gazebo 真值和轮式里程计比较；`telemetry.csv` 保存完整测量。
-- `run_02/arms_console.log`：整车平移、旋转并停下后再次执行机械臂验证的日志。
+- `run_02/arms.json`：整车平移、旋转并停下后再次执行机械臂验证的 12 项通过记录。运行控制台日志不纳入版本管理。
 - `colcon test` 覆盖模型树、唯一关节/控制系统、SRDF 引用、安装参数、底盘运动学和控制定时降频回归。
 
 重新验证前先停车并关闭键盘，确认没有其他 `/cmd_vel` 发布者。验证命令在整车同一 ROS 域中执行：
