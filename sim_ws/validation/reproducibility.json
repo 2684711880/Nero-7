@@ -1,0 +1,9 @@
+{
+  "source_commit": "20ea4c8",
+  "date": "2026-10-14",
+  "verification": "fresh local clone without vendor submodules or original workspace build cache",
+  "packages_built": 4,
+  "build_exit_code": 0,
+  "colcon_test_result": "10 tests, 0 errors, 0 failures, 0 skipped",
+  "python_test_cases": 7
+}
