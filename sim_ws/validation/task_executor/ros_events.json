@@ -1,0 +1,2746 @@
+[
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "SUCCEEDED",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "SUCCEEDED",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "invalid_cycle",
+    "status": "REJECTED",
+    "message": "Dependency cycle (including sequence order)",
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "cancel_case",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "cancel_case",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "busy_case",
+    "status": "REJECTED",
+    "message": "BUSY: task cancel_case owns the robot",
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "cancel_case",
+    "status": "STOPPING",
+    "message": "Cancellation requested",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "cancel_case",
+    "status": "CANCELED",
+    "message": "Cancellation requested",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "bottle_transfer_002",
+    "status": "SUCCEEDED",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "RUNNING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "FAILED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "STOPPING",
+    "message": "ACTION_FAILED: r4: MOCK_RESULT: no physical motion",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "FAILED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "grasp_failure",
+    "status": "FAILED",
+    "message": "ACTION_FAILED: r4: MOCK_RESULT: no physical motion",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "b2": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "SUCCEEDED",
+        "message": "MOCK_RESULT: no physical motion"
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "FAILED",
+        "message": "MOCK_STOP: no physical motion"
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "BLOCKED",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "interrupted_case",
+    "status": "RUNNING",
+    "message": "",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "interrupted_case",
+    "status": "STOP_UNCONFIRMED",
+    "message": "Interrupted execution recovered; verify robot stopped before journal recovery",
+    "actions": {
+      "b1": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "b2": {
+        "lane": "base",
+        "status": "PENDING",
+        "message": ""
+      },
+      "l1": {
+        "lane": "left_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r1": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r2": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r3": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r4": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r5": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r7": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      },
+      "r8": {
+        "lane": "right_arm",
+        "status": "PENDING",
+        "message": ""
+      }
+    },
+    "execution_mode": "mock"
+  },
+  {
+    "task_id": "blocked_after_restart",
+    "status": "REJECTED",
+    "message": "BUSY: task interrupted_case owns the robot",
+    "execution_mode": "mock"
+  }
+]

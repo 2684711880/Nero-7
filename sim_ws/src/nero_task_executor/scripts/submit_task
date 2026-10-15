@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+"""Example upper node: publish one validated task and observe its correlated status."""
+import argparse
+import json
+import time
+from pathlib import Path
+import rclpy
+from rclpy.node import Node
+from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy
+from std_msgs.msg import String
+from nero_task_executor.model import validate_task
+
+parser = argparse.ArgumentParser()
+parser.add_argument('file')
+parser.add_argument('--task-id', help='Use a fresh id for an intentional new execution')
+parser.add_argument('--timeout', type=float, default=300)
+args, ros_args = parser.parse_known_args()
+task = validate_task(Path(args.file).read_text())
+if args.task_id:
+    task['task_id'] = args.task_id
+    task = validate_task(task)
+rclpy.init(args=ros_args)
+node = Node('robot_task_submitter')
+pub = node.create_publisher(String, '/robot_task/data', 10)
+terminal = []
+qos = QoSProfile(depth=100, reliability=ReliabilityPolicy.RELIABLE,
+                 durability=DurabilityPolicy.TRANSIENT_LOCAL)
+def status(msg):
+    state = json.loads(msg.data)
+    if state.get('task_id') == task['task_id']:
+        print(json.dumps(state, ensure_ascii=False), flush=True)
+        if state['status'] in ('SUCCEEDED', 'FAILED', 'CANCELED', 'STOP_UNCONFIRMED', 'REJECTED'):
+            terminal.append(state)
+sub = node.create_subscription(String, '/robot_task/status', status, qos)
+deadline = time.monotonic()+args.timeout
+try:
+    while pub.get_subscription_count() == 0:
+        if time.monotonic() > deadline:
+            raise TimeoutError('No task executor')
+        rclpy.spin_once(node, timeout_sec=.1)
+    pub.publish(String(data=json.dumps(task, allow_nan=False)))
+    while not terminal:
+        if time.monotonic() > deadline:
+            raise TimeoutError('Status wait timed out; task was NOT canceled or retried')
+        rclpy.spin_once(node, timeout_sec=.1)
+finally:
+    node.destroy_node()
+    rclpy.shutdown()
+raise SystemExit(0 if terminal[-1]['status'] == 'SUCCEEDED' else 1)

@@ -1,0 +1,23 @@
+{
+  "source": "live ROS_DOMAIN_ID=75 capture before b2 timeout",
+  "yaw_first_rad": 3.04506950153221,
+  "yaw_last_rad": 3.0450695032015496,
+  "capture_duration_s": 3.989442175999749,
+  "target_yaw_rad": 3.141592653589793,
+  "cmd_yaw_rate_rad_s": 0.07721852164606667,
+  "wheel_commands_rad_s": [
+    0.3283864363478423,
+    0.3283864363478423,
+    0.3283864363478423,
+    -0.3283864363478423
+  ],
+  "wheel_feedback_rad_s": [
+    0.00037930739260970024,
+    0.025559692496714474,
+    0.023239916007899052,
+    -0.025144909530305445
+  ],
+  "steering_aligned": true,
+  "clock_advancing": true,
+  "final_state": "STOP_UNCONFIRMED EXECUTION_TIMEOUT: b2"
+}

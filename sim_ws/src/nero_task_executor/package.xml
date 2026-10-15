@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>nero_task_executor</name><version>0.1.0</version>
+  <description>Validated three-lane robot tasks and simulation motion adapters.</description>
+  <maintainer email="local@example.com">258</maintainer><license>BSD-3-Clause</license>
+  <buildtool_depend>ament_cmake</buildtool_depend><buildtool_depend>ament_cmake_python</buildtool_depend>
+  <depend>rclcpp</depend><depend>rclcpp_action</depend><depend>nero_task_interfaces</depend>
+  <depend>moveit_ros_planning_interface</depend><depend>control_msgs</depend><depend>tf2_ros</depend><depend>yaml-cpp</depend>
+  <exec_depend>rclpy</exec_depend><exec_depend>action_msgs</exec_depend><exec_depend>std_msgs</exec_depend><exec_depend>std_srvs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend><exec_depend>sensor_msgs</exec_depend><exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>moveit_msgs</exec_depend><exec_depend>shape_msgs</exec_depend><exec_depend>gazebo_msgs</exec_depend>
+  <exec_depend>mobile_dual_nero</exec_depend><exec_depend>launch_ros</exec_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

@@ -1,0 +1,10 @@
+# Format adapted from official agx_arm_ros/test/nero/test_move_c.yaml.
+# Three poses: start, middle, end. This describes an arc, not a complete circle.
+/**:
+  ros__parameters:
+    motion: arc
+    send: false
+    frame_id: base_link
+    poses: [-0.4, -0.2, 0.3, 0.0, 0.0, 0.0, 1.0,
+            -0.4,  0.0, 0.4, 0.0, 0.0, 0.0, 1.0,
+            -0.4,  0.2, 0.3, 0.0, 0.0, 0.0, 1.0]

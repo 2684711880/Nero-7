@@ -1,0 +1,21 @@
+{
+  "display_trajectory_messages": 6,
+  "paths": {
+    "left_planned": {
+      "points": 51,
+      "frame": "base_link",
+      "closure_error_m": 4.424222447362567e-10,
+      "span_x_m": 0.09999999975440207,
+      "span_y_m": 0.09988143375735425
+    },
+    "left_feedback": {
+      "points": 224,
+      "frame": "base_link",
+      "closure_error_m": 3.4796781435767857e-05,
+      "span_x_m": 0.10000006466201085,
+      "span_y_m": 0.09997809825126458
+    }
+  },
+  "late_subscriber_received": true,
+  "passed": true
+}

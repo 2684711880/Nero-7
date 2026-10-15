@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "repeat_turns_004",
+  "left_arm_actions": [],
+  "right_arm_actions": [],
+  "base_actions": [
+    {
+      "action_id": "turn_1",
+      "type": "base_move_to",
+      "parameters": {
+        "frame_id": "odom",
+        "position_xy_m": [
+          0,
+          0
+        ],
+        "yaw_rad": 3.141592653589793
+      },
+      "wait_for": [],
+      "timeout_s": 60
+    },
+    {
+      "action_id": "turn_2",
+      "type": "base_move_to",
+      "parameters": {
+        "frame_id": "odom",
+        "position_xy_m": [
+          0,
+          0
+        ],
+        "yaw_rad": 0
+      },
+      "wait_for": [],
+      "timeout_s": 60
+    }
+  ]
+}

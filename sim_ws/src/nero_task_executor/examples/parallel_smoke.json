@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "task_id": "parallel_smoke_001",
+  "base_actions": [
+    {
+      "action_id": "b1",
+      "type": "base_move_to",
+      "parameters": {
+        "frame_id": "odom",
+        "position_xy_m": [
+          0.05,
+          0
+        ],
+        "yaw_rad": 0,
+        "via": []
+      },
+      "wait_for": [],
+      "timeout_s": 180
+    }
+  ],
+  "left_arm_actions": [
+    {
+      "action_id": "l1",
+      "type": "move_j",
+      "parameters": {
+        "joint_positions_rad": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "wait_for": [],
+      "timeout_s": 30
+    }
+  ],
+  "right_arm_actions": [
+    {
+      "action_id": "r1",
+      "type": "move_j",
+      "parameters": {
+        "joint_positions_rad": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "wait_for": [],
+      "timeout_s": 30
+    },
+    {
+      "action_id": "r2",
+      "type": "gripper_open",
+      "parameters": {
+        "opening_m": 0.09
+      },
+      "wait_for": [
+        "b1"
+      ],
+      "timeout_s": 30
+    }
+  ]
+}

@@ -18,6 +18,22 @@ Panels:
 Visualization Manager:
   Class: ''
   Displays:
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Arm Trajectories
+    Namespaces:
+      left_planned: true
+      left_feedback: true
+      right_planned: true
+      right_feedback: true
+    Queue Size: 10
+    Topic:
+      Depth: 1
+      Durability Policy: Transient Local
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /arm_trajectory_markers
+    Value: true
   - Alpha: 0.5
     Cell Size: 1
     Class: rviz_default_plugins/Grid

@@ -1,0 +1,14 @@
+{
+  "frame": "base_link",
+  "tcp": "left_gripper_base",
+  "requested_displacement_m": [
+    0,
+    0,
+    -0.01
+  ],
+  "build_passed": true,
+  "preview_no_command": true,
+  "execution_succeeded": true,
+  "reported_final_joint_error_rad": 4.4e-05,
+  "evidence": "Gazebo only; no real hardware"
+}

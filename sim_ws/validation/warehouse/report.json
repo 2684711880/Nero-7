@@ -1,0 +1,16 @@
+{
+  "environment": "warehouse",
+  "geometry_objects": 35,
+  "moveit_geometry_matches": true,
+  "water_bottle_settled_center_z": 0.8699905327675113,
+  "table_surface_z": 0.75,
+  "bottle_stable": true,
+  "bottle_moveit_pose_sync_verified": true,
+  "initial_robot_state_collision_free": true,
+  "racks": 2,
+  "shelf_tiers_per_rack": 4,
+  "tables": 2,
+  "central_corridor_width_m": 2.8,
+  "evidence": "Live Gazebo physics, GetEntityState, GetPlanningScene, GetStateValidity and bottle relocation/restore",
+  "limitation": "Manipulation and navigation tasks are not yet verified; odom follows wheel odometry and can drift from Gazebo world."
+}

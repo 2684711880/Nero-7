@@ -1,0 +1,48 @@
+[
+  {
+    "motion": "line",
+    "send": false,
+    "expected_success": true,
+    "received_messages": 0,
+    "passed": true
+  },
+  {
+    "motion": "arc",
+    "send": false,
+    "expected_success": true,
+    "received_messages": 0,
+    "passed": true
+  },
+  {
+    "motion": "line",
+    "send": true,
+    "expected_success": true,
+    "received_messages": 1,
+    "passed": true
+  },
+  {
+    "motion": "arc",
+    "send": true,
+    "expected_success": true,
+    "received_messages": 1,
+    "passed": true
+  },
+  {
+    "case": "upstream_callbacks_to_mock_sdk",
+    "passed": true
+  },
+  {
+    "motion": "line",
+    "send": true,
+    "expected_success": false,
+    "received_messages": 0,
+    "passed": true
+  },
+  {
+    "motion": "arc",
+    "send": true,
+    "expected_success": false,
+    "received_messages": 0,
+    "passed": true
+  }
+]

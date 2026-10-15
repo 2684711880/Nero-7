@@ -1,0 +1,9 @@
+# Three points of a small inward semicircle in the odom YZ plane.
+/**:
+  ros__parameters:
+    motion: arc
+    send: false
+    relative: true
+    frame_id: odom
+    tcp_link: left_gripper_base
+    offsets: [0.0, 0.0, 0.0, 0.0, -0.005, 0.005, 0.0, -0.01, 0.0]

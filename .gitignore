@@ -2,6 +2,10 @@
 sim_ws/build/
 sim_ws/install/
 sim_ws/log/
+hardware_ws/build/
+hardware_ws/install/
+hardware_ws/log/
+.venv-official/
 
 # Python and editor caches
 __pycache__/
@@ -23,3 +27,11 @@ core.*
 !.env.example
 *.pem
 *.key
+
+# Local task journals and session locks (reports remain versioned)
+sim_ws/validation/task_executor/**/*.lock
+sim_ws/validation/task_executor/**/state.json
+sim_ws/validation/task_executor/ros_mock_state*.json
+sim_ws/validation/task_executor/simulation*_state.json
+sim_ws/validation/task_executor/shutdown_state.json
+sim_ws/validation/task_executor/demo_*/

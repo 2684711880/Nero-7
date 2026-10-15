@@ -6,4 +6,4 @@ set +u
 source /opt/ros/humble/setup.bash
 set -u
 cd "$project_root/sim_ws"
-colcon build --packages-up-to mobile_dual_nero
+colcon build --packages-up-to mobile_dual_nero nero_task_executor

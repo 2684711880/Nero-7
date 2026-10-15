@@ -28,3 +28,17 @@
 - Submodules retain their own upstream license notices and history.
 
 Source and runtime validation evidence are separate: the snapshots and reports in sim_ws/validation document local simulator runs and do not establish real-hardware correctness or calibrated payload limits.
+
+## AgileX official ROS driver and SDK (submodules)
+
+- ROS driver: https://github.com/agilexrobotics/agx_arm_ros
+  - Pinned commit: `bc485ab8e3d25abbcd3a1b58c105be12bad5dadc`
+  - Local path: `third_party/agx_arm_ros`
+  - Upstream LICENSE and package manifests declare Apache-2.0.
+- Python SDK: https://github.com/agilexrobotics/pyAgxArm
+  - Pinned commit: `1ae40ad4755ca25ad32bece3ab42325698185fc7`
+  - Local path: `third_party/pyAgxArm`
+  - Upstream LICENSE retains LGPL v3; setup.py declares LGPL-3.0-only.
+- Upstream source files are retained without edits. `hardware_ws/src/agx_arm_ctrl`
+  and `agx_arm_msgs` link to the original ROS packages. Our C++ input examples are
+  adapted from the upstream `test/nero/test_move_l.yaml` and `test_move_c.yaml`.

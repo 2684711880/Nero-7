@@ -5,6 +5,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist, TransformStamped
 from nav_msgs.msg import Odometry
+from gazebo_msgs.msg import ModelStates
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray
 from tf2_ros import TransformBroadcaster
@@ -21,6 +22,11 @@ class AirController(Node):
         for key, value in defaults.items():
             self.declare_parameter(key, value)
             setattr(self, key, self.get_parameter(key).value)
+        self.declare_parameter('use_ground_truth_odometry', False)
+        self.truth_odom = self.get_parameter('use_ground_truth_odometry').value
+        self.truth_received = False
+        if self.truth_odom:
+            self.create_subscription(ModelStates, '/gazebo/model_states', self.on_truth, 10)
         self.target = np.zeros(3)
         self.filtered = np.zeros(3)
         self.last_cmd = self.last_feedback = -math.inf
@@ -37,6 +43,15 @@ class AirController(Node):
         self.create_subscription(Twist, '/cmd_vel', self.on_command, 10)
         self.create_subscription(JointState, '/joint_states', self.on_feedback, 10)
         self.create_timer(.02, self.tick)
+
+    def on_truth(self, msg):
+        if 'mobile_dual_nero' not in msg.name:
+            return
+        p = msg.pose[msg.name.index('mobile_dual_nero')]
+        q = p.orientation
+        self.pose[:] = (p.position.x, p.position.y,
+                        math.atan2(2*(q.w*q.z+q.x*q.y), 1-2*(q.y*q.y+q.z*q.z)))
+        self.truth_received = True
 
     def on_command(self, msg):
         values = np.array([msg.linear.x, msg.linear.y, msg.angular.z])
@@ -68,7 +83,7 @@ class AirController(Node):
             self.have_feedback = True
         twist = forward(angles, rates)
         stamp = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
-        if self.last_stamp is not None:
+        if self.last_stamp is not None and not self.truth_odom:
             dt = stamp - self.last_stamp
             if 0. < dt < .2:
                 yaw = self.pose[2] + twist[2] * dt / 2
@@ -76,6 +91,8 @@ class AirController(Node):
                 self.pose[1] += (math.sin(yaw)*twist[0] + math.cos(yaw)*twist[1]) * dt
                 self.pose[2] += twist[2] * dt
         self.last_stamp = stamp
+        if self.truth_odom and not self.truth_received:
+            return
         odom = Odometry()
         odom.header = msg.header
         odom.header.frame_id = 'odom'

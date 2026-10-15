@@ -1,0 +1,8 @@
+# Format adapted from official agx_arm_ros/test/nero/test_move_l.yaml.
+# Example coordinates only: dry-run by default, not a validated hardware target.
+/**:
+  ros__parameters:
+    motion: line
+    send: false
+    frame_id: base_link
+    poses: [-0.4, 0.0, 0.3, 0.0, 0.0, 0.0, 1.0]

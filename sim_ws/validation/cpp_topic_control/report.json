@@ -1,0 +1,77 @@
+[
+  {
+    "case": "left_named",
+    "exit_code": 0,
+    "observed_displacement_m": [
+      -7.661387040788781e-05,
+      4.691892014907495e-07,
+      -9.657531911400064e-06
+    ],
+    "passed": true
+  },
+  {
+    "case": "left_line",
+    "exit_code": 0,
+    "observed_displacement_m": [
+      -0.00018868378363252197,
+      -7.8623544474965e-06,
+      -0.01000925496423466
+    ],
+    "passed": true,
+    "endpoint_error_m": 0.00018907416847979857
+  },
+  {
+    "case": "left_arc",
+    "exit_code": 0,
+    "observed_displacement_m": [
+      -0.00021480284068311345,
+      -0.010002550080638883,
+      -9.179502232559145e-06
+    ],
+    "passed": true,
+    "endpoint_error_m": 0.00021501401474796332
+  },
+  {
+    "case": "right_named",
+    "exit_code": 0,
+    "observed_displacement_m": [
+      -3.5651827103716505e-06,
+      0.013731179682113681,
+      -0.09085736260969257
+    ],
+    "passed": true
+  },
+  {
+    "case": "right_line",
+    "exit_code": 0,
+    "observed_displacement_m": [
+      7.288073572919718e-05,
+      5.436697429583859e-06,
+      -0.010009326771419969
+    ],
+    "passed": true,
+    "endpoint_error_m": 7.367596612525864e-05
+  },
+  {
+    "case": "right_arc",
+    "exit_code": 0,
+    "observed_displacement_m": [
+      2.7182566536422537e-05,
+      0.01000254761716235,
+      -9.177908993573958e-06
+    ],
+    "passed": true,
+    "endpoint_error_m": 2.880306043126773e-05
+  },
+  {
+    "case": "left_line_rejected",
+    "exit_code": 1,
+    "observed_displacement_m": [
+      -3.303730896512397e-05,
+      -4.984165302701626e-10,
+      -5.551115123125783e-16
+    ],
+    "passed": true,
+    "endpoint_error_m": 3.303730896888364e-05
+  }
+]

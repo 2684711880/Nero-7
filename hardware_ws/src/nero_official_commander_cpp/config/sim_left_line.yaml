@@ -1,0 +1,9 @@
+# Gazebo example: world/model-axis displacement, preserve current orientation.
+/**:
+  ros__parameters:
+    motion: line
+    send: false
+    relative: true
+    frame_id: odom
+    tcp_link: left_gripper_base
+    offsets: [0.0, 0.0, -0.01]

@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "world_moves_while_attached": 0,
+  "world_moves_after_detach": 3,
+  "scope": "planning_scene_sync_only_no_physical_motion"
+}

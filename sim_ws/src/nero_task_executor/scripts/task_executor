@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+from nero_task_executor.node import main
+main()

@@ -72,6 +72,9 @@ def compose(mount_xyz='0 0 0.275', mount_rpy='0 0 0'):
     ET.SubElement(j, 'origin', xyz='0 0 .006', rpy='0 0 0')
     base.find('ros2_control').set('name', 'MobileDualNeroSystem')
     base.find("gazebo/plugin[@name='gazebo_ros2_control']/parameters").text = str(share / 'config/controllers.yaml')
+    # Keep the hand link available to the Gazebo grasp constraint.
+    hand_gazebo = ET.SubElement(base, 'gazebo', reference='right_gripper_base_joint')
+    ET.SubElement(hand_gazebo, 'preserveFixedJoint').text = 'true'
     semantic = ET.parse(dual / 'config/dual_nero.srdf').getroot()
     semantic.set('name', 'mobile_dual_nero')
     for item in list(semantic.findall('disable_collisions')):

@@ -84,3 +84,7 @@ ros2 launch mobile_dual_nero verify_arms.launch.py
 ```
 
 如果修改了安装参数，`verify_arms.launch.py` 也须传入相同 mount_xyz/mount_rpy。
+
+## 货物整理环境
+
+默认启动 `warehouse` 环境，含两组四层货架、两张工作台、一瓶动态水瓶和六个静态示例货箱。使用 `environment:=empty` 恢复原平地环境。尺寸及位置见 `mobile_dual_nero/environment.py`，Gazebo 和 MoveIt 使用同一几何定义。水瓶位姿从 `/gazebo/model_states` 同步到 MoveIt；初始 world 与 odom 对齐，底盘轮式里程计漂移尚未校正。抓取、搬运及导航尚未验证。

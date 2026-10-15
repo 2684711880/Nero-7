@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""Mirror bottle truth into MoveIt at <= 5 Hz; respect attach/remove operations."""
+import rclpy
+from rclpy.node import Node
+from gazebo_msgs.msg import ModelStates
+from moveit_msgs.msg import PlanningScene, CollisionObject
+
+
+class BottleSync(Node):
+    def __init__(self):
+        super().__init__('sync_warehouse_bottle')
+        self.pub = self.create_publisher(PlanningScene, '/planning_scene', 10)
+        self.sub = self.create_subscription(ModelStates, '/gazebo/model_states', self.update, 10)
+        self.attached = False
+        self.scene_sub = self.create_subscription(PlanningScene, '/monitored_planning_scene', self.scene_update, 10)
+        self.last = -1.
+        self.logged = False
+
+    def scene_update(self, msg):
+        bodies = msg.robot_state.attached_collision_objects
+        if not msg.is_diff or not msg.robot_state.is_diff:
+            self.attached = any(a.object.id == 'water_bottle' and a.object.operation != CollisionObject.REMOVE
+                                for a in bodies)
+        else:
+            for a in bodies:
+                if a.object.id == 'water_bottle':
+                    self.attached = a.object.operation != CollisionObject.REMOVE
+
+    def update(self, msg):
+        now = self.get_clock().now().nanoseconds * 1e-9
+        if now >= self.last and now - self.last < .2:
+            return
+        self.last = now
+        if self.attached or 'water_bottle' not in msg.name:
+            return
+        obj = CollisionObject()
+        obj.header.frame_id = 'odom'
+        obj.id = 'water_bottle'
+        # MOVE changes an existing world object only: an attached or removed
+        # bottle will not be recreated by this publisher.
+        obj.operation = CollisionObject.MOVE
+        obj.pose = msg.pose[msg.name.index('water_bottle')]
+        scene = PlanningScene()
+        scene.is_diff = True
+        scene.world.collision_objects = [obj]
+        self.pub.publish(scene)
+        if not self.logged:
+            self.get_logger().info('Bottle Gazebo pose updates mirrored to MoveIt (5 Hz, odom=initial world).')
+            self.logged = True
+
+
+def main():
+    rclpy.init()
+    node = BottleSync()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

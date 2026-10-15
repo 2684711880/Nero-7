@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "DDS task ingress, three concurrent lanes, successful bottle task mock",
+    "Duplicate completed task returns status without dispatch",
+    "Cyclic dependency rejected through ROS ingress",
+    "Concurrent new task is rejected while robot is owned",
+    "Cancellation returns confirmed mock terminal status",
+    "Persistent deduplication survives executor restart",
+    "Grasp failure blocks lift and second base movement",
+    "Interrupted task restores unknown-stop lock and blocks new motion"
+  ],
+  "hardware_connected": false,
+  "motion_backend": "mock"
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "upstream_callback_counts": {
+    "move_j": 1,
+    "move_p": 1,
+    "move_l": 1,
+    "move_c": 1
+  },
+  "hardware_connected": false
+}

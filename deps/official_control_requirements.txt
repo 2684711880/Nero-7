@@ -1,0 +1,5 @@
+# Project-local environment for ROS 2 Humble / Python 3.10.
+# Keep numerical packages coherent and on NumPy 1.x for ROS binary compatibility.
+numpy==1.26.4
+scipy==1.13.1
+python-can==4.6.1

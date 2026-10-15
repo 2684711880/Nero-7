@@ -1,0 +1,26 @@
+{
+  "exit_code": 0,
+  "states": [
+    "ACCEPTED joints",
+    "EXECUTING joints",
+    "SUCCEEDED joints joint_error_rad=0.000035",
+    "ACCEPTED arc",
+    "EXECUTING arc",
+    "SUCCEEDED arc joint_error_rad=0.000048",
+    "ACCEPTED arc",
+    "EXECUTING arc",
+    "SUCCEEDED arc joint_error_rad=0.000035"
+  ],
+  "samples": 373,
+  "passed": true,
+  "centre_m": [
+    0.0473,
+    0.7142,
+    0.6063
+  ],
+  "radius_m": 0.05,
+  "maximum_radial_error_m": 7.900826639388459e-05,
+  "maximum_plane_error_m": 5.6836825025441406e-05,
+  "closure_error_m": 1.0184681183810358e-05,
+  "observed_travel_m": 0.3141337109418855
+}

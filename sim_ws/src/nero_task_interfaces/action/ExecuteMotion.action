@@ -1,0 +1,7 @@
+# Correlated simulation arm command; JSON follows the validated task action schema.
+string command_json
+---
+bool success
+string message
+---
+string phase

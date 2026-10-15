@@ -19,6 +19,24 @@
     <group name="left_arm" />
     <group name="right_arm" />
   </group>
+  <group_state name="tucked" group="left_arm">
+    <joint name="left_joint1" value="0.0" />
+    <joint name="left_joint2" value="0.0" />
+    <joint name="left_joint3" value="0.0" />
+    <joint name="left_joint4" value="1.0" />
+    <joint name="left_joint5" value="0.0" />
+    <joint name="left_joint6" value="0.0" />
+    <joint name="left_joint7" value="0.0" />
+  </group_state>
+  <group_state name="tucked" group="right_arm">
+    <joint name="right_joint1" value="0.0" />
+    <joint name="right_joint2" value="0.0" />
+    <joint name="right_joint3" value="0.0" />
+    <joint name="right_joint4" value="1.0" />
+    <joint name="right_joint5" value="0.0" />
+    <joint name="right_joint6" value="0.0" />
+    <joint name="right_joint7" value="0.0" />
+  </group_state>
   <group_state name="home" group="left_arm">
     <joint name="left_joint1" value="0.0" />
     <joint name="left_joint2" value="0.0" />

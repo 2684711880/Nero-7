@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "task_status": {
+    "task_id": "repeat_turns_004",
+    "status": "SUCCEEDED",
+    "message": "",
+    "actions": {
+      "turn_1": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "Base pose and stopped velocity verified"
+      },
+      "turn_2": {
+        "lane": "base",
+        "status": "SUCCEEDED",
+        "message": "Base pose and stopped velocity verified"
+      }
+    }
+  },
+  "turns": 2,
+  "hardware_connected": false
+}

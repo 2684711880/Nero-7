@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "commands": [
+    {
+      "command": "joints",
+      "final_joint_error_rad": 3.5e-05
+    },
+    {
+      "command": "pose",
+      "final_joint_error_rad": 8.8e-05
+    },
+    {
+      "command": "line",
+      "final_joint_error_rad": 6.9e-05
+    },
+    {
+      "command": "joints",
+      "final_joint_error_rad": 3.5e-05
+    },
+    {
+      "command": "arc",
+      "final_joint_error_rad": 3.4e-05
+    }
+  ],
+  "evidence": "Gazebo simulation; not real hardware",
+  "main_entry_retest": {
+    "passed": true,
+    "sequence": "move_j (retract) -> move_l (+X 0.15 m)",
+    "date": "2026-10-15"
+  }
+}
