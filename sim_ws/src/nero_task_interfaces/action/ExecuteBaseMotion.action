@@ -1,0 +1,12 @@
+# Validated base_translate/base_rotate/base_move_and_rotate action JSON.
+string command_json
+---
+bool success
+bool stop_confirmed
+string message
+float64[3] final_pose
+---
+string phase
+float64 progress
+float64[3] reference_pose
+float64[3] measured_pose

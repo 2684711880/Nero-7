@@ -1,0 +1,101 @@
+{
+  "passed": true,
+  "checks": {
+    "baseline_completed": true,
+    "candidate_completed": true,
+    "bottle_placement_and_return": true,
+    "b2_blocked_fraction": true,
+    "b2_actual_stops": true,
+    "b2_no_slowdown": true,
+    "b3_blocked_fraction": true,
+    "b3_actual_stops": true,
+    "b3_no_slowdown": true
+  },
+  "metrics": {
+    "b2": {
+      "baseline": {
+        "sim_duration_s": 59.39999999999999,
+        "wall_duration_s": 59.455417851000675,
+        "cruise_combined_samples": 646,
+        "cruise_blocked_fraction": 0.15479876160990713,
+        "cruise_stop_entries": 16,
+        "blocked_with_large_steering_error_fraction": 0.97,
+        "cruise_near_zero_actual_fraction": 0.0392156862745098,
+        "max_cmd_age_s": 0.01990563899744302,
+        "max_joint_age_s": 0.008580099998653168
+      },
+      "candidate": {
+        "sim_duration_s": 49.800000000000004,
+        "wall_duration_s": 49.847328528001526,
+        "cruise_combined_samples": 598,
+        "cruise_blocked_fraction": 0.0,
+        "cruise_stop_entries": 0,
+        "blocked_with_large_steering_error_fraction": 0.0,
+        "cruise_near_zero_actual_fraction": 0.0,
+        "max_cmd_age_s": 0.019970076999015873,
+        "max_joint_age_s": 0.007676462999370415
+      }
+    },
+    "b3": {
+      "baseline": {
+        "sim_duration_s": 47.400000000000006,
+        "wall_duration_s": 47.457569099002285,
+        "cruise_combined_samples": 570,
+        "cruise_blocked_fraction": 0.36140350877192984,
+        "cruise_stop_entries": 25,
+        "blocked_with_large_steering_error_fraction": 0.9902912621359223,
+        "cruise_near_zero_actual_fraction": 0.05964912280701754,
+        "max_cmd_age_s": 0.020851029999903403,
+        "max_joint_age_s": 0.007205711001006421
+      },
+      "candidate": {
+        "sim_duration_s": 47.0,
+        "wall_duration_s": 47.043328062998626,
+        "cruise_combined_samples": 544,
+        "cruise_blocked_fraction": 0.0,
+        "cruise_stop_entries": 0,
+        "blocked_with_large_steering_error_fraction": 0.0,
+        "cruise_near_zero_actual_fraction": 0.0,
+        "max_cmd_age_s": 0.02087136399859446,
+        "max_joint_age_s": 0.008761029999732273
+      }
+    }
+  },
+  "bottle_metrics": {
+    "final_xyz": [
+      -0.0007370475395016257,
+      1.6104059978271967,
+      0.7199998038092121
+    ],
+    "xy_error_m": 0.010432067381641411,
+    "height_error_m": 1.961907878378355e-07,
+    "upright_cos": 0.9999999982750595,
+    "placement_joint_spans_rad": [
+      0.22198494997733675,
+      0.19419904910473296,
+      0.3016669977659747,
+      0.025119863942368426,
+      0.04093307569548532,
+      0.029185259475322134,
+      0.286718997523014
+    ],
+    "placement_max_joint_span_rad": 0.3016669977659747,
+    "base_final_xyz": [
+      8.502897570901446e-05,
+      0.005208571368062749,
+      -0.0015228249022608553
+    ],
+    "base_home_xy_error_m": 0.0052092653630731066,
+    "base_home_yaw_error_rad": 0.014675037814289766,
+    "left_j1_rad": -0.0010355580363716754,
+    "left_j1_change_rad": 8.501073650357682e-05,
+    "left_j2_rad": 1.0471210356275957,
+    "left_j2_target_error_rad": 7.651556900190037e-05,
+    "combined_actual_overlap_s": {
+      "b2": 35.29354624199914,
+      "b3": 32.748902528001054
+    }
+  },
+  "hardware_connected": false,
+  "measurement_window": "middle 60 percent of each base action; wheel blocking counted when both translation and yaw are requested"
+}

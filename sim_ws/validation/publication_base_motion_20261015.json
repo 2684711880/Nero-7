@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-15",
+  "scope": "C++ base motion modes, combined bottle transfer and motion smoothness fixes",
+  "build": {
+    "passed": true,
+    "packages": [
+      "nero_task_interfaces",
+      "ranger_air_gazebo",
+      "nero_task_executor"
+    ],
+    "environment": "existing ROS 2 Humble workspace; not a clean-clone build"
+  },
+  "unit_tests": {
+    "passed": true,
+    "cases": 59,
+    "failures": 0,
+    "suites": {
+      "task_engine.xunit.xml": 28,
+      "base_pose_controller.gtest.xml": 15,
+      "docking.xunit.xml": 7,
+      "controller_timing.xunit.xml": 6,
+      "kinematics.xunit.xml": 3
+    }
+  },
+  "example_jsonc_matches_json": true,
+  "vendor_local_diff_matches_tracked_patch": true,
+  "gazebo_and_protocol_validation": "base_smoothness/summary.json",
+  "base_modes_validation": "base_modes/README.md",
+  "hardware_connected": false
+}

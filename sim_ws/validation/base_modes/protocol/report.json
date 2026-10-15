@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "All three action types execute through C++ and complete through the Python scheduler",
+    "Legacy Python and new C++ base actions hand over ownership within one lane",
+    "Cancel confirms stop and blocks the next action",
+    "Action timeout cancels the C++ command and confirms synthetic stop",
+    "Stale odometry commands zero and reports stop unconfirmed rather than success",
+    "Both scheduler ownership and the C++ server latch reject new motion after unknown stop"
+  ],
+  "odometry": "synthetic kinematic fixture",
+  "hardware_connected": false,
+  "gazebo_started": false
+}

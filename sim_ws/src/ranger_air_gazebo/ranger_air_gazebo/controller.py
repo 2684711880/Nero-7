@@ -18,10 +18,13 @@ class AirController(Node):
         defaults = {'command_timeout': .5, 'feedback_timeout': .3,
                     'max_linear_speed': .4, 'max_yaw_rate': .8,
                     'linear_acceleration': .4, 'angular_acceleration': .8,
-                    'steering_rate': 1.5, 'alignment_tolerance': .12}
+                    'steering_rate': 1.5, 'alignment_tolerance': .12,
+                    'alignment_stop_angle': .5}
         for key, value in defaults.items():
             self.declare_parameter(key, value)
             setattr(self, key, self.get_parameter(key).value)
+        if not 0 <= self.alignment_tolerance < self.alignment_stop_angle <= math.pi/2:
+            raise ValueError('Require 0 <= alignment_tolerance < alignment_stop_angle <= pi/2')
         self.declare_parameter('use_ground_truth_odometry', False)
         self.truth_odom = self.get_parameter('use_ground_truth_odometry').value
         self.truth_received = False
@@ -141,9 +144,20 @@ class AirController(Node):
             step = self.steering_rate * dt
             self.steering_command = [old + np.clip(wrap(new-old), -step, step)
                                      for old, new in zip(self.steering_command, desired)]
-            error = max(abs(wrap(a-b)) for a, b in zip(desired, self.angles))
-            if error > self.alignment_tolerance:
-                rates = [0.] * 4
+            peak_rate = max(abs(rate) for rate in rates)
+            # Near an instantaneous rotation center a wheel may need almost
+            # zero speed but a fast-changing heading. Weight its angular error
+            # by its requested rolling speed so it cannot stop the other three.
+            error = (max(abs(wrap(a-b))*abs(rate)/peak_rate
+                         for a, b, rate in zip(desired, self.angles, rates))
+                     if peak_rate > 1e-6 else 0.)
+            # A hard on/off gate at 0.12 rad repeatedly stopped all wheels
+            # during continuous translation + yaw. Taper all rates together
+            # to preserve their ratios; large misalignment still blocks drive.
+            u = np.clip((error-self.alignment_tolerance) /
+                        (self.alignment_stop_angle-self.alignment_tolerance), 0., 1.)
+            scale = 1. - u*u*(3.-2.*u)
+            rates = [rate*scale for rate in rates]
         self.steer_pub.publish(Float64MultiArray(data=[float(x) for x in self.steering_command]))
         self.wheel_pub.publish(Float64MultiArray(data=[float(x) for x in rates]))
 

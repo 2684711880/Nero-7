@@ -1,0 +1,146 @@
+{
+  "passed": true,
+  "task_status": {
+    "task_id": "base_cancel_gazebo_001",
+    "status": "CANCELED",
+    "message": "Cancellation requested",
+    "actions": {
+      "moving": {
+        "lane": "base",
+        "status": "CANCELED",
+        "message": "Base canceled; stop verified"
+      },
+      "blocked": {
+        "lane": "base",
+        "status": "BLOCKED",
+        "message": ""
+      }
+    },
+    "execution_mode": "simulation"
+  },
+  "actual_speed_when_canceled": [
+    0.020335092932240298,
+    0.058767870749844825
+  ],
+  "actual_final_speed": [
+    0.00024711735552362084,
+    0.0008512433704757764
+  ],
+  "actual_xy_after_braking": [
+    0.0023120101800003234,
+    0.009552993268306437
+  ],
+  "braking_displacement_m": 0.00540810099731955,
+  "pose_source": "Gazebo ModelStates",
+  "hardware_connected": false,
+  "events": [
+    {
+      "task_id": "base_cancel_gazebo_001",
+      "status": "RUNNING",
+      "message": "",
+      "actions": {
+        "moving": {
+          "lane": "base",
+          "status": "PENDING",
+          "message": ""
+        },
+        "blocked": {
+          "lane": "base",
+          "status": "PENDING",
+          "message": ""
+        }
+      },
+      "execution_mode": "simulation"
+    },
+    {
+      "task_id": "base_cancel_gazebo_001",
+      "status": "RUNNING",
+      "message": "",
+      "actions": {
+        "moving": {
+          "lane": "base",
+          "status": "PENDING",
+          "message": ""
+        },
+        "blocked": {
+          "lane": "base",
+          "status": "PENDING",
+          "message": ""
+        }
+      },
+      "execution_mode": "simulation"
+    },
+    {
+      "task_id": "base_cancel_gazebo_001",
+      "status": "RUNNING",
+      "message": "",
+      "actions": {
+        "moving": {
+          "lane": "base",
+          "status": "RUNNING",
+          "message": ""
+        },
+        "blocked": {
+          "lane": "base",
+          "status": "PENDING",
+          "message": ""
+        }
+      },
+      "execution_mode": "simulation"
+    },
+    {
+      "task_id": "base_cancel_gazebo_001",
+      "status": "STOPPING",
+      "message": "Cancellation requested",
+      "actions": {
+        "moving": {
+          "lane": "base",
+          "status": "RUNNING",
+          "message": ""
+        },
+        "blocked": {
+          "lane": "base",
+          "status": "BLOCKED",
+          "message": ""
+        }
+      },
+      "execution_mode": "simulation"
+    },
+    {
+      "task_id": "base_cancel_gazebo_001",
+      "status": "STOPPING",
+      "message": "Cancellation requested",
+      "actions": {
+        "moving": {
+          "lane": "base",
+          "status": "RUNNING",
+          "message": ""
+        },
+        "blocked": {
+          "lane": "base",
+          "status": "BLOCKED",
+          "message": ""
+        }
+      },
+      "execution_mode": "simulation"
+    },
+    {
+      "task_id": "base_cancel_gazebo_001",
+      "status": "CANCELED",
+      "message": "Cancellation requested",
+      "actions": {
+        "moving": {
+          "lane": "base",
+          "status": "CANCELED",
+          "message": "Base canceled; stop verified"
+        },
+        "blocked": {
+          "lane": "base",
+          "status": "BLOCKED",
+          "message": ""
+        }
+      },
+      "execution_mode": "simulation"
+    }
+  ]
+}

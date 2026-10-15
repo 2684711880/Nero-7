@@ -58,6 +58,25 @@ ros2 launch nero_task_executor simulation.launch.py
 
 `b2.parameters.via` 明确给出中心平移、原地转向的途经点；底盘仅沿给定点闭环行驶，没有障碍规划。双臂分别规划，不提供联合动态避碰；底盘移动时的机械臂规划也只是当时场景的快照。先在仿真确认这组并行路径。
 
+新增独立组合运动任务 `examples/bottle_transfer_combined.json`，注释见同名 `.jsonc`。原任务保留。新任务 b1 使用 `base_translate` 保持初始朝向靠近源桌；b2 等右臂抬起后，使用 `base_move_and_rotate` 同时移动到 `(0,0.8)` 并转到 π；b3 等松瓶后，同时返回 `(0,0)` 并转回 0。新路线没有中央途经停靠点。机械臂目标、左臂 J2 +60° 和全部跨序列依赖与原任务一致。
+
+从重置的默认场景出发，前两个终端启动完成后，第三个终端运行：
+
+```zsh
+cd /home/a/Nero-7/sim_ws
+source /opt/ros/humble/setup.zsh
+source install/setup.zsh
+export ROS_DOMAIN_ID=75
+ros2 run nero_task_executor submit_task \
+  /home/a/Nero-7/sim_ws/src/nero_task_executor/examples/bottle_transfer_combined.json
+```
+
+三个终端的 ROS_DOMAIN_ID 须一致。原流程运行后水瓶已经在左桌，运行新流程前需重置场景，使水瓶恢复到源桌。
+
+组合版本已完成一次完整 Gazebo 验收：搬运与回程的实际平移/旋转分别重叠约 30.1 s 和 20.1 s；放瓶水平误差约 5.5 mm，底盘回原点位置误差约 0.71 mm。记录见 `sim_ws/validation/bottle_combined/README.md`。
+
+组合运动的后续平顺性修复：AIR 转向对齐改为按目标轮速加权、连续减速；C++ 停靠补偿保持合成速度方向，并在巡航时退出。相同任务的无界面对照中，搬运与回程中段的停轮占比从约 15.5% / 36.1% 降为 0% / 0%，完整搬运和取消验证通过。数据与速度曲线见 [平顺性诊断记录](../../../sim_ws/validation/base_smoothness/README.md)。
+
 ## 通信与状态
 
 - `/robot_task/data` (`std_msgs/String`)：完整 JSON，最大 1 MiB、1000 个动作。
@@ -113,3 +132,7 @@ colcon test-result --verbose
 当前版本为 bottle_transfer_004：左臂动作只包含 J2=+pi/3，J1 不再给目标。针对实际停在底盘转向末段的问题，平移收尾最低指令设为 0.04 m/s，转向最低指令设为 0.12 rad/s；最高值仍为 0.10 m/s、0.18 rad/s，进入到位区后发送零速度并等待停止反馈。保持原有到位滞回和实际反馈验证，不通过放宽容差或直接报成功绕过停滞。旧进程不会自动加载 Python 修改，需要在重置场景后重启执行节点。
 
 J2 与停滞修正已验证：24 项测试、完整抓放返回，以及额外两次连续原地转向通过。水瓶放置误差约 2.9 mm，底盘返回误差约 5.3 mm，J2 实测 60.002°，J1 相对初始变化约 0.0055°。见 `sim_ws/validation/task_executor/j2_turn_fix/README.md`。
+
+## 可选 C++ 底盘动作
+
+保留原 `base_move_to`；新增 `base_translate`、`base_rotate`、`base_move_and_rotate` 共用 C++ 参考轨迹与位姿反馈核心。参数与运行方式见 [底盘动作说明](../../../docs/base_motion_modes.md)，示例为 `examples/base_modes.json`，可读注释版为 `examples/base_modes.jsonc`。水瓶任务未改为组合运动。

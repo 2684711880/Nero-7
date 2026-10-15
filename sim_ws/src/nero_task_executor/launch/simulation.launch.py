@@ -13,6 +13,8 @@ def setup(context):
     nodes = [Node(package='nero_task_executor', executable='sim_arm_server', name=side+'_task_arm',
                   output='screen', parameters=[config.to_dict(), {'use_sim_time': True, 'side': side}])
              for side in ('left', 'right')]
+    nodes.append(Node(package='nero_task_executor', executable='sim_base_server',
+        output='screen', parameters=[{'use_sim_time': True}]))
     nodes.append(Node(package='nero_task_executor', executable='task_executor', output='screen',
         parameters=[{'use_sim_time': True, 'backend': 'simulation',
                      'state_file': LaunchConfiguration('state_file')}]))

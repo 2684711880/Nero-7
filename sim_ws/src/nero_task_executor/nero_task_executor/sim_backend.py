@@ -14,7 +14,8 @@ from moveit_msgs.srv import ApplyPlanningScene, GetPlanningScene
 from moveit_msgs.msg import (PlanningScene, PlanningSceneComponents, CollisionObject,
                              AttachedCollisionObject, AllowedCollisionEntry)
 from shape_msgs.msg import SolidPrimitive
-from nero_task_interfaces.action import ExecuteMotion
+from nero_task_interfaces.action import ExecuteMotion, ExecuteBaseMotion
+from .model import BASE_CPP_TYPES
 
 
 def wrap(x):
@@ -28,6 +29,7 @@ class SimBackend:
         self.node = node
         self.clients = {lane: ActionClient(node, ExecuteMotion, '/task_motion/'+lane)
                         for lane in ('left_arm', 'right_arm')}
+        self.clients['base'] = ActionClient(node, ExecuteBaseMotion, '/task_motion/base')
         self.velocity = node.create_publisher(Twist, '/cmd_vel', 10)
         self.odom = None
         self.odom_received = 0.
@@ -67,11 +69,15 @@ class SimBackend:
             raise ValueError('Resource already occupied')
         op = SimpleNamespace(lane=lane, action=action, done=done, finished=False,
             canceled=False, stop_done=None, stop_deadline=None, goal=None, awaiting=False,
-            settled=None, route=None, route_index=0)
+            settled=None, route=None, route_index=0, remote=(lane == 'base' and action['type'] in BASE_CPP_TYPES))
         self.operations.append(op)
         if lane == 'base':
             if self.velocity.get_subscription_count() == 0:
                 self.finish(op, False, 'No /cmd_vel receiver')
+                return op
+            if op.remote:
+                self.hold = None
+                self.send_motion(op)
                 return op
             p = action['parameters']
             op.route = list(p.get('via', []))+[[*p['position_xy_m'], p['yaw_rad']]]
@@ -79,12 +85,12 @@ class SimBackend:
         else:
             p = action['parameters']
             if p.get('touch_object'):
-                self.allow_contact(op, lambda: self.send_arm(op))
+                self.allow_contact(op, lambda: self.send_motion(op))
             elif action['type'] == 'gripper_open' and self.attached and lane == 'right_arm':
                 # Detach before opening; retain the object in the world planning scene.
-                self.grasp_constraint(op, False, lambda: self.attach_scene(op, False, lambda: self.send_arm(op)))
+                self.grasp_constraint(op, False, lambda: self.attach_scene(op, False, lambda: self.send_motion(op)))
             else:
-                self.send_arm(op)
+                self.send_motion(op)
         return op
 
     def finish(self, op, success, message, stop_confirmed=True):
@@ -186,15 +192,16 @@ class SimBackend:
             scene.world.collision_objects = [world]
         self.apply(op, scene, continuation)
 
-    def send_arm(self, op):
+    def send_motion(self, op):
         if op.canceled:
-            self.finish(op, False, 'Stopped before arm dispatch')
+            self.finish(op, False, 'Stopped before motion dispatch')
             return
         client = self.clients[op.lane]
         if not client.server_is_ready():
-            self.finish(op, False, 'Missing correlated arm server: '+op.lane)
+            self.finish(op, False, 'Missing correlated motion server: '+op.lane)
             return
-        goal = ExecuteMotion.Goal(command_json=json.dumps(op.action, allow_nan=False))
+        action_type = ExecuteBaseMotion if op.lane == 'base' else ExecuteMotion
+        goal = action_type.Goal(command_json=json.dumps(op.action, allow_nan=False))
         op.awaiting = True
         future = client.send_goal_async(goal)
         def accepted(f):
@@ -202,21 +209,27 @@ class SimBackend:
             try:
                 op.goal = f.result()
                 if not op.goal.accepted:
-                    self.finish(op, False, 'Arm server rejected command')
+                    self.finish(op, False, 'Motion server rejected command')
                     return
                 outcome = op.goal.get_result_async()
-                outcome.add_done_callback(lambda result: self.arm_finished(op, result))
+                outcome.add_done_callback(lambda result: self.motion_finished(op, result))
                 if op.canceled:
                     op.goal.cancel_goal_async()
             except Exception as error:
                 self.finish(op, False, str(error), stop_confirmed=False)
         future.add_done_callback(accepted)
 
-    def arm_finished(self, op, future):
+    def motion_finished(self, op, future):
         try:
             result = future.result()
             message = result.result.message
-            if op.canceled:
+            if op.lane == 'base':
+                confirmed = result.result.stop_confirmed
+                success = result.status == GoalStatus.STATUS_SUCCEEDED and result.result.success and confirmed
+                if success and not op.canceled:
+                    self.hold = list(result.result.final_pose)
+                self.finish(op, success, message, stop_confirmed=confirmed)
+            elif op.canceled:
                 self.finish(op, False, message, stop_confirmed='STOP_UNCONFIRMED' not in message)
             elif result.status != GoalStatus.STATUS_SUCCEEDED or not result.result.success:
                 # Any unknown controller stop must latch ownership, even without a user cancel.
@@ -256,6 +269,11 @@ class SimBackend:
             self.hold = None
             self.velocity.publish(Twist())
             op.settled = None
+            if getattr(op, 'remote', False):
+                if op.goal:
+                    op.goal.cancel_goal_async()
+                elif not op.awaiting:
+                    self.finish(op, False, 'No base goal in flight')
         elif op.goal:
             op.goal.cancel_goal_async()
         elif not op.awaiting:
@@ -316,7 +334,7 @@ class SimBackend:
             if op.canceled and now > op.stop_deadline:
                 self.finish(op, False, 'STOP_UNCONFIRMED: no terminal stop feedback', stop_confirmed=False)
                 continue
-            if op.lane != 'base':
+            if op.lane != 'base' or getattr(op, 'remote', False):
                 continue
             if not self.fresh_odom():
                 self.velocity.publish(Twist())

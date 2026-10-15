@@ -17,6 +17,8 @@ parser.add_argument('--output', required=True)
 parser.add_argument('--task-id', default='bottle_transfer_004')
 parser.add_argument('--timeout', type=float, default=300)
 parser.add_argument('--return-home', action='store_true')
+parser.add_argument('--expect-combined', action='store_true',
+                    help='Require actual simultaneous translation/rotation during b2 and b3')
 args = parser.parse_args()
 rclpy.init()
 node = Node('task_bottle_acceptance_observer')
@@ -28,27 +30,33 @@ last_left_j1 = None
 last_left_j2 = None
 initial_left_j1 = None
 last = 0.
+active_base = None
 
 def models(msg):
     global last
     if time.monotonic()-last < .1:
         return
     last = time.monotonic()
-    row = {'wall_time': last}
+    row = {'wall_time': last, 'active_base': active_base}
     for name in ('water_bottle', 'mobile_dual_nero'):
         if name in msg.name:
             i = msg.name.index(name)
             p = msg.pose[i]
             row[name] = {'xyz': [p.position.x, p.position.y, p.position.z],
                          'q': [p.orientation.x, p.orientation.y, p.orientation.z, p.orientation.w]}
+            if name == 'mobile_dual_nero':
+                v = msg.twist[i]
+                row[name]['speed'] = [math.hypot(v.linear.x, v.linear.y), abs(v.angular.z)]
     samples.append(row)
 
 def status(msg):
-    global terminal, placement_active
+    global terminal, placement_active, active_base
     data = json.loads(msg.data)
     if data.get('task_id') != args.task_id:
         return
     events.append(data)
+    active_base = next((a for a in ('b1', 'b2', 'b3')
+                        if data.get('actions', {}).get(a, {}).get('status') == 'RUNNING'), None)
     placement_active = data.get('actions', {}).get('r7', {}).get('status') == 'RUNNING'
     if data['status'] in ('SUCCEEDED', 'FAILED', 'CANCELED', 'STOP_UNCONFIRMED'):
         terminal = data
@@ -108,6 +116,15 @@ try:
                 left_j1_change_rad=abs(last_left_j1-initial_left_j1), left_j2_rad=last_left_j2,
                 left_j2_target_error_rad=abs(last_left_j2-math.pi/3))
             passed = passed and metrics['base_home_xy_error_m'] < .03 and abs(yaw) < .04 and metrics['left_j2_target_error_rad'] < .02 and metrics['left_j1_change_rad'] < .02
+    if args.expect_combined:
+        overlap = {a: 0. for a in ('b2', 'b3')}
+        for prev, row in zip(samples, samples[1:]):
+            a = row['active_base']
+            speed = row.get('mobile_dual_nero', {}).get('speed', [0., 0.])
+            if a in overlap and prev['active_base'] == a and speed[0] > .01 and speed[1] > .03:
+                overlap[a] += min(.2, row['wall_time']-prev['wall_time'])
+        metrics['combined_actual_overlap_s'] = overlap
+        passed = passed and all(t > .5 for t in overlap.values())
     report = {'passed':passed, 'task_id':args.task_id, 'metrics':metrics,
               'task_status':terminal, 'grasp_model':'checked_fixed_joint',
               'hardware_connected':False, 'samples':samples, 'events':events, 'placement_joints':placement_joints}

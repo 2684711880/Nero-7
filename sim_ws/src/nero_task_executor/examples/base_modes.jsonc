@@ -1,0 +1,48 @@
+// 新底盘动作示例，执行用同名 .json；本文件只供阅读。
+// 数组从上到下执行；action_id 只是标签，wait_for 为空仍等待本路前一步。
+// 目标是 odom 坐标下的绝对值；保持的坐标在每个动作开始时捕获。
+{
+  "version": 1,
+  "task_id": "base_modes_001",
+  "base_actions": [
+    {
+      "action_id": "translate",
+      "type": "base_translate", // 保持开始时朝向平移
+      "parameters": {
+        "frame_id": "odom",
+        "position_xy_m": [ // 绝对 [x,y]，单位 m
+          0.4,
+          0
+        ]
+      },
+      "wait_for": [],
+      "timeout_s": 90 // 开始执行后的总超时，含最终到位和停止确认
+    },
+    {
+      "action_id": "rotate",
+      "type": "base_rotate", // 保持开始时位置转向
+      "parameters": {
+        "frame_id": "odom",
+        "yaw_rad": 1.5707963267948966 // 绝对朝向，单位 rad；pi/2 = 90°
+      },
+      "wait_for": [],
+      "timeout_s": 90 // 开始执行后的总超时，含最终到位和停止确认
+    },
+    {
+      "action_id": "combined",
+      "type": "base_move_and_rotate", // 位置与朝向按共同进度变化
+      "parameters": {
+        "frame_id": "odom",
+        "position_xy_m": [ // 绝对 [x,y]，单位 m
+          0,
+          0
+        ],
+        "yaw_rad": 0 // 绝对朝向，单位 rad；pi/2 = 90°
+      },
+      "wait_for": [],
+      "timeout_s": 90 // 开始执行后的总超时，含最终到位和停止确认
+    }
+  ],
+  "left_arm_actions": [],
+  "right_arm_actions": []
+}

@@ -2,6 +2,20 @@ from types import SimpleNamespace as Obj
 from nero_task_executor.sim_backend import SimBackend
 
 
+def test_base_success_requires_confirmed_stop():
+    from action_msgs.msg import GoalStatus
+    b = backend()
+    b.hold = None
+    outcomes = []
+    b.finish = lambda op, success, message, **kwargs: outcomes.append((success, kwargs))
+    result = Obj(status=GoalStatus.STATUS_SUCCEEDED,
+                 result=Obj(success=True, stop_confirmed=False, message='unknown stop',
+                            final_pose=[1., 2., 0.]))
+    b.motion_finished(Obj(lane='base', canceled=False), Obj(result=lambda: result))
+    assert outcomes == [(False, {'stop_confirmed': False})]
+    assert b.hold is None
+
+
 def backend():
     b = SimBackend.__new__(SimBackend)
     b.arrival_target = None

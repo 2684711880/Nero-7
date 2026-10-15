@@ -5,6 +5,8 @@ import math
 
 LANES = ('base', 'left_arm', 'right_arm')
 POSE_KEYS = {'frame_id', 'tcp_id', 'position_m', 'orientation_xyzw'}
+BASE_CPP_TYPES = {'base_translate', 'base_rotate', 'base_move_and_rotate'}
+BASE_TYPES = {'base_move_to'} | BASE_CPP_TYPES
 ARM_TYPES = {'move_j', 'move_j_partial', 'move_p', 'move_l', 'move_c',
              'gripper_open', 'gripper_grasp'}
 
@@ -59,7 +61,7 @@ def validate_action(a, lane):
     require(len(set(a['wait_for'])) == len(a['wait_for']), 'Duplicate dependency')
     kind, p = a['type'], a['parameters']
     require(isinstance(kind, str), 'Invalid action type')
-    require(kind in ({'base_move_to'} if lane == 'base' else ARM_TYPES),
+    require(kind in (BASE_TYPES if lane == 'base' else ARM_TYPES),
             f'Unsupported {lane} action: {kind}')
     if kind == 'base_move_to':
         fields(p, {'frame_id', 'position_xy_m', 'yaw_rad'}, {'via'})
@@ -70,6 +72,27 @@ def validate_action(a, lane):
         require(p['frame_id'] == 'odom', 'v1 base controller supports odom only')
         vector(p['position_xy_m'], 2)
         number(p['yaw_rad'])
+    elif kind in BASE_CPP_TYPES:
+        required = {'frame_id'}
+        if kind != 'base_rotate':
+            required.add('position_xy_m')
+        if kind != 'base_translate':
+            required.add('yaw_rad')
+        bounds = {'max_linear_speed_m_s': .2, 'max_angular_speed_rad_s': .4,
+                  'linear_acceleration_m_s2': .4, 'angular_acceleration_rad_s2': .8}
+        fields(p, required, set(bounds) | {'duration_s'})
+        require(p['frame_id'] == 'odom', 'C++ base controller supports odom only')
+        if 'position_xy_m' in p:
+            vector(p['position_xy_m'], 2)
+        if 'yaw_rad' in p:
+            number(p['yaw_rad'])
+        for key, maximum in bounds.items():
+            if key in p:
+                number(p[key], positive=True)
+                require(p[key] <= maximum, key+' exceeds simulation limit')
+        if 'duration_s' in p:
+            number(p['duration_s'], positive=True)
+            require(p['duration_s'] < a['timeout_s'], 'Duration must be shorter than action timeout')
     elif kind == 'move_j':
         fields(p, {'joint_positions_rad'})
         vector(p['joint_positions_rad'], 7)

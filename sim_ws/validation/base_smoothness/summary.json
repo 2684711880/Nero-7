@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": {
+    "smoothness": true,
+    "cancel": true,
+    "legacy_bottle": true,
+    "protocol": true
+  },
+  "unit_test_cases": 59,
+  "unit_test_failures": 0,
+  "reports": {
+    "smoothness": "comparison.json",
+    "cancel": "cancel_report.json",
+    "legacy_bottle": "legacy_bottle.json",
+    "protocol": "protocol/report.json"
+  },
+  "hardware_connected": false
+}

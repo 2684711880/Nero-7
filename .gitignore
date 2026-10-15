@@ -35,3 +35,7 @@ sim_ws/validation/task_executor/ros_mock_state*.json
 sim_ws/validation/task_executor/simulation*_state.json
 sim_ws/validation/task_executor/shutdown_state.json
 sim_ws/validation/task_executor/demo_*/
+
+# Local base-mode validation journals
+sim_ws/validation/base_modes/**/state.json
+sim_ws/validation/base_modes/**/*.lock

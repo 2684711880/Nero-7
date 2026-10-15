@@ -166,3 +166,37 @@ def test_bottle_returns_home_after_release_with_only_left_j2_sixty_degrees():
     assert home['parameters']['yaw_rad'] == 0
     # Translate clear of the destination table before turning in the corridor.
     assert home['parameters']['via'] == [[0, 0, math.pi]]
+
+
+@pytest.mark.parametrize('kind,parameters', [
+    ('base_translate', {'frame_id':'odom','position_xy_m':[.4,0]}),
+    ('base_rotate', {'frame_id':'odom','yaw_rad':1.57}),
+    ('base_move_and_rotate', {'frame_id':'odom','position_xy_m':[0,0],'yaw_rad':0}),
+])
+def test_new_base_modes_validate_and_keep_lane_order(kind, parameters):
+    clock, backend, engine = setup()
+    t = task()
+    t['task_id'] = kind
+    t['left_arm_actions'] = t['right_arm_actions'] = []
+    t['base_actions'] = [{'action_id':'new','type':kind,'parameters':parameters,'wait_for':[],'timeout_s':60}]
+    engine.submit(t)
+    engine.tick()
+    clock.step(backend, engine, 1)
+    assert engine.snapshot(kind)['status'] == 'SUCCEEDED'
+
+
+@pytest.mark.parametrize('kind,parameters', [
+    ('base_translate', {'frame_id':'odom','position_xy_m':[0,0],'yaw_rad':1}),
+    ('base_rotate', {'frame_id':'odom','yaw_rad':1,'position_xy_m':[0,0]}),
+    ('base_move_and_rotate', {'frame_id':'odom','position_xy_m':[0,0]}),
+    ('base_move_and_rotate', {'frame_id':'map','position_xy_m':[0,0],'yaw_rad':0}),
+    ('base_translate', {'frame_id':'odom','position_xy_m':[0,0],'max_linear_speed_m_s':0}),
+    ('base_rotate', {'frame_id':'odom','yaw_rad':1,'max_angular_speed_rad_s':.5}),
+    ('base_translate', {'frame_id':'odom','position_xy_m':[0,0],'duration_s':60}),
+])
+def test_new_base_modes_reject_ambiguous_or_invalid_parameters(kind, parameters):
+    t = task()
+    t['left_arm_actions'] = t['right_arm_actions'] = []
+    t['base_actions'] = [{'action_id':'bad','type':kind,'parameters':parameters,'wait_for':[],'timeout_s':60}]
+    with pytest.raises(ValueError):
+        validate_task(t)
