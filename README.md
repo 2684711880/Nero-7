@@ -189,3 +189,5 @@ source scripts/official_control_env.sh
 第三方模型来源与许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。上游资源保留原有许可证声明，不宣称这些模型为本项目原创。
 
 部分内层说明及历史验证文件记录原开发机绝对路径 `/home/a/Nero-7`；迁移机器时使用本 README 的相对路径命令，并为验证工具传入自己的输出目录。当前 MoveIt 安装版本在关闭阶段可能出现析构段错误；这与已经通过的运行期间规划/执行验证区分记录。
+
+本次发布前的干净克隆构建与 35 项测试记录见 [publication_20261015.json](sim_ws/validation/publication_20261015.json)。

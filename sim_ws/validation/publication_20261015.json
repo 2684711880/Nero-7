@@ -1,0 +1,44 @@
+{
+  "verified_on": "2026-10-15",
+  "source_commit": "f45be4829aa43a64d266a2dd23e0dc57801edfcc",
+  "clone": "fresh local clone of the committed tree, without existing build/install outputs",
+  "simulation": {
+    "command": "bash scripts/build.sh",
+    "packages_built": [
+      "ranger_air_description",
+      "dual_nero_moveit_config",
+      "nero_task_interfaces",
+      "ranger_air_gazebo",
+      "mobile_dual_nero",
+      "nero_task_executor"
+    ],
+    "passed": true,
+    "elapsed_s": 47.4,
+    "submodules_required_for_simulation_build": false
+  },
+  "tests": {
+    "command": "colcon test --packages-select nero_task_executor mobile_dual_nero ranger_air_gazebo",
+    "nero_task_executor": 24,
+    "mobile_dual_nero": 7,
+    "ranger_air_gazebo": 4,
+    "total": 35,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "cpp_interface": {
+    "command": "colcon build --packages-select nero_official_commander_cpp",
+    "passed": true,
+    "elapsed_s": 15.0,
+    "scope": "standalone C++ command interface compilation; official Python driver and SDK installation were not rerun in the clean clone"
+  },
+  "github_submodule_commits_resolve": {
+    "agx_arm_ros": "bc485ab8e3d25abbcd3a1b58c105be12bad5dadc",
+    "pyAgxArm": "1ae40ad4755ca25ad32bece3ab42325698185fc7"
+  },
+  "hardware_connected": false,
+  "simulation_motion_replayed_during_publication": false,
+  "prior_motion_evidence": "sim_ws/validation/task_executor/j2_turn_fix/report.json",
+  "vendor_compatibility_patch": "deps/agx_arm_sim-cmake.patch; retained as patch, upstream gitlink unchanged",
+  "excluded": "build/install/log output, virtualenv, local task journals, session locks and demo scratch directories"
+}
