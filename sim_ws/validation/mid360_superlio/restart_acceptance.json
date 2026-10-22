@@ -1,0 +1,14 @@
+{
+  "master_uri": "http://localhost:11345",
+  "old_launch_pids_gone": true,
+  "active_mapping_launches": [
+    234776
+  ],
+  "received_map_clouds": 3,
+  "map_points": [
+    7319,
+    7319,
+    7324
+  ],
+  "passed": true
+}

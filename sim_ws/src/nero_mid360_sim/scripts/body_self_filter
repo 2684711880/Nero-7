@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""Filter Livox returns with articulated, conservative URDF boxes; retain point timing."""
+from collections import deque
+import json
+import math
+import time
+import numpy as np
+import rclpy
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from livox_ros_driver2.msg import CustomMsg
+from sensor_msgs.msg import JointState, PointCloud2, PointField
+from std_msgs.msg import String
+from visualization_msgs.msg import Marker, MarkerArray
+from nero_mid360_sim.body_geometry import BodyModel
+
+
+def stamp_ns(stamp):
+    return stamp.sec*10**9+stamp.nanosec
+
+
+def quaternion(R):
+    # Stable rotation-matrix conversion, including upside-down lidar mounting.
+    vals, vecs = np.linalg.eigh(np.array([
+        [R[0,0]-R[1,1]-R[2,2], R[0,1]+R[1,0], R[0,2]+R[2,0], R[2,1]-R[1,2]],
+        [R[0,1]+R[1,0], R[1,1]-R[0,0]-R[2,2], R[1,2]+R[2,1], R[0,2]-R[2,0]],
+        [R[0,2]+R[2,0], R[1,2]+R[2,1], R[2,2]-R[0,0]-R[1,1], R[1,0]-R[0,1]],
+        [R[2,1]-R[1,2], R[0,2]-R[2,0], R[1,0]-R[0,1], np.trace(R)]]))
+    return vecs[:, np.argmax(vals)]
+
+
+class SelfFilter(Node):
+    def __init__(self):
+        super().__init__('mid360_body_self_filter')
+        description = self.declare_parameter('robot_description', '').value
+        padding = float(self.declare_parameter('padding', .025).value)
+        self.step = float(self.declare_parameter('time_bin', .005).value)
+        if not math.isfinite(padding) or not 0 <= padding <= .10:
+            raise ValueError('self_filter_padding must be in [0, 0.10] metres')
+        if not math.isfinite(self.step) or not .001 <= self.step <= .02:
+            raise ValueError('time_bin must be in [0.001, 0.02] seconds')
+        self.model = BodyModel(description, padding)
+        self.history, self.pending = deque(), deque(maxlen=5)
+        self.warn_at = 0.
+        self.last_markers = 0
+        self.out = self.create_publisher(CustomMsg, '/mid360/lidar_filtered', 10)
+        self.view = self.create_publisher(PointCloud2, '/mid360/points_filtered', qos_profile_sensor_data)
+        self.stats = self.create_publisher(String, '/mid360/self_filter/diagnostics', 10)
+        self.markers = self.create_publisher(MarkerArray, '/mid360/self_filter/bodies', 1)
+        self.subs = [self.create_subscription(CustomMsg, '/mid360/lidar', self.cloud, 10),
+                     self.create_subscription(JointState, '/joint_states', self.joints, qos_profile_sensor_data)]
+        self.timer = self.create_timer(.01, self.process)
+        self.get_logger().info(f'Body filter: {len(self.model.boxes)} URDF boxes, padding={padding:g} m; joint interpolation, {self.step:g} s bins')
+
+    def joints(self, msg):
+        q = dict(zip(msg.name, msg.position))
+        if not all(k in q and math.isfinite(q[k]) for k in self.model.moving):
+            return
+        t = stamp_ns(msg.header.stamp)
+        if self.history and t < self.history[-1][0]:
+            self.history.clear(); self.pending.clear()
+        if self.history and t == self.history[-1][0]:
+            self.history.pop()
+        self.history.append((t, np.array([q[k] for k in self.model.moving])))
+        while self.history and t-self.history[0][0] > 3*10**9:
+            self.history.popleft()
+
+    def cloud(self, msg):
+        if len(self.pending) == self.pending.maxlen:
+            self.warn('Point cloud queue full; dropping oldest scan, never forwarding unfiltered data')
+        self.pending.append((msg, time.monotonic()))
+
+    def warn(self, text):
+        if time.monotonic()-self.warn_at > 2:
+            self.get_logger().warning(text); self.warn_at = time.monotonic()
+
+    def process(self):
+        if not self.pending:
+            return
+        msg, received = self.pending[0]
+        if msg.header.frame_id != 'mid360_link':
+            self.pending.popleft(); self.warn('Unexpected sensor frame; scan dropped'); return
+        start = stamp_ns(msg.header.stamp)
+        offsets = np.array([p.offset_time for p in msg.points], dtype=np.int64)
+        end = start+int(offsets.max(initial=0))
+        if not self.history or self.history[-1][0] < end:
+            if time.monotonic()-received > 2:
+                self.pending.popleft(); self.warn('No joint feedback covering scan end; scan dropped')
+            return
+        self.pending.popleft()
+        if self.history[0][0] > start:
+            self.warn('Joint history does not cover scan start; scan dropped'); return
+        if not len(offsets):
+            return
+        history = list(self.history)
+        times = np.array([row[0]-start for row in history], dtype=np.int64)
+        states = np.array([row[1] for row in history])
+        xyz = np.array([(p.x,p.y,p.z) for p in msg.points], dtype=float)
+        removed = np.zeros(len(xyz), dtype=bool)
+        bins = offsets//round(self.step*1e9)
+        for b in np.unique(bins):
+            indices = np.flatnonzero(bins == b)
+            t = int((int(offsets[indices].min())+int(offsets[indices].max()))/2)
+            right = int(np.searchsorted(times, t, side='right'))
+            right = min(max(right, 1), len(times)-1)
+            left = right-1
+            if times[right]-times[left] > 100000000:
+                self.warn('Joint feedback gap >0.1 s; scan dropped'); return
+            alpha = (t-times[left])/max(1,times[right]-times[left])
+            q = dict(zip(self.model.moving, states[left]*(1-alpha)+states[right]*alpha))
+            removed[indices] = self.model.mask(xyz[indices], q)
+        out = CustomMsg()
+        for field in msg.get_fields_and_field_types():
+            if field not in ('points', 'point_num'):
+                setattr(out, field, getattr(msg, field))
+        out.points = [p for i,p in enumerate(msg.points) if not removed[i]]
+        out.point_num = len(out.points)
+        self.out.publish(out)
+        cloud = PointCloud2(); cloud.header = msg.header
+        cloud.height = 1; cloud.width = out.point_num; cloud.is_dense = True
+        cloud.fields = [PointField(name=k, offset=i*4, datatype=PointField.FLOAT32, count=1)
+                        for i,k in enumerate(('x','y','z','intensity'))]
+        cloud.point_step = 16; cloud.row_step = 16*out.point_num
+        cloud.data = np.array([(p.x,p.y,p.z,p.reflectivity) for p in out.points], dtype='<f4').tobytes()
+        self.view.publish(cloud)
+        self.stats.publish(String(data=json.dumps({'stamp':start/1e9, 'input':len(xyz),
+            'removed':int(removed.sum()), 'kept':out.point_num,
+            'near_1m_kept':int(((np.linalg.norm(xyz,axis=1)<1)&~removed).sum())})))
+        if end-self.last_markers > 500000000:
+            self.publish_markers(msg.header, q); self.last_markers = end
+
+    def publish_markers(self, header, q):
+        poses = self.model.poses(q); sensor = np.linalg.inv(poses['mid360_link'])
+        markers = MarkerArray()
+        for i,(link, origin, center, half) in enumerate(self.model.boxes):
+            T = sensor@poses[link]@origin
+            m = Marker(); m.header = header; m.ns = 'self_filter'; m.id = i
+            m.type = Marker.CUBE; m.action = Marker.ADD
+            position = T[:3,:3]@center+T[:3,3]
+            m.pose.position.x,m.pose.position.y,m.pose.position.z = map(float,position)
+            x,y,z,w = map(float,quaternion(T[:3,:3]))
+            m.pose.orientation.x=x; m.pose.orientation.y=y; m.pose.orientation.z=z; m.pose.orientation.w=w
+            m.scale.x,m.scale.y,m.scale.z = map(float,2*half)
+            m.color.r=.95; m.color.g=.5; m.color.b=.1; m.color.a=.2
+            markers.markers.append(m)
+        self.markers.publish(markers)
+
+
+def main():
+    rclpy.init(); node = SelfFilter()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok(): rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

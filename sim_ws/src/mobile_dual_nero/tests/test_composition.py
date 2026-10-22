@@ -1,7 +1,7 @@
 import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from mobile_dual_nero.model import compose, gazebo_model_paths
+from mobile_dual_nero.model import compose, gazebo_model_paths, RELAXED_ARM
 
 
 class CompositionTest(unittest.TestCase):
@@ -24,6 +24,35 @@ class CompositionTest(unittest.TestCase):
             self.assertIn(item.get('link1'), links)
             self.assertIn(item.get('link2'), links)
         self.assertEqual(s.find('virtual_joint').get('type'), 'planar')
+
+    def test_relaxed_initial_state_matches_named_pose_and_limits(self):
+        r, s = map(ET.fromstring, compose())
+        state = s.find("group_state[@name='relaxed'][@group='both_arms']")
+        self.assertEqual(len(state.findall('joint')), 14)
+        for joint in state.findall('joint'):
+            name, angle = joint.get('name'), float(joint.get('value'))
+            limit = r.find(f"joint[@name='{name}']/limit")
+            self.assertLessEqual(float(limit.get('lower')), angle)
+            self.assertLessEqual(angle, float(limit.get('upper')))
+            self.assertEqual(float(r.findtext(f"ros2_control/joint[@name='{name}']/state_interface[@name='position']/param[@name='initial_value']")), angle)
+        legacy = ET.fromstring(compose(startup_arm_pose='home')[0])
+        for side in ('left', 'right'):
+            for i in range(1, 8):
+                self.assertEqual(float(legacy.findtext(f"ros2_control/joint[@name='{side}_joint{i}']/state_interface[@name='position']/param[@name='initial_value']")), 0.0)
+
+    def test_mid360_mount_rotation_and_override(self):
+        import math
+        from mobile_dual_nero.mid360 import mount_pose
+        for preset, roll in [('chassis_up', 0.0), ('chest_down', math.pi)]:
+            r = ET.fromstring(compose(mid360_mount=preset)[0])
+            origin = r.find("joint[@name='mid360_joint']/origin")
+            self.assertAlmostEqual(float(origin.get('rpy').split()[0]), roll)
+            self.assertIsNotNone(r.find("gazebo/plugin[@name='nero_mid360']"))
+            self.assertIsNotNone(r.find("link[@name='mid360_link']/collision"))
+            self.assertEqual(r.findtext("gazebo[@reference='mid360_joint']/preserveFixedJoint"), 'true')
+        self.assertEqual(mount_pose('chassis_up', '.3 0 .4', '0 .1 0'), ([.3, 0., .4], [0., .1, 0.]))
+        with self.assertRaises(ValueError):
+            mount_pose('chassis_up', 'nan 0 0')
 
     def test_mount_parameter(self):
         r = ET.fromstring(compose('0.02 0 0.31')[0])

@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""Display-only estimated world→robot root; never changes simulation or LIO input."""
+import math
+
+
+def multiply(a, b):
+    x,y,z,w=a; X,Y,Z,W=b
+    return (w*X+x*W+y*Z-z*Y, w*Y-x*Z+y*W+z*X,
+            w*Z+x*Y-y*X+z*W, w*W-x*X-y*Y-z*Z)
+
+
+def base_pose(position, orientation, mount_xyz, mount_rpy):
+    r,p,y=[v/2 for v in mount_rpy]
+    sr,cr,sp,cp,sy,cy=math.sin(r),math.cos(r),math.sin(p),math.cos(p),math.sin(y),math.cos(y)
+    mount_q=(sr*cp*cy-cr*sp*sy, cr*sp*cy+sr*cp*sy,
+             cr*cp*sy-sr*sp*cy, cr*cp*cy+sr*sp*sy)
+    q=multiply(orientation, (-mount_q[0],-mount_q[1],-mount_q[2],mount_q[3]))
+    length=math.sqrt(sum(v*v for v in q));q=tuple(v/length for v in q)
+    offset=multiply(multiply(q,(*mount_xyz,0.)),(-q[0],-q[1],-q[2],q[3]))[:3]
+    return tuple(p-d for p,d in zip(position,offset)),q
+
+
+def main():
+    import rclpy
+    from rclpy.node import Node
+    from nav_msgs.msg import Odometry
+    from geometry_msgs.msg import TransformStamped
+    from tf2_ros import TransformBroadcaster
+
+    class RobotPose(Node):
+        def __init__(self):
+            super().__init__('mapping_robot_pose')
+            self.xyz=list(self.declare_parameter('mount_xyz',[0.,0.,0.]).value)
+            self.rpy=list(self.declare_parameter('mount_rpy',[0.,0.,0.]).value)
+            self.tf=TransformBroadcaster(self)
+            self.sub=self.create_subscription(Odometry,'/lio/odom',self.update,10)
+
+        def update(self,msg):
+            pose=msg.pose.pose
+            p,q=base_pose((pose.position.x,pose.position.y,pose.position.z),
+                (pose.orientation.x,pose.orientation.y,pose.orientation.z,pose.orientation.w),self.xyz,self.rpy)
+            transform=TransformStamped();transform.header=msg.header
+            transform.child_frame_id='lio_robot/base_link'
+            transform.transform.translation.x,transform.transform.translation.y,transform.transform.translation.z=p
+            transform.transform.rotation.x,transform.transform.rotation.y,transform.transform.rotation.z,transform.transform.rotation.w=q
+            self.tf.sendTransform(transform)
+
+    rclpy.init();node=RobotPose()
+    try:rclpy.spin(node)
+    except KeyboardInterrupt:pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok():rclpy.shutdown()
+
+
+if __name__=='__main__':main()

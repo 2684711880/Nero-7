@@ -5,6 +5,10 @@ import xacro
 from ament_index_python.packages import get_package_share_directory
 from ranger_air_gazebo.model import simulation_description
 
+# A natural hanging pose; positive joint2 lowers both mirrored shoulders.
+# Keep home/ready semantics intact for existing task files.
+RELAXED_ARM = (0.0, 1.25, 0.0, 0.0, 0.0, 0.0, 0.0)
+
 LINK_RENAMES = {'base_link': 'dual_nero_base_link', 'camera_link': 'dual_camera_link'}
 
 
@@ -13,8 +17,11 @@ def gazebo_model_paths():
             for package in ['mobile_dual_nero', 'ranger_air_description', 'dual_nero_moveit_config']]
 
 
-def compose(mount_xyz='0 0 0.275', mount_rpy='0 0 0'):
+def compose(mount_xyz='0 0 0.275', mount_rpy='0 0 0', startup_arm_pose='relaxed',
+            mid360_mount='none', mid360_xyz='', mid360_rpy='', mid360_points_per_second=128000):
     """Preserve both source descriptions; return one movable tree and one hardware system."""
+    if startup_arm_pose not in ('relaxed', 'home'):
+        raise ValueError('startup_arm_pose must be relaxed or home')
     dual = Path(get_package_share_directory('dual_nero_moveit_config'))
     share = Path(get_package_share_directory('mobile_dual_nero'))
     base = ET.fromstring(simulation_description())
@@ -41,6 +48,10 @@ def compose(mount_xyz='0 0 0.275', mount_rpy='0 0 0'):
         elif element.tag == 'ros2_control':
             for joint in element.findall('joint'):
                 base.find('ros2_control').append(deepcopy(joint))
+    for side in ('left', 'right'):
+        for i, angle in enumerate(RELAXED_ARM, 1):
+            initial = base.find(f"ros2_control/joint[@name='{side}_joint{i}']/state_interface[@name='position']/param[@name='initial_value']")
+            initial.text = str(angle if startup_arm_pose == 'relaxed' else 0.0)
     # Thin adapter plate on the chassis; plate top coincides with the torso base.
     xyz = [float(x) for x in mount_xyz.split()]
     if len(xyz) != 3 or len(mount_rpy.split()) != 3:
@@ -75,8 +86,17 @@ def compose(mount_xyz='0 0 0.275', mount_rpy='0 0 0'):
     # Keep the hand link available to the Gazebo grasp constraint.
     hand_gazebo = ET.SubElement(base, 'gazebo', reference='right_gripper_base_joint')
     ET.SubElement(hand_gazebo, 'preserveFixedJoint').text = 'true'
+    if mid360_mount != 'none':
+        from .mid360 import attach_mid360
+        attach_mid360(base, mid360_mount, mid360_xyz, mid360_rpy, mid360_points_per_second)
     semantic = ET.parse(dual / 'config/dual_nero.srdf').getroot()
     semantic.set('name', 'mobile_dual_nero')
+    for group, sides in [('left_arm', ('left',)), ('right_arm', ('right',)),
+                         ('both_arms', ('left', 'right'))]:
+        relaxed = ET.SubElement(semantic, 'group_state', name='relaxed', group=group)
+        for side in sides:
+            for i, angle in enumerate(RELAXED_ARM, 1):
+                ET.SubElement(relaxed, 'joint', name=f'{side}_joint{i}', value=str(angle))
     for item in list(semantic.findall('disable_collisions')):
         if 'world' in (item.get('link1'), item.get('link2')):
             semantic.remove(item)

@@ -1,0 +1,101 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Global Options:
+    Fixed Frame: world
+    Background Color: 28; 33; 39
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/RobotModel
+      Name: NERO robot (LIO pose)
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /lio/robot_description
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      TF Prefix: lio_robot
+      Visual Enabled: true
+      Collision Enabled: false
+      Alpha: 1
+    - Class: rviz_default_plugins/Grid
+      Name: Ground
+      Enabled: true
+      Cell Size: 1
+      Plane Cell Count: 24
+    - Class: rviz_default_plugins/PointCloud2
+      Name: LIO map
+      Enabled: true
+      Topic:
+        Value: /lio/cloud_world
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Style: Points
+      Size (Pixels): 2
+      Decay Time: 5
+      Color Transformer: AxisColor
+      Axis: Z
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Raw MID360 (before LIO filter)
+      Enabled: false
+      Topic:
+        Value: /mid360/points
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+      Style: Points
+      Size (Pixels): 2
+      Decay Time: 0
+      Color Transformer: FlatColor
+      Color: 0; 255; 255
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: MID360 after body filter
+      Enabled: false
+      Topic:
+        Value: /mid360/points_filtered
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+      Style: Points
+      Size (Pixels): 2
+      Decay Time: 0
+      Color Transformer: FlatColor
+      Color: 80; 255; 80
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Self filter body boxes
+      Enabled: false
+      Topic:
+        Value: /mid360/self_filter/bodies
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+    - Class: rviz_default_plugins/Path
+      Name: LIO path
+      Enabled: true
+      Topic:
+        Value: /lio/path
+      Color: 255; 170; 70
+      Line Style: Lines
+      Line Width: 0.03
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Target Frame: world
+      Distance: 16
+      Pitch: 0.7
+      Yaw: 0.9
+      Focal Point:
+        X: 0
+        Y: 1
+        Z: 0
+Window Geometry:
+  Width: 1100
+  Height: 800

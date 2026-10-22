@@ -1,0 +1,10 @@
+{
+  "algorithm": "superlio",
+  "lio_blind_m": 0.3,
+  "truth_displacement_m": 0.45013744897909846,
+  "estimated_displacement_m": 0.4399578843239711,
+  "translation_aligned_rmse_m": 0.014142568055898447,
+  "last_error_m": 0.012801054282920053,
+  "pipeline_passed": true,
+  "mapping_accuracy_passed": true
+}

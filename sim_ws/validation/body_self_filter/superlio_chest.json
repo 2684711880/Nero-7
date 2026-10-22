@@ -1,0 +1,9 @@
+{
+  "matched_scans": 8,
+  "all_livox_metadata_and_retained_points_unchanged": true,
+  "lio_odom_messages": 8,
+  "mean_removed_fraction": 0.23119616182768313,
+  "mean_near_1m_kept_per_scan": 839.0,
+  "sensor_self_return_fraction": 0.23111010448158031,
+  "scope": "Static pipeline and preservation check; not mapping-accuracy or false-positive-rate acceptance"
+}

@@ -1,0 +1,38 @@
+{
+  "mount": "chest_down",
+  "move": true,
+  "initial_collision_free": true,
+  "counts": {
+    "truth": 934,
+    "joints": 1855,
+    "imu": 2664,
+    "raw": 149,
+    "stats": 149,
+    "lio": 142,
+    "map": 141
+  },
+  "nonmonotonic_stamps": 0,
+  "bad_point_offsets": 0,
+  "mean_returns": 12563.845637583892,
+  "self_return_fraction": 0.2294887793624161,
+  "mean_imu_specific_force": [
+    0.02484263882670353,
+    -0.0001000636173324985,
+    -9.809960742283264
+  ],
+  "frequencies_hz": {
+    "joints": 100.0,
+    "imu": 178.7248322147651,
+    "raw": 10.0,
+    "lio": 9.999999999290779,
+    "map": 10.0
+  },
+  "truth_displacement_m": 0.45796847434321064,
+  "estimated_displacement_m": 0.4453521546635814,
+  "translation_aligned_rmse_m": 0.014565466897698803,
+  "last_error_m": 0.015169415758080075,
+  "map_voxels_5cm": 50975,
+  "pipeline_passed": true,
+  "raw_surface_error_p95_m": 1.2613944890017825e-05,
+  "mapping_accuracy_passed": true
+}

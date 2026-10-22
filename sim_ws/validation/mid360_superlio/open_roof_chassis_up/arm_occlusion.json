@@ -1,0 +1,32 @@
+{
+  "trajectory": "both shoulders from current ~1.25 rad to 1.0 rad and back, 4 seconds each way",
+  "path_checks": 11,
+  "summary": {
+    "relaxed": {
+      "frames": 30,
+      "self_fraction": 0.17261979166666666,
+      "mean_returns": 8077.266666666666
+    },
+    "moving_out": {
+      "frames": 40,
+      "self_fraction": 0.169173828125,
+      "mean_returns": 8046.85
+    },
+    "raised": {
+      "frames": 30,
+      "self_fraction": 0.16463844957929577,
+      "mean_returns": 8015.733333333334
+    },
+    "moving_back": {
+      "frames": 40,
+      "self_fraction": 0.169169921875,
+      "mean_returns": 8046.575
+    },
+    "restored": {
+      "frames": 30,
+      "self_fraction": 0.17247395833333334,
+      "mean_returns": 8075.666666666667
+    }
+  },
+  "completed": true
+}

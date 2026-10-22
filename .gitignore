@@ -39,3 +39,6 @@ sim_ws/validation/task_executor/demo_*/
 # Local base-mode validation journals
 sim_ws/validation/base_modes/**/state.json
 sim_ws/validation/base_modes/**/*.lock
+
+# Colcon output when invoked from the repository root
+/log/

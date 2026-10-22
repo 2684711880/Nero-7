@@ -6,6 +6,8 @@
 
 ## 运行（zsh）
 
+整车默认从 `relaxed` 双臂下垂姿态生成（左右 joint2 均为 1.25 rad，其余臂关节为 0）；这是仿真模型初始状态，启动后无需先执行收臂轨迹。原有 `home` / `ready` 命名目标保留原定义，新增 `relaxed` 可供左右臂及 both_arms 规划使用。参数 `startup_arm_pose:=home` 可恢复旧零位启动；便利店场景请使用默认下垂姿态，零位横展的手臂可能与邻近货架相交。
+
 整车运行时只需启动下面这一套，不要同时在同一 ROS 域内启动独立双臂或独立底盘。
 
 终端 1：
@@ -88,3 +90,39 @@ ros2 launch mobile_dual_nero verify_arms.launch.py
 ## 货物整理环境
 
 默认启动 `warehouse` 环境，含两组四层货架、两张工作台、一瓶动态水瓶和六个静态示例货箱。使用 `environment:=empty` 恢复原平地环境。尺寸及位置见 `mobile_dual_nero/environment.py`，Gazebo 和 MoveIt 使用同一几何定义。水瓶位姿从 `/gazebo/model_states` 同步到 MoveIt；初始 world 与 odom 对齐，底盘轮式里程计漂移尚未校正。抓取、搬运及导航尚未验证。
+
+## 便利店场景（MID360 布置测试的环境底图）
+
+```zsh
+cd /home/a/Nero-7/sim_ws
+source /opt/ros/humble/setup.zsh
+colcon build --packages-select mobile_dual_nero --cmake-args -DAMENT_CMAKE_SYMLINK_INSTALL=OFF
+source install/setup.zsh
+ros2 launch mobile_dual_nero gazebo_moveit.launch.py environment:=convenience_store
+```
+
+平面范围为 12 × 10 m，原点是机器人初始位置；x 正向为东，y 正向为北。入口在南侧 `(0, -5)`，宽 2 m。三排双面货架中心在 `(-2.5, 2.3)`、`(0, 2.3)`、`(2.5, 2.3)`，单排宽 0.85 m、长 3 m，排间净宽 1.65 m；层板上表面高 0.20 / 0.65 / 1.10 / 1.55 m，分类牌顶端 2.05 m。西侧还有靠墙商品架，东侧为三个 2.15 m 高冷柜；西南是收银台和咖啡台，东南是低促销岛，后排有不对称纸箱。原点周围半径 0.70 m 内没有环境碰撞物。
+
+参数和商品布局在 `mobile_dual_nero/convenience_store.py`，与旧仓库场景独立。货架、商品、柜体、收银台和墙体的几何同时生成 Gazebo 碰撞和 MoveIt 障碍物；地砖缝、价签、商品标签和冷柜门上的饮料图案仅作装饰，不进入 MoveIt。冷柜门为不透明几何近似，没有模拟玻璃透射、多径或反射率；场景现包含距地 3.10 m 的顶板碰撞（仅隐藏顶板视觉，便于观察），南侧上半部分也参与碰撞；半透明显示仅是预览效果，没有玻璃光学模型。通道宽度是场景尺寸，不代表伸臂行驶已经通过碰撞验证。
+
+此入口仍使用现有机器人模型，尚未安装 MID360、生成雷达点云或接入 SLAM。后续须接入带真实遮挡的雷达仿真与 TF/IMU，再对比同一路径上的收臂、伸臂和运动工况；仅凭当前场景无法判断安装位置或建图干扰。切回旧整理任务使用 `environment:=warehouse`，旧任务目标坐标不适用于便利店。
+
+
+便利店验证记录见 `sim_ws/validation/convenience_store/acceptance.json`，复核脚本为同目录 `verify_scene.py`（只读，不发布运动命令）。2026-10-21 初版（未装雷达、未加顶板）在独立 ROS 域 89、Gazebo master 11489 完成场景加载与下垂姿态验证：467 个环境模型，其中 214 个物理障碍物全部进入 MoveIt，另有 1 个 MoveIt 地面；整车当前状态碰撞检查通过。10 秒静置采样中，底盘最大倾角约 0.15°、距生成原点最大约 5.3 mm。肩关节与目标相差约 0.006 rad；右腕 joint7 的反馈相对初值仍偏约 0.146 rad，本轮未修改已有位置接口/关节动力学，因此该记录仅验证下垂外形、静置稳定性和当前碰撞状态，不表示全关节高精度保持。9 项包内测试通过。未运行机器人行驶、抓取、MID360 点云或 SLAM 验证。
+
+## 装 MID360 并运行 Super-LIO
+
+本机已接入可选的 `nero_mid360_sim` 插件和 `store_superlio.launch.py`。推荐从项目根目录运行：
+
+```zsh
+cd /home/a/Nero-7
+bash scripts/run_store_mapping.sh mid360_mount:=chassis_up
+# 再次执行会自动重启本工程仿真，切换胸前倒装：
+bash scripts/run_store_mapping.sh mid360_mount:=chest_down
+```
+
+两个预设及坐标定义见 `config/mid360_mounts.yaml`，可追加 `mid360_xyz:="0.18 0 0.78" mid360_rpy:="3.141592653589793 0 0"` 覆盖。此时单位为米、弧度，父坐标系是 AIR `base_link`；胸前位置不会随手臂关节运动。新脚本将完整仿真放在 ROS 域 89 / Gazebo 11489；键盘或机械臂控制终端须使用相同域。默认启动姿态仍为双臂下垂。
+
+详细流程、几何/IMU 近似、算法近距过滤与证据边界见 `../nero_mid360_sim/README.md`。普通 `gazebo_moveit.launch.py` 仍默认不装雷达；需要用它单独生成雷达时传 `mid360_mount:=chassis_up|chest_down`。
+
+建图对照实验中，`air_keyboard` 还支持 **T** 切换双臂小幅摆动（默认关闭，左右臂交替前后摆动，±17.2°、8 秒一轮）；空格同时停车和停止摆臂。用法和前置条件见 [建图说明](../nero_mid360_sim/README.md)。

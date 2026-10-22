@@ -50,17 +50,21 @@ def warehouse_objects():
 
 def collision_rows(objects):
     """String rows preserve a simple typed ROS parameter interface to C++."""
-    return [' '.join(map(str, [o['name'], o['kind'], *o['size'], *o['xyz']])) for o in objects]
+    return [' '.join(map(str, [o['name'], o['kind'], *o['size'], *o['xyz']])) for o in objects if o.get('collision', True)]
 
 
-def world_xml(template, objects):
+def world_xml(template, objects, scene='warehouse'):
     root = ET.parse(template).getroot()
     world = root.find('world')
-    world.set('name', 'sorting_warehouse')
+    world.set('name', 'convenience_store' if scene == 'convenience_store' else 'sorting_warehouse')
     world.find('gui/camera/pose').text = '-5 -6 4.6 0 .48 .75'
     world.find('scene/background').text = '.83 .88 .92 1'
     world.find('.//visual[@name="ground_visual"]/material/ambient').text = '.48 .51 .54 1'
     world.find('.//visual[@name="ground_visual"]/material/diffuse').text = '.48 .51 .54 1'
+    if scene == 'convenience_store':
+        world.find('gui/camera/pose').text = '10 -13 11 0 .60 2.22'
+        for key in ('ambient', 'diffuse'):
+            world.find(f'.//visual[@name="ground_visual"]/material/{key}').text = '.84 .85 .80 1'
     for obj in objects:
         model = ET.SubElement(world, 'model', name=obj['name'])
         ET.SubElement(model, 'static').text = 'false' if 'mass' in obj else 'true'
@@ -76,8 +80,12 @@ def world_xml(template, objects):
                                    iyy=mass*(3*radius**2+height**2)/12,
                                    izz=mass*radius**2/2, ixy=0, ixz=0, iyz=0).items():
                 ET.SubElement(inertia, key).text = str(value)
-        for tag in ['collision', 'visual']:
+        for tag in (['collision', 'visual'] if obj.get('collision', True) else ['visual']):
+            if tag == 'visual' and not obj.get('visible', True):
+                continue
             element = ET.SubElement(link, tag, name='body_' + tag)
+            if tag == 'visual' and 'transparency' in obj:
+                ET.SubElement(element, 'transparency').text = str(obj['transparency'])
             geometry = ET.SubElement(element, 'geometry')
             primitive = ET.SubElement(geometry, obj['kind'])
             if obj['kind'] == 'box':

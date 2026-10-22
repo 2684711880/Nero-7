@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+"""Normalize FAST-LIO's IMU-local map frame for the common LIO viewer.
+
+One fixed gravity alignment is estimated from initial stationary accelerometer
+samples. This rotates outputs only; no simulator truth enters the estimator.
+"""
+import copy
+import math
+import numpy as np
+
+
+def multiply(a,b):
+    x,y,z,w=a;X,Y,Z,W=b
+    return np.array([w*X+x*W+y*Z-z*Y,w*Y-x*Z+y*W+z*X,
+                     w*Z+x*Y-y*X+z*W,w*W-x*X-y*Y-z*Z])
+
+
+def matrix(q):
+    x,y,z,w=q/np.linalg.norm(q)
+    return np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],
+                     [2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],
+                     [2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])
+
+
+def gravity_alignment(acc):
+    a=np.array(acc,dtype=float,copy=True);a/=np.linalg.norm(a)
+    q=np.array([1.,0.,0.,0.]) if a[2]<-1+1e-8 else np.array([a[1],-a[0],0.,1+a[2]])
+    q/=np.linalg.norm(q);R=matrix(q)
+    yaw=math.atan2(R[1,0],R[0,0])
+    q=multiply(np.array([0.,0.,math.sin(-yaw/2),math.cos(-yaw/2)]),q)
+    return matrix(q),q
+
+
+def main():
+    import rclpy
+    from rclpy.node import Node
+    from rclpy.qos import qos_profile_sensor_data
+    from sensor_msgs.msg import Imu,PointCloud2
+    from nav_msgs.msg import Odometry,Path
+    from geometry_msgs.msg import TransformStamped
+    from tf2_ros import TransformBroadcaster
+
+    class Adapter(Node):
+        def __init__(self):
+            super().__init__('fastlio_output_adapter');self.R=None;self.q=None;self.acc=[]
+            self.tf=TransformBroadcaster(self)
+            self.odom_pub=self.create_publisher(Odometry,'/lio/odom',10)
+            self.cloud_pub=self.create_publisher(PointCloud2,'/lio/cloud_world',10)
+            self.path_pub=self.create_publisher(Path,'/lio/path',10)
+            self.subs=[self.create_subscription(Imu,'/mid360/imu',self.imu,qos_profile_sensor_data),
+                       self.create_subscription(Odometry,'/fastlio/odom',self.odom,10),
+                       self.create_subscription(PointCloud2,'/fastlio/cloud_world',self.cloud,10),
+                       self.create_subscription(Path,'/fastlio/path',self.path,10)]
+
+        def imu(self,msg):
+            if self.R is not None:return
+            v=msg.linear_acceleration;self.acc.append([v.x,v.y,v.z])
+            if len(self.acc)>=100:
+                self.R,self.q=gravity_alignment(np.mean(self.acc,axis=0))
+                self.get_logger().info('FAST-LIO output gravity alignment ready (100 IMU samples, no truth input)')
+
+        def transform_pose(self,pose):
+            p=pose.position;q=pose.orientation
+            xyz=self.R@np.array([p.x,p.y,p.z]);qq=multiply(self.q,np.array([q.x,q.y,q.z,q.w]))
+            p.x,p.y,p.z=map(float,xyz);q.x,q.y,q.z,q.w=map(float,qq)
+
+        def odom(self,msg):
+            if self.R is None:return
+            out=copy.deepcopy(msg);out.header.frame_id='world';out.child_frame_id='imu'
+            self.transform_pose(out.pose.pose)
+            A=np.zeros((6,6));A[:3,:3]=A[3:,3:]=self.R
+            out.pose.covariance=(A@np.array(msg.pose.covariance).reshape(6,6)@A.T).reshape(-1).tolist()
+            self.odom_pub.publish(out)
+            t=TransformStamped();t.header=out.header;t.child_frame_id='imu'
+            t.transform.translation.x=out.pose.pose.position.x;t.transform.translation.y=out.pose.pose.position.y;t.transform.translation.z=out.pose.pose.position.z
+            t.transform.rotation=out.pose.pose.orientation;self.tf.sendTransform(t)
+
+        def cloud(self,msg):
+            if self.R is None:return
+            out=copy.deepcopy(msg);out.header.frame_id='world';out.data=bytearray(msg.data)
+            endian='>' if msg.is_bigendian else '<'
+            fields={f.name:f for f in msg.fields}
+            views=[np.ndarray((msg.height,msg.width),dtype=endian+'f4',buffer=out.data,
+                              offset=fields[k].offset,strides=(msg.row_step,msg.point_step)) for k in ['x','y','z']]
+            points=np.stack(views,axis=-1)@self.R.T
+            for i,view in enumerate(views):view[:]=points[...,i]
+            self.cloud_pub.publish(out)
+
+        def path(self,msg):
+            if self.R is None:return
+            out=copy.deepcopy(msg);out.header.frame_id='world'
+            for pose in out.poses:
+                pose.header.frame_id='world';self.transform_pose(pose.pose)
+            self.path_pub.publish(out)
+
+    rclpy.init();node=Adapter()
+    try:rclpy.spin(node)
+    except KeyboardInterrupt:pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok():rclpy.shutdown()
+
+
+if __name__=='__main__':main()

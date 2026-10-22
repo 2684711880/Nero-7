@@ -1,0 +1,16 @@
+{
+  "completed": true,
+  "samples": 2339,
+  "shoulder_ranges": {
+    "left": [
+      1.0555897127724974,
+      1.2555829812994892
+    ],
+    "right": [
+      1.0555632288491106,
+      1.2555570115732433
+    ]
+  },
+  "base_motion_commanded": false,
+  "sampled_collision_checks_per_cycle": 11
+}

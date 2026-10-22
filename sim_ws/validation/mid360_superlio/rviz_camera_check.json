@@ -1,0 +1,9 @@
+{
+  "move_camera_first_tool": true,
+  "left_drag_pixels": [
+    60,
+    20
+  ],
+  "viewport_changed_fraction": 0.1447534766118837,
+  "passed": true
+}

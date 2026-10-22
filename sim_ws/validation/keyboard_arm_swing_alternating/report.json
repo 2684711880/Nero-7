@@ -1,0 +1,16 @@
+{
+  "completed": true,
+  "samples": 1779,
+  "joint1_ranges": {
+    "left": [
+      -0.29989310354696386,
+      0.3000934781903437
+    ],
+    "right": [
+      -0.30018997081037835,
+      0.2997928249096695
+    ]
+  },
+  "base_motion_commanded": false,
+  "sampled_collision_checks_per_cycle": 21
+}

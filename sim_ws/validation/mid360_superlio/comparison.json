@@ -1,0 +1,24 @@
+{
+  "chassis_up": {
+    "ceiling": true,
+    "truth_displacement_m": 0.45797520121516666,
+    "estimated_displacement_m": 0.4510849151297661,
+    "translation_aligned_rmse_m": 0.012437900753855726,
+    "last_error_m": 0.014972845212416427,
+    "self_return_fraction": 0.17255243288590605,
+    "raw_surface_error_p95_m": 2.1678475142172804e-05,
+    "pipeline_passed": true,
+    "mapping_accuracy_passed": true
+  },
+  "chest_down": {
+    "ceiling": true,
+    "truth_displacement_m": 0.4503205860261362,
+    "estimated_displacement_m": 0.4413773619338818,
+    "translation_aligned_rmse_m": 0.013166433487989142,
+    "last_error_m": 0.011006951596854879,
+    "self_return_fraction": 0.22946368243243243,
+    "raw_surface_error_p95_m": 1.2707768007090557e-05,
+    "pipeline_passed": true,
+    "mapping_accuracy_passed": true
+  }
+}

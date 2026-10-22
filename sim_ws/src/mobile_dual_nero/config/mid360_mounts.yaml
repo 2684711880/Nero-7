@@ -1,0 +1,8 @@
+# All xyz/rpy are in the AIR base_link frame, metres/radians.
+# Estimated fixtures, not measured hardware dimensions. Change and restart.
+chassis_up:
+  xyz: [0.20, 0.0, 0.31]
+  rpy: [0.0, 0.0, 0.0]
+chest_down:
+  xyz: [0.16, 0.0, 0.76]
+  rpy: [3.141592653589793, 0.0, 0.0]

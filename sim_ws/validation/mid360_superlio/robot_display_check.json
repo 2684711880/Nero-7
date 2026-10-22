@@ -1,0 +1,7 @@
+{
+  "robot_description_received": true,
+  "estimated_sensor_frame": "lio_robot/mid360_link",
+  "position_closure_error_m": 2.2887833992611187e-16,
+  "quaternion_abs_dot": 1.0000025628892024,
+  "passed": true
+}

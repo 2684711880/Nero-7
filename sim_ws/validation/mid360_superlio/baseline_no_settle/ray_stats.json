@@ -1,0 +1,16 @@
+[
+  {
+    "stamp": 99.997,
+    "rays": 3199,
+    "self_hits": 551,
+    "environment_hits": 1441,
+    "returns": 1992
+  },
+  {
+    "stamp": 100.097,
+    "rays": 3200,
+    "self_hits": 549,
+    "environment_hits": 1452,
+    "returns": 2001
+  }
+]

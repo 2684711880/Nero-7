@@ -1,0 +1,10 @@
+{
+  "algorithm": "fastlio2",
+  "lio_blind_m": 0.3,
+  "truth_displacement_m": 0.4582479732308513,
+  "estimated_displacement_m": 0.4610853362640058,
+  "translation_aligned_rmse_m": 0.02014488444099094,
+  "last_error_m": 0.022875287767546708,
+  "pipeline_passed": true,
+  "mapping_accuracy_passed": true
+}

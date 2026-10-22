@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>nero_mid360_sim</name><version>0.1.0</version>
+  <description>Gazebo collision raycasting and co-located ideal IMU for NERO MID360 mount experiments.</description>
+  <maintainer email="local@example.com">258</maintainer><license>BSD-3-Clause</license>
+  <buildtool_depend>ament_cmake</buildtool_depend><buildtool_depend>ament_cmake_python</buildtool_depend>
+  <depend>rclcpp</depend><depend>gazebo_dev</depend><depend>gazebo_ros</depend>
+  <depend>livox_ros_driver2</depend><depend>sensor_msgs</depend><depend>std_msgs</depend>
+  <exec_depend>mobile_dual_nero</exec_depend><exec_depend>super_lio</exec_depend>
+  <exec_depend>launch_ros</exec_depend><exec_depend>rclpy</exec_depend>
+  <exec_depend>tf2_ros</exec_depend><exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>fast_lio</exec_depend><exec_depend>python3-numpy</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend><exec_depend>python3-yaml</exec_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

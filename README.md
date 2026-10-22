@@ -197,3 +197,18 @@ source scripts/official_control_env.sh
 本次发布前的干净克隆构建与 35 项测试记录见 [publication_20261015.json](sim_ws/validation/publication_20261015.json)。
 
 可选底盘纯平移、纯转向及同步组合运动已接入独立 C++ 跟踪器，原分段模式保留。说明与示例见 [base_motion_modes.md](docs/base_motion_modes.md)。
+
+## MID360 安装方案与 Super-LIO 便利店建图
+
+```zsh
+cd /home/a/Nero-7
+bash scripts/run_store_mapping.sh mid360_mount:=chassis_up
+# 直接重新运行，自动切换胸前倒装：
+bash scripts/run_store_mapping.sh mid360_mount:=chest_down
+```
+
+传 `mid360_xyz:="0.18 0 0.78" mid360_rpy:="3.141592653589793 0 0"` 可覆盖安装位姿。安装预设文件为 `sim_ws/src/mobile_dual_nero/config/mid360_mounts.yaml`（AIR base_link 下的 m/rad）。此功能使用 Gazebo 碰撞几何射线和理想 IMU，不启动实体雷达驱动。完整说明与编译命令见 [MID360 仿真说明](sim_ws/src/nero_mid360_sim/README.md)，短程验收和自体回波测试数据在 `sim_ws/validation/mid360_superlio/`。
+
+建图后端可切换：`algorithm:=fastlio2` 或 `algorithm:=superlio`，统一用 `lio_blind:=0.3`（单位米）修改算法近距剔除。不传阈值时，FAST-LIO2 为 0.3 m、Super-LIO 为 2.0 m。RViz 中勾选 `Raw MID360 (before LIO filter)` 可检查过滤前的原始回波。
+
+建图对照实验中，`air_keyboard` 还支持 **T** 切换双臂小幅摆动（默认关闭，左右臂交替前后摆动，±17.2°、8 秒一轮）；空格同时停车和停止摆臂。用法和前置条件见 [建图说明](sim_ws/src/nero_mid360_sim/README.md)。

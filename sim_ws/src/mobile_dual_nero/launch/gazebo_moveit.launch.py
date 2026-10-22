@@ -11,6 +11,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from mobile_dual_nero.model import compose, gazebo_model_paths
 from mobile_dual_nero.planning import planning_config
+from mobile_dual_nero.convenience_store import convenience_store_objects
 from mobile_dual_nero.environment import warehouse_objects, collision_rows, world_xml
 
 
@@ -31,17 +32,26 @@ def setup(context):
     air = Path(get_package_share_directory('ranger_air_gazebo'))
     gazebo = Path(get_package_share_directory('gazebo_ros'))
     description, semantic = compose(LaunchConfiguration('mount_xyz').perform(context),
-                                    LaunchConfiguration('mount_rpy').perform(context))
+                                    LaunchConfiguration('mount_rpy').perform(context),
+                                    LaunchConfiguration('startup_arm_pose').perform(context),
+                                    mid360_mount=LaunchConfiguration('mid360_mount').perform(context),
+                                    mid360_xyz=LaunchConfiguration('mid360_xyz').perform(context),
+                                    mid360_rpy=LaunchConfiguration('mid360_rpy').perform(context),
+                                    mid360_points_per_second=int(LaunchConfiguration('mid360_points_per_second').perform(context)))
     config = planning_config(description, semantic)
     sim = {'use_sim_time': True}
     environment = LaunchConfiguration('environment').perform(context)
-    objects = warehouse_objects() if environment == 'warehouse' else []
+    objects = {'warehouse': warehouse_objects,
+               'convenience_store': lambda: convenience_store_objects(
+                   ceiling=LaunchConfiguration('ceiling').perform(context).lower() == 'true'),
+               'empty': lambda: []}[environment]()
+    has_bottle = any(obj['name'] == 'water_bottle' for obj in objects)
     world = str(air / 'worlds/control.world')
     if objects:
         # Unique launch-local file, generated from the same geometry sent to MoveIt.
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.world', prefix='nero-warehouse-', delete=False) as f:
-            xml = world_xml(world, objects)
-            if LaunchConfiguration('sim_grasp').perform(context) == 'true':
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.world', prefix=f'nero-{environment}-', delete=False) as f:
+            xml = world_xml(world, objects, scene=environment)
+            if has_bottle and LaunchConfiguration('sim_grasp').perform(context) == 'true':
                 xml = xml.replace('</world>', '<plugin name="bottle_grasp" filename="libbottle_grasp.so"/></world>')
             f.write(xml)
             world = f.name
@@ -67,7 +77,7 @@ def setup(context):
     ground = Node(package='mobile_dual_nero', executable='add_ground', output='screen',
                   parameters=[{'environment_objects': collision_rows(objects)}] if objects else [])
     sync = Node(package='mobile_dual_nero', executable='sync_bottle', output='screen',
-                parameters=[sim], condition=IfCondition(str(bool(objects)).lower()))
+                parameters=[sim], condition=IfCondition(str(has_bottle).lower()))
     command_bridge = Node(package='mobile_dual_nero', executable='official_command_bridge',
                           output='screen', parameters=[config.to_dict(), sim],
                           condition=IfCondition(LaunchConfiguration('command_bridge')))
@@ -77,7 +87,12 @@ def setup(context):
                             config.robot_description_kinematics, config.planning_pipelines,
                             config.joint_limits, sim],
                 arguments=['-d', str(share / 'config/moveit.rviz')])
+    sensor_paths = []
+    if LaunchConfiguration('mid360_mount').perform(context) != 'none':
+        sensor_share = Path(get_package_share_directory('nero_mid360_sim'))
+        sensor_paths = [AppendEnvironmentVariable('GAZEBO_PLUGIN_PATH', str(sensor_share.parent.parent / 'lib'))]
     return [
+        *sensor_paths,
         # Gazebo converts package:// mesh URIs to model://; each isolated colcon
         # prefix needs its own share directory in the client's search path.
         *[AppendEnvironmentVariable('GAZEBO_MODEL_PATH', path) for path in gazebo_model_paths()],
@@ -106,9 +121,15 @@ def generate_launch_description():
         DeclareLaunchArgument('gui', default_value='true'),
         DeclareLaunchArgument('sim_grasp', default_value='false'),
         DeclareLaunchArgument('ground_truth_odometry', default_value='false'),
-        DeclareLaunchArgument('environment', default_value='warehouse', choices=['warehouse', 'empty']),
+        DeclareLaunchArgument('environment', default_value='warehouse', choices=['warehouse', 'convenience_store', 'empty']),
         DeclareLaunchArgument('use_rviz', default_value='true'),
         DeclareLaunchArgument('command_bridge', default_value='true'),
+        DeclareLaunchArgument('startup_arm_pose', default_value='relaxed', choices=['relaxed', 'home']),
+        DeclareLaunchArgument('ceiling', default_value='true', choices=['true', 'false']),
+        DeclareLaunchArgument('mid360_mount', default_value='none', choices=['none', 'chassis_up', 'chest_down']),
+        DeclareLaunchArgument('mid360_xyz', default_value=''),
+        DeclareLaunchArgument('mid360_rpy', default_value=''),
+        DeclareLaunchArgument('mid360_points_per_second', default_value='128000'),
         DeclareLaunchArgument('mount_xyz', default_value='0 0 0.275'),
         DeclareLaunchArgument('mount_rpy', default_value='0 0 0'),
         OpaqueFunction(function=setup),

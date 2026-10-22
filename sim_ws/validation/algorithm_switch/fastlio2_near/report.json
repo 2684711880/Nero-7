@@ -1,0 +1,41 @@
+{
+  "mount": "chest_down",
+  "ceiling": true,
+  "move": true,
+  "initial_collision_free": true,
+  "counts": {
+    "truth": 919,
+    "joints": 1825,
+    "imu": 2690,
+    "raw": 146,
+    "stats": 146,
+    "lio": 141,
+    "map": 141
+  },
+  "nonmonotonic_stamps": 0,
+  "bad_point_offsets": 0,
+  "mean_returns": 12693.568493150686,
+  "self_return_fraction": 0.2294327910958904,
+  "mean_imu_specific_force": [
+    0.0251638565385289,
+    -0.0001071904644814763,
+    -9.81003569714902
+  ],
+  "frequencies_hz": {
+    "joints": 99.94520547945206,
+    "imu": 184.17808219178082,
+    "raw": 10.0,
+    "lio": 10.0,
+    "map": 10.0
+  },
+  "truth_displacement_m": 0.4582479732308513,
+  "estimated_displacement_m": 0.4610853362640058,
+  "translation_aligned_rmse_m": 0.02014488444099094,
+  "last_error_m": 0.022875287767546708,
+  "map_voxels_5cm": 55439,
+  "pipeline_passed": true,
+  "raw_surface_error_p95_m": 1.2626686845428752e-05,
+  "mapping_accuracy_passed": true,
+  "algorithm": "fastlio2",
+  "lio_blind_m": 0.3
+}
