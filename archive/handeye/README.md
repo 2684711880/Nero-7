@@ -1,0 +1,10 @@
+# 手眼标定样本归档
+
+本目录保留从工程根目录迁入的原始样本和求解结果，未修改其内容；`manifest_sha256.json` 按原文件名保存迁移前的 SHA-256。
+
+- `left_d405/`：左腕 D405 的 small 系列样本与结果。
+- `right_d405/`：右腕 D405 原始 15 组与去掉第 11 组后的 14 组结果。
+- `fixed_336l/`：中间固定 336L 的 obzg 系列结果。
+- `earlier_sessions/`：较早采集及试算结果；未依据文件名推断相机身份。空文件 `10.28` 也原样保留。
+
+实际使用的左腕配置在 `config/handeye/can1_d405.json`，右腕配置在 `hardware_ws/src/nero_dual_bringup/config/right_d405_handeye.json`；归档文件本身不会自动发布 TF。历史 `calibration_data/` 会话快照保留其生成时记录的原始路径，可能仍显示迁移前路径；可依据文件名和哈希在此目录查找。所有标定结果均需结合各自配置的验证状态使用。

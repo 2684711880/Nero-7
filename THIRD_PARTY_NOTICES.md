@@ -1,5 +1,28 @@
 # Third-party sources
 
+## ICP hand-eye solver
+
+`third_party/eye_hand_calib_pointcloud` is the Linux RegHEC fork from
+https://github.com/payam-nourizadeh/eye_hand_calib_pointcloud at commit
+`2cb4f0a98f595b5731490771fb551e13d20339d8`. Its README declares MIT but the
+referenced LICENSE file is absent from this checkout. `scripts/reghec_compat.patch`
+adapts current Sophus and accepts an optional initial matrix; the AA-ICP optimizer
+is otherwise retained. Limbo (`43c67a6999a40a3349aa6d0f152f853e028ed509`,
+CeCILL-C) and Sophus (`d0b7315a0d90fc6143defa54596a3a95d9fa10ec`, MIT)
+retain their upstream license files. NLopt runtime is extracted locally from
+Ubuntu packages, not installed system-wide.
+
+## Hand-eye RViz components
+
+`calibration_ws/src/moveit_calibration` and `calibration_ws/src/moveit_visual_tools`
+are imported from the local ArmHub source snapshot. Upstream repositories and
+commits are recorded in `calibration_ws/sources.json`; original package licenses,
+copyright headers, and existing Humble compatibility changes (`imported.patch`)
+are retained. NERO changes retain configured TF frame names during discovery and
+initialize the sensor-mount selection index.
+
+`scripts/realsense_rectify.py` reuses the local ArmHub SDK-deprojection map helper.
+
 ## AgileX RANGER AIR
 
 - Source: https://github.com/agilexrobotics/ugv_gazebo_sim
@@ -30,6 +53,9 @@
 Source and runtime validation evidence are separate: the snapshots and reports in sim_ws/validation document local simulator runs and do not establish real-hardware correctness or calibrated payload limits.
 
 ## AgileX official ROS driver and SDK (submodules)
+
+Local changes to the pinned ROS driver are preserved in `deps/agx_arm_ros-local.patch`;
+`scripts/build_official_control.sh` applies the patch when preparing a checkout.
 
 - ROS driver: https://github.com/agilexrobotics/agx_arm_ros
   - Pinned commit: `bc485ab8e3d25abbcd3a1b58c105be12bad5dadc`

@@ -46,3 +46,11 @@ def test_rejection_identifies_joint():
     swing.toggle()
     assert not swing.enabled
     assert 'right_joint4' in swing.logs[-1]
+
+
+def test_swing_accepts_new_tucked_j2_pose():
+    swing = swing_at_extremum()
+    for side in ('left', 'right'):
+        swing.feedback.position[swing.feedback.name.index(f'{side}_joint2')] = 1.45
+    swing.toggle()
+    assert swing.enabled, swing.logs

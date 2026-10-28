@@ -6,7 +6,11 @@ import yaml
 from ament_index_python.packages import get_package_share_directory
 
 
-def mount_pose(preset, xyz='', rpy=''):
+def moves_with_upper_body(preset):
+    return preset in ('chest_down', 'head_tilt')
+
+
+def mount_pose(preset, xyz='', rpy='', tilt_deg=''):
     mounts = yaml.safe_load((Path(get_package_share_directory('mobile_dual_nero')) /
                              'config/mid360_mounts.yaml').read_text())
     if preset not in mounts:
@@ -16,11 +20,18 @@ def mount_pose(preset, xyz='', rpy=''):
         if len(result) != 3 or not all(math.isfinite(v) for v in result):
             raise ValueError('MID360 xyz/rpy must contain three finite numbers')
         return result
-    return vec(xyz, mounts[preset]['xyz']), vec(rpy, mounts[preset]['rpy'])
+    fallback_rpy = list(mounts[preset]['rpy'])
+    if preset == 'head_tilt' and str(tilt_deg).strip():
+        tilt = float(tilt_deg)
+        if not math.isfinite(tilt) or not -90 <= tilt <= 90:
+            raise ValueError('mid360_tilt_deg must be in [-90, 90] degrees')
+        fallback_rpy = [0., math.radians(tilt), 0.]
+    # An explicit complete rpy override takes precedence over the tilt convenience argument.
+    return vec(xyz, mounts[preset]['xyz']), vec(rpy, fallback_rpy)
 
 
-def attach_mid360(root, preset, xyz='', rpy='', points_per_second=128000):
-    xyz, rpy = mount_pose(preset, xyz, rpy)
+def attach_mid360(root, preset, xyz='', rpy='', points_per_second=128000, upper_xyz=(0,0,.275), upper_rpy=(0,0,0), tilt_deg=''):
+    xyz, rpy = mount_pose(preset, xyz, rpy, tilt_deg)
     points_per_second = int(points_per_second)
     if not 1000 <= points_per_second <= 200000:
         raise ValueError('mid360_points_per_second must be in [1000, 200000]')
@@ -39,9 +50,26 @@ def attach_mid360(root, preset, xyz='', rpy='', points_per_second=128000):
     ET.SubElement(ET.SubElement(cap, 'geometry'), 'cylinder', radius='.029', length='.008')
     ET.SubElement(ET.SubElement(cap, 'material', name='mid360_lens'), 'color', rgba='.06 .19 .24 1')
     joint = ET.SubElement(root, 'joint', name='mid360_joint', type='fixed')
-    ET.SubElement(joint, 'parent', link='base_link')
+    parent = 'base_link'
+    local_xyz, local_rpy = xyz, rpy
+    if moves_with_upper_body(preset):
+        import numpy as np
+        def rotation(v):
+            r,p,y = v; cr,sr,cp,sp,cy,sy = math.cos(r),math.sin(r),math.cos(p),math.sin(p),math.cos(y),math.sin(y)
+            return np.array([[cy*cp,cy*sp*sr-sy*cr,cy*sp*cr+sy*sr],
+                             [sy*cp,sy*sp*sr+cy*cr,sy*sp*cr-cy*sr],[-sp,cp*sr,cp*cr]])
+        upper_R = rotation(upper_rpy)
+        local_xyz = upper_R.T@(np.array(xyz)-np.array(upper_xyz))
+        R = upper_R.T@rotation(rpy)
+        p = math.asin(max(-1.,min(1.,-R[2,0])))
+        if abs(math.cos(p)) > 1e-8:
+            local_rpy = [math.atan2(R[2,1],R[2,2]),p,math.atan2(R[1,0],R[0,0])]
+        else:
+            local_rpy = [math.atan2(-R[1,2],R[1,1]),p,0.]
+        parent = 'dual_nero_base_link'
+    ET.SubElement(joint, 'parent', link=parent)
     ET.SubElement(joint, 'child', link='mid360_link')
-    ET.SubElement(joint, 'origin', xyz=' '.join(map(str, xyz)), rpy=' '.join(map(str, rpy)))
+    ET.SubElement(joint, 'origin', xyz=' '.join(map(str, local_xyz)), rpy=' '.join(map(str, local_rpy)))
     ET.SubElement(ET.SubElement(root, 'gazebo', reference='mid360_joint'), 'preserveFixedJoint').text = 'true'
     plugin = ET.SubElement(ET.SubElement(root, 'gazebo'), 'plugin',
                            name='nero_mid360', filename='libnero_mid360.so')

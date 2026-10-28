@@ -3,7 +3,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
-from mobile_dual_nero.convenience_store import convenience_store_objects, RACK_X, RACK_WIDTH
+from mobile_dual_nero.convenience_store import convenience_store_objects, RACK_X, RACK_WIDTH, RACK_HEIGHT, AISLE_WIDTH
 from mobile_dual_nero.environment import warehouse_objects, collision_rows, world_xml
 
 
@@ -44,6 +44,24 @@ class EnvironmentTest(unittest.TestCase):
         self.assertIsNone(world.find("model[@name='store_ceiling']"))
         self.assertNotIn('store_ceiling', {row.split()[0] for row in collision_rows(objects)})
 
+    def test_store_shelves_height_and_clear_aisles(self):
+        objects = convenience_store_objects()
+        extents = []
+        for rack in range(3):
+            parts = [o for o in objects if o['name'].startswith(f'gondola_{rack}_')]
+            # Include goods, signs and visual-only price strips in the envelope.
+            def half(o):
+                return (o['size'][0]/2, o['size'][1]/2, o['size'][2]/2) if o['kind']=='box' else (o['size'][1], o['size'][1], o['size'][0]/2)
+            top = max(o['xyz'][2]+half(o)[2] for o in parts)
+            self.assertAlmostEqual(top, 1.80)
+            extents.append((min(o['xyz'][0]-half(o)[0] for o in parts),
+                            max(o['xyz'][0]+half(o)[0] for o in parts)))
+        for previous, current in zip(extents, extents[1:]):
+            self.assertAlmostEqual(current[0]-previous[1], 1.20)
+        wall = [o for o in objects if o['name'].startswith(('wall_shelf_', 'wall_goods_'))]
+        self.assertAlmostEqual(max(o['xyz'][2]+o['size'][2]/2 for o in wall), RACK_HEIGHT)
+        self.assertAlmostEqual(AISLE_WIDTH, 1.20)
+
     def test_store_collision_parity_and_start_clearance(self):
         objects = convenience_store_objects()
         template = Path(get_package_share_directory('ranger_air_gazebo')) / 'worlds/control.world'
@@ -73,7 +91,7 @@ class EnvironmentTest(unittest.TestCase):
                 continue  # ceiling is above the complete initial robot envelope
             self.assertGreater((dx*dx + dy*dy)**.5, .70, obj['name'])
         # Gondola-to-gondola shelf edges define the narrowest regular aisle.
-        self.assertAlmostEqual(RACK_X[1] - RACK_X[0] - RACK_WIDTH, 1.65)
+        self.assertAlmostEqual(RACK_X[1] - RACK_X[0] - RACK_WIDTH, 1.20)
         self.assertNotIn('water_bottle', rows)
         roof = world.find("model[@name='store_ceiling']/link")
         self.assertIsNotNone(roof.find('collision'))

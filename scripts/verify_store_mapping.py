@@ -18,12 +18,13 @@ from moveit_msgs.srv import GetStateValidity
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import Imu, JointState, PointCloud2
 from std_msgs.msg import String
-from mobile_dual_nero.mid360 import mount_pose
+from mobile_dual_nero.mid360 import mount_pose, moves_with_upper_body
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--algorithm', choices=['superlio','fastlio2'], default='superlio')
-parser.add_argument('--mount', required=True, choices=['chassis_up','chest_down'])
+parser.add_argument('--mount', required=True, choices=['chassis_up','chest_down','head_tilt'])
 parser.add_argument('--xyz', default='', help='Same base_link xyz override as the launch')
+parser.add_argument('--tilt-deg', default='', help='Same head pitch degrees as launch')
 parser.add_argument('--rpy', default='', help='Same base_link rpy override as the launch')
 parser.add_argument('--output', type=Path, required=True)
 parser.add_argument('--no-ceiling', action='store_true', help='Match launch ceiling:=false')
@@ -81,7 +82,7 @@ request=GetStateValidity.Request();request.robot_state.joint_state=latest['joint
 future=service.call_async(request);rclpy.spin_until_future_complete(node,future,timeout_sec=10)
 initial_collision_free=future.done() and future.result().valid
 if not initial_collision_free:raise RuntimeError(f'Initial collision: {future.result()}')
-xyz,_=mount_pose(args.mount,args.xyz,args.rpy)
+xyz,_=mount_pose(args.mount,args.xyz,args.rpy,args.tilt_deg)
 base0=latest['truth'].pose[latest['truth'].name.index('mobile_dual_nero')]
 base0=np.array([base0.position.x,base0.position.y,base0.position.z])
 # Use the received sensor stamp for timing; reject stale startup clocks.
@@ -101,7 +102,10 @@ try:
   if now<next_sample:continue
   next_sample=now+.1
   truth=latest['truth'].pose[latest['truth'].name.index('mobile_dual_nero')]
-  sensor=np.array([truth.position.x,truth.position.y,truth.position.z])+rot(truth.orientation)@np.array(xyz)
+  sensor_xyz=np.array(xyz,dtype=float)
+  if moves_with_upper_body(args.mount):
+   sensor_xyz[2]+=dict(zip(latest['joints'].name,latest['joints'].position)).get('upper_body_lift_joint',0.)
+  sensor=np.array([truth.position.x,truth.position.y,truth.position.z])+rot(truth.orientation)@sensor_xyz
   pose=latest['lio'].pose.pose
   samples.append([elapsed,*sensor,pose.position.x,pose.position.y,pose.position.z])
   distance=np.linalg.norm(np.array([truth.position.x,truth.position.y,truth.position.z])-base0)
@@ -127,12 +131,15 @@ report=dict(algorithm=args.algorithm,mount=args.mount,ceiling=not args.no_ceilin
 raw=latest['raw'];pose=latest['truth'].pose[latest['truth'].name.index('mobile_dual_nero')]
 points_local=np.array([[p.x,p.y,p.z] for p in raw.points])
 points_local=points_local[np.linalg.norm(points_local,axis=1)>2.0]
-_,mount_rpy=mount_pose(args.mount,args.xyz,args.rpy)
+_,mount_rpy=mount_pose(args.mount,args.xyz,args.rpy,args.tilt_deg)
 r,p,y=mount_rpy
 Rx=np.array([[1,0,0],[0,math.cos(r),-math.sin(r)],[0,math.sin(r),math.cos(r)]])
 Ry=np.array([[math.cos(p),0,math.sin(p)],[0,1,0],[-math.sin(p),0,math.cos(p)]])
 Rz=np.array([[math.cos(y),-math.sin(y),0],[math.sin(y),math.cos(y),0],[0,0,1]])
-points_world=(points_local@(Rz@Ry@Rx).T+np.array(xyz))@rot(pose.orientation).T+np.array([pose.position.x,pose.position.y,pose.position.z])
+ray_sensor_xyz=np.array(xyz,dtype=float)
+if moves_with_upper_body(args.mount):
+ ray_sensor_xyz[2]+=dict(zip(latest['joints'].name,latest['joints'].position)).get('upper_body_lift_joint',0.)
+points_world=(points_local@(Rz@Ry@Rx).T+ray_sensor_xyz)@rot(pose.orientation).T+np.array([pose.position.x,pose.position.y,pose.position.z])
 from mobile_dual_nero.convenience_store import convenience_store_objects
 surface=np.abs(points_world[:,2])
 for obj in convenience_store_objects(ceiling=not args.no_ceiling):

@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+from nero_dual_bringup.bridge import main
+main()

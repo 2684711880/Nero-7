@@ -4,10 +4,12 @@
   <description>C++ publisher for official AgileX linear and three-point arc ROS commands.</description>
   <maintainer email="local@example.com">258</maintainer><license>BSD-3-Clause</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <depend>rclcpp</depend><depend>geometry_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rcl_interfaces</depend><depend>geometry_msgs</depend>
   <depend>tf2_ros</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>gazebo_msgs</depend><depend>moveit_msgs</depend><depend>shape_msgs</depend><depend>std_srvs</depend>
+  <depend>moveit_ros_planning_interface</depend><depend>moveit_core</depend>
   <export><build_type>ament_cmake</build_type></export>
 </package>

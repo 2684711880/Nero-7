@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+"""Set an absolute simulated upper-body height after feedback and collision checks."""
+import argparse
+import math
+import time
+import rclpy
+from rclpy.signals import SignalHandlerOptions
+from ranger_air_gazebo.lift_control import LiftControl
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--height',type=float,required=True,help='Lift travel in metres, 0..0.8')
+    args=parser.parse_args()
+    if not math.isfinite(args.height) or not 0<=args.height<=.8:
+        parser.error('--height must be in [0, 0.8] metres')
+    rclpy.init(signal_handler_options=SignalHandlerOptions.NO);node=rclpy.create_node('set_upper_body_lift_height');lift=LiftControl(node)
+    try:
+        end=time.monotonic()+10
+        while time.monotonic()<end:
+            rclpy.spin_once(node,timeout_sec=.02)
+            if lift.fresh() and lift.base_stopped and lift.validity.service_is_ready() and lift.pub.get_subscription_count():break
+        if not lift.fresh():raise RuntimeError('No live simulation/lift feedback; start the new simulation first')
+        start=lift.feedback.position[lift.feedback.name.index(lift.JOINT)]
+        if abs(args.height-start)<.002:
+            print(f'Already at {start:.3f} m');return
+        lift.request(args.height-start)
+        if not lift.active:raise RuntimeError('Lift request refused; see warning above')
+        end=time.monotonic()+180
+        while lift.active and time.monotonic()<end:
+            rclpy.spin_once(node,timeout_sec=.01);lift.tick()
+        actual=lift.feedback.position[lift.feedback.name.index(lift.JOINT)]
+        if lift.active or abs(actual-args.height)>.015:raise RuntimeError(f'Lift target not reached: {actual:.3f} m')
+        print(f'Lift reached {actual:.3f} m')
+    except KeyboardInterrupt:
+        print('Lift stopped.')
+    finally:
+        if rclpy.ok():
+            lift.stop();rclpy.spin_once(node,timeout_sec=.05)
+        node.destroy_node()
+        if rclpy.ok():rclpy.shutdown()
+
+
+if __name__=='__main__':main()

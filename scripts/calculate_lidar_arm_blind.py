@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Conservative arm-geometry radius bound, independent of joint angles and lidar FOV.
+"""Conservative arm-geometry radius bound over joint angles, 0..0.8 m lift and lidar FOV.
 
 Triangle inequality bounds all arm collision vertices, including gripper openings
 and wrist cameras. No hardware reach, ray visibility, held objects or accuracy claim.
@@ -12,7 +12,7 @@ import struct
 import xml.etree.ElementTree as ET
 import numpy as np
 from ament_index_python.packages import get_package_share_directory
-from mobile_dual_nero.model import compose, RELAXED_ARM
+from mobile_dual_nero.model import compose, RELAXED_ARM, LIFT_MAX
 from mobile_dual_nero.mid360 import mount_pose
 
 
@@ -132,11 +132,16 @@ def main():
     for preset in ['chassis_up','chest_down']:
         xyz,rpy=mount_pose(preset);sensor=np.array(xyz);rows=[]
         for item in link_bounds:
-            bound=float(np.linalg.norm(sensor-item['anchor_position'])+item['radius']) if item['radius'] is not None else float(np.linalg.norm(item['fixed_points']-sensor,axis=1).max())
+            bounds=[]
+            for height in [0., LIFT_MAX]:
+                shift=np.array([0.,0.,height]); sensor_at_height=sensor+(shift if preset=='chest_down' else 0)
+                bounds.append(float(np.linalg.norm(sensor_at_height-item['anchor_position']-shift)+item['radius'])
+                    if item['radius'] is not None else float(np.linalg.norm(item['fixed_points']+shift-sensor_at_height,axis=1).max()))
+            bound=max(bounds)
             rows.append({'link':item['name'],'all_angles_upper_bound_m':bound,'relaxed_max_surface_distance_m':float(np.linalg.norm(item['relaxed_points']-sensor,axis=1).max())})
         bound=max(r['all_angles_upper_bound_m'] for r in rows)
         recommended=math.ceil((bound+.05)/.05)*.05
-        results[preset]=dict(xyz=xyz,rpy=rpy,arm_collision_links=len(rows),all_angles_upper_bound_m=bound,
+        results[preset]=dict(xyz=xyz,rpy=rpy,lift_range_m=[0.,LIFT_MAX],arm_collision_links=len(rows),all_angles_upper_bound_m=bound,
             recommended_blind_with_5cm_margin_m=round(recommended,2),
             relaxed_max_surface_distance_m=max(r['relaxed_max_surface_distance_m'] for r in rows),per_link=rows)
     rng=np.random.default_rng(258);sampled={k:0. for k in results}
@@ -146,12 +151,14 @@ def main():
             limit=joint.find('limit')
             if joint.get('name').startswith(('left_','right_')) and limit is not None and limit.get('lower') is not None:
                 positions[joint.get('name')]=rng.uniform(float(limit.get('lower')),float(limit.get('upper')))
+        positions['upper_body_lift_joint']=rng.uniform(0,LIFT_MAX)
         state=poses(positions=positions)
         for item in link_bounds:
             points=item['local_points'][::max(1,len(item['local_points'])//100)]
             T=state[item['name']];points=points@T[:3,:3].T+T[:3,3]
             for preset,row in results.items():
-                distance=float(np.linalg.norm(points-np.array(row['xyz']),axis=1).max())
+                sensor=np.array(row['xyz'])+np.array([0.,0.,positions['upper_body_lift_joint'] if preset=='chest_down' else 0.])
+                distance=float(np.linalg.norm(points-sensor,axis=1).max())
                 sampled[preset]=max(sampled[preset],distance)
                 assert distance<=row['all_angles_upper_bound_m']+1e-6,(preset,item['name'],distance)
     for preset,row in results.items():
@@ -160,7 +167,7 @@ def main():
         row['ideal_nearest_ground_horizontal_m']=h/math.tan(math.radians(angle))
         blind=row['recommended_blind_with_5cm_margin_m']
         row['ground_horizontal_min_after_recommended_blind_m']=max(row['ideal_nearest_ground_horizontal_m'],math.sqrt(max(blind*blind-h*h,0)))
-    report=dict(random_configuration_sanity_checks=100, method='Triangle inequality from fixed shoulder pivot; all arm collision vertices, grippers and wrist cameras; no FOV restriction or collision-free-state assumption needed',
+    report=dict(random_configuration_sanity_checks=100, method='Triangle inequality from shoulder pivot over both 0..0.8 m lift endpoints; all arm collision vertices, grippers and wrist cameras; no FOV restriction or collision-free-state assumption needed',
         limitations=['Default robot mounting geometry only','No held object, cable or unmodelled parts','Bounds direct arm returns only; cannot remove occlusion or motion-induced vibration','This is an offline geometry bound, not an executed motion/raycast validation'],results=results)
     a.output.parent.mkdir(parents=True,exist_ok=True)
     (a.output.parent/'model.urdf').write_text(ET.tostring(root,encoding='unicode'))

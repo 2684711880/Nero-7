@@ -23,7 +23,29 @@ wait_result是本项目仿真扩展，不能直接当作官方实机接口使用
 - `src/nero_official_commander_cpp/src/commander.cpp`：我们的 C++ 调用层。
 
 两个工作空间分别构建和source，避免官方同名模型包与仿真工作空间冲突。
-本次只构建官方控制、消息包和 C++ 程序，未引入官方单臂 MoveIt 模型替换整车双臂模型。
+硬件工作空间同时包含官方控制、消息、模型和 MoveIt 包，以及 C++ 程序。
+官方单臂模型仅用于本硬件工作空间，不替换整车双臂模型。
+
+## 官方 MoveIt + RViz 控制实物
+
+双臂、一个 RViz 的接线入口见 [nero_dual_bringup](src/nero_dual_bringup/README.md)：
+`bash /home/a/Nero-7/scripts/start_dual_nero_moveit.sh`（左 can1，右 can0）。
+
+构建脚本会初始化官方 URDF 子模块，并将官方 `agx_arm_description` 与
+`agx_arm_moveit` 链接到本工作空间一起构建，避免启动时出现包未找到。
+重力补偿程序退出后，在新终端运行：
+
+```zsh
+source /home/a/Nero-7/scripts/official_control_env.sh
+ros2 launch agx_arm_ctrl start_single_agx_arm_moveit.launch.py \
+  can_port:=can0 arm_type:=nero effector_type:=agx_gripper \
+  follow:=true auto_control_gate:=true
+```
+
+这是官方一键启动入口，默认自动使能；在 RViz 中设置目标，再点击 Plan & Execute。
+使用官方 `auto_control_gate:=true`：驱动启动时关闭控制门，仅在轨迹执行期间放行，
+避免内部 mock 控制器初始化零位通过控制话题发送给实物。`follow:=true` 用真实反馈显示姿态。
+构建和启动配置解析检查不代表实物轨迹执行已经验证。
 
 ## 构建
 

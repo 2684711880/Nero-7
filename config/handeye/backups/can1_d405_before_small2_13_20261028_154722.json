@@ -1,0 +1,104 @@
+{
+  "T_gripper_camera": [
+    [
+      0.012790608155338945,
+      -0.9424246033091924,
+      -0.33417400769737887,
+      0.0673125
+    ],
+    [
+      0.9997716283910901,
+      0.017775368830915128,
+      -0.011862854932643885,
+      -0.00907703
+    ],
+    [
+      0.017119912594537434,
+      -0.33394595871253807,
+      0.9424367380637914,
+      0.0541585
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_camera_gripper": [
+    [
+      0.01279060815533892,
+      0.9997716283910901,
+      0.01711991259453739,
+      0.007286800466347272
+    ],
+    [
+      -0.9424246033091925,
+      0.01777536883091517,
+      -0.33394595871253807,
+      0.08168431587132229
+    ],
+    [
+      -0.33417400769737887,
+      -0.011862854932643916,
+      0.9424367380637912,
+      -0.028654551675407283
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_base_board_reference": [
+    [
+      -0.9980828159996572,
+      0.04026019583718743,
+      -0.04700860599238583,
+      -0.306381186687331
+    ],
+    [
+      0.047030482952223,
+      -0.0004040748266500004,
+      -0.9988933728866243,
+      0.7920039943360553
+    ],
+    [
+      -0.040234637807200255,
+      -0.9991891479368106,
+      -0.0014901563131163916,
+      0.2937352441022164
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "transform_convention": "T_A_B maps coordinates from B to A; metres; camera=color optical frame",
+  "method": "OpenCV PARK",
+  "samples": 15,
+  "rotation_excitation_singular_values": [
+    4.822705284275837,
+    1.7782712456456944,
+    1.4239116125564326
+  ],
+  "training_board_position_rms_mm": 14.29368043261746,
+  "training_board_position_max_mm": 25.05161832537701,
+  "training_board_orientation_max_from_first_deg": 3.1469291018726664,
+  "validation": "Training consistency only; independently verify with new poses before use.",
+  "status": "pending_independent_pointing_validation",
+  "can": "can1",
+  "camera_serial": "262622274345",
+  "base_frame": "base_link",
+  "gripper_frame": "gripper_flange",
+  "camera_frame": "handeye_color_optical",
+  "source_pose": "/home/a/Nero-7/archive/handeye/earlier_sessions/Nero1.launch.py",
+  "source_samples": "/home/a/Nero-7/archive/handeye/earlier_sessions/Nero-7.yaml",
+  "source_pose_sha256": "a8e452a0f778689fa46baa236688696db537a16cdb90d95ce15f180f52b00fa1",
+  "saved_vs_park_translation_mm": 5.592384832441398e-06,
+  "saved_vs_park_rotation_deg": 0.0,
+  "statistics_method": "PARK recomputed from saved RViz samples"
+}

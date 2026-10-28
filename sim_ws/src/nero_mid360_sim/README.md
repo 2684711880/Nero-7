@@ -105,7 +105,7 @@ FAST-LIO2 复用本机 `/home/a/mid-360/ws/install/fast_lio`；入口仅把该�
 
 FAST-LIO2 内部输出原样保留在 `/fastlio/odom`、`/fastlio/cloud_world`、`/fastlio/path`。`fastlio_output_adapter` 用最初 100 个静止加速度计样本确定固定的重力对齐旋转，只旋转输出坐标以供共用 RViz/机器人显示，标准输出仍是 `/lio/odom`、`/lio/cloud_world`、`/lio/path`。适配不向 FAST-LIO2 提供真值、里程计或姿态修正。两套后端互斥启动。快照配置分别为 `config/fastlio_sim.yaml`、`config/superlio_sim.yaml`。
 
-默认两处安装的整臂几何保守上界已计算，详见 `sim_ws/validation/lidar_arm_blind/README.md`：底盘方案建议 `lio_blind:=1.65`、胸前方案建议 `lio_blind:=1.30`，仅用于剔除当前模型内机械臂/夹爪/腕部相机的直接回波。它会同时损失近处环境，且无法消除遮挡，不应解释为完全没有机械臂干扰。默认阈值未自动改大。更细致的近距方案应使用当前关节 TF 和机器人几何做自体点过滤，再单独评估运动遮挡。
+默认两处安装的整臂几何保守上界已计算，详见 `sim_ws/validation/lidar_arm_blind/README.md`：底盘方案覆盖 0～0.8 m 升降全行程时建议 `lio_blind:=2.40`（原 1.65 仅适用于升降量为 0）、胸前方案建议 `lio_blind:=1.30`，仅用于剔除当前模型内机械臂/夹爪/腕部相机的直接回波。它会同时损失近处环境，且无法消除遮挡，不应解释为完全没有机械臂干扰。默认阈值未自动改大。更细致的近距方案应使用当前关节 TF 和机器人几何做自体点过滤，再单独评估运动遮挡。
 
 ### 建图时手动开车并摆动双臂
 
@@ -140,8 +140,58 @@ bash scripts/run_store_mapping.sh algorithm:=fastlio2 mid360_mount:=chassis_up s
 
 链路：`/mid360/lidar` → `body_self_filter` → `/mid360/lidar_filtered` → 所选 LIO。原始 `/mid360/points` 始终保留；过滤后可看 `/mid360/points_filtered`。RViz 勾选 `MID360 after body filter` 对比绿色过滤点云，勾选 `Self filter body boxes` 看橙色半透明包围盒；观察时可暂时关掉 `LIO map`。
 
-实现从当前 compose URDF 的 38 个碰撞部件构造局部定向包围盒，包括底盘、轮子、机身、双臂、夹爪、相机、雷达和安装板。网格使用局部包围盒近似，圆柱使用外接盒，所以会比实体稍大，可能误删贴近机体的环境点；并非精确网格求交。模型跟随关节反馈，不使用 Gazebo 碰撞实体标签、地图定位或真值进行点分类。MID360 固定在底盘/胸前，因此只需机器人内部相对运动学，不依赖全局定位结果。
+实现从当前 compose URDF 的 39 个碰撞部件构造局部定向包围盒，包括底盘、轮子、机身、双臂、夹爪、相机、雷达、安装板和升降导轨。网格使用局部包围盒近似，圆柱使用外接盒，所以会比实体稍大，可能误删贴近机体的环境点；并非精确网格求交。模型跟随关节反馈，不使用 Gazebo 碰撞实体标签、地图定位或真值进行点分类。MID360 固定在底盘/胸前，因此只需机器人内部相对运动学，不依赖全局定位结果。
 
 每个点保持原始 XYZ、offset_time、reflectivity、tag、line；帧 header、timebase、lidar_id、rsvd 不变，仅删除命中的点并更新 point_num。以实际关节消息时间插值，按最多 5 ms 时间桶计算包围盒姿态；这是时间离散近似，不是逐点精确求姿态。启动等待覆盖整帧的关节历史，缺反馈、超过 0.1 s 的反馈间隔或历史不足时丢弃该帧并警告，绝不绕过过滤把原始回波送入 LIO。
 
 此过滤只去掉自身点，不补全被遮挡环境，不包含未建模的线缆或抓取物。需要检查过滤余量、外参和时间误差；目前支持的是本项目两个固定雷达预设，不是装在运动末端的通用节点。验证入口：`scripts/verify_body_self_filter.py --output ...`；它只检查点字段保留、近处点保留和 LIO 管线，不将输出数量比较当成分类准确率。
+
+
+### 上身升降与雷达随动
+
+上身新增 `upper_body_lift_joint` 竖直移动关节，行程 **0～0.80 m**，上限速度 0.05 m/s。`lift_height:=0.0` 设置启动升降量；例如启动在 0.30 m：
+
+```bash
+bash scripts/run_store_mapping.sh mid360_mount:=chest_down self_filter:=true ceiling:=true lift_height:=0.30
+```
+
+这是在现有底盘上添加的理想直线滑台和后导轨模型，不包含真实丝杆、伸缩机构、线缆或升降装置的硬件控制。当前后导轨最高约 1.135 m；双臂下垂、升降到 0.8 m 时上身最高约 1.737 m。雷达预设 xyz/rpy 定义为升降量为 0 时相对 AIR base_link 的位置。`chest_down` 改为上身的刚性子节点，高度为 **0.76 + 升降量**；`chassis_up` 仍固定于底盘，高度 0.31 m。雷达和理想 IMU 始终一起运动，内部外参没有变化。
+
+重新启动 `air_keyboard`：**R 升高 5 cm、F 降低 5 cm、空格停止全部**。升降会先关闭双臂摆动、停车；如果底盘还在减速，请等停稳后再按 R/F。升降期间不接收行驶/摆臂指令，防止碰撞检查时的机器人姿态随后被键盘改变。
+
+也可在加载相同 ROS 域和工作空间的终端指定绝对升降量（先停车、关闭 T 摆臂，不要和其他升降命令同时执行）：
+
+```zsh
+cd /home/a/Nero-7
+source /opt/ros/humble/setup.zsh
+source sim_ws/install/setup.zsh
+export ROS_DOMAIN_ID=89
+ros2 run ranger_air_gazebo set_lift_height --height 0.40
+```
+
+命令从实际关节反馈开始，检查 11 个全机器人路径采样状态，再发平滑轨迹给 `/upper_body_lift_controller`，不是修改 Gazebo 实体位置。每次键盘 5 cm 约 2 个仿真秒；0 到 0.4 m 约 16 秒。MoveIt 中新增 `upper_body_lift` 规划组及 `lowered`、`raised` 命名状态。
+
+胸前安装的显示节点按 LIO 时间戳插值升降反馈，将动态的 sensor→base 外参用于机器人显示，不把上身上升误当成底盘上升。自身过滤的运动链包含升降关节和导轨，保持原始 Livox 逐点时间。缺失时刻对应的升降反馈时，机器人显示会等待/丢弃该条位姿，不回退到旧固定外参。
+
+独立域 90、Gazebo 11490 的验证结果见 `sim_ws/validation/upper_body_lift/`：两种安装均实际执行 0→0.20→0 m，检查控制反馈、相对 TF 和过滤/LIO 连续输出。胸前安装该次测试的估计底盘高度回程后漂移约 3.3 cm；这些测试不代表完整升降、行驶、定位精度或实机稳定性验收。
+
+### 头顶雷达与可调倾角
+
+新增 `mid360_mount:=head_tilt`，默认安装原点（升降量为 0 时）为 AIR base_link 下 `(0.05, 0, 1.02)` m，位于躯干顶部上方；位置是仿真支架估计值。雷达刚性连接到上身，离地原点高度为 **1.02 + 升降量** m。
+
+```bash
+# 头顶安装，向机器人前方倾斜 45°
+bash scripts/run_store_mapping.sh mid360_mount:=head_tilt mid360_tilt_deg:=45 self_filter:=true ceiling:=true
+# 角度可改，例如 30°，并从抬高 0.30 m 的上身启动
+bash scripts/run_store_mapping.sh mid360_mount:=head_tilt mid360_tilt_deg:=30 lift_height:=0.30 self_filter:=true ceiling:=true
+```
+
+`mid360_tilt_deg` 单位为度，仅作用于 head_tilt，范围 -90..90，默认 45；0 为正装竖直朝上，正值绕机器人 +Y 轴向前方 +X 倾斜，负值向后。它是安装倾角配置，不是运行中的电动云台关节；修改后重新启动仿真和 LIO 生效。显式完整 `mid360_rpy:="roll pitch yaw"` 覆盖倾角参数，单位仍为弧度。
+
+Gazebo、估计机器人显示、自身过滤使用同一安装配置，头顶预设与胸前预设都会随上身升降，底盘预设不会。MID360 内理想 IMU 与雷达一同倾斜，内部外参保持单位变换；建图仍不接收 Gazebo 真值。倾角影响视场、遮挡和地面覆盖，应在对应角度下重新验证建图精度；两个旧安装的 blind 几何上界不能直接当作头顶安装的计算结果。
+
+### 静止时估计高度抖动的修复
+
+IMU 现以实际 200 Hz 采样间隔内传感器原点的世界速度差计算平均加速度，再生成 `R^T((v_now-v_previous)/dt - gravity)` 比力，保留真实底盘/升降/转动产生的加速度。之前直接抽取 Gazebo WorldLinearAccel 的单个物理步数值，接触求解的高频脉冲经抽样会产生明显错误积分。不是对 RViz 根 TF 做平滑或固定高度，也没有把 Gazebo 位姿传给 LIO。
+
+头顶 45° 静止 20 秒对照，估计机器人高度峰峰值从约 15.8 cm 降至 4.1 mm；实际 Gazebo 高度峰峰值均约 0.04 mm。真实升降 20 cm 再返回仍正常。证据与边界见 `sim_ws/validation/imu_sampling_jitter/README.md`。已启动的 Gazebo 仍持有旧插件，需要重启仿真才加载修复；重启会重新开始本轮建图。

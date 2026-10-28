@@ -10,6 +10,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from mobile_dual_nero.model import compose, gazebo_model_paths
+from ranger_air_gazebo.model import contact_spawn_pose
 from mobile_dual_nero.planning import planning_config
 from mobile_dual_nero.convenience_store import convenience_store_objects
 from mobile_dual_nero.environment import warehouse_objects, collision_rows, world_xml
@@ -37,7 +38,9 @@ def setup(context):
                                     mid360_mount=LaunchConfiguration('mid360_mount').perform(context),
                                     mid360_xyz=LaunchConfiguration('mid360_xyz').perform(context),
                                     mid360_rpy=LaunchConfiguration('mid360_rpy').perform(context),
-                                    mid360_points_per_second=int(LaunchConfiguration('mid360_points_per_second').perform(context)))
+                                    mid360_tilt_deg=LaunchConfiguration('mid360_tilt_deg').perform(context),
+                                    mid360_points_per_second=int(LaunchConfiguration('mid360_points_per_second').perform(context)),
+                                    lift_height=float(LaunchConfiguration('lift_height').perform(context)))
     config = planning_config(description, semantic)
     sim = {'use_sim_time': True}
     environment = LaunchConfiguration('environment').perform(context)
@@ -55,10 +58,13 @@ def setup(context):
                 xml = xml.replace('</world>', '<plugin name="bottle_grasp" filename="libbottle_grasp.so"/></world>')
             f.write(xml)
             world = f.name
+    # Match the existing tire geometry before free settling, without changing axle locations.
+    spawn_z, spawn_roll, spawn_pitch = contact_spawn_pose(description)
     spawn = Node(package='gazebo_ros', executable='spawn_entity.py', output='screen',
-                 arguments=['-entity', 'mobile_dual_nero', '-topic', 'robot_description', '-z', '.03'])
+                 arguments=['-entity', 'mobile_dual_nero', '-topic', 'robot_description', '-z', str(spawn_z),
+                            '-R', str(spawn_roll), '-P', str(spawn_pitch)])
     controllers = Node(package='controller_manager', executable='spawner', output='screen',
-                       arguments=['joint_state_broadcaster', 'steering_controller', 'wheel_controller',
+                       arguments=['upper_body_lift_controller', 'joint_state_broadcaster', 'steering_controller', 'wheel_controller',
                                   'left_arm_controller', 'right_arm_controller',
                                   'left_gripper_controller', 'right_gripper_controller',
                                   '--controller-manager-timeout', '90'])
@@ -126,10 +132,12 @@ def generate_launch_description():
         DeclareLaunchArgument('command_bridge', default_value='true'),
         DeclareLaunchArgument('startup_arm_pose', default_value='relaxed', choices=['relaxed', 'home']),
         DeclareLaunchArgument('ceiling', default_value='true', choices=['true', 'false']),
-        DeclareLaunchArgument('mid360_mount', default_value='none', choices=['none', 'chassis_up', 'chest_down']),
+        DeclareLaunchArgument('mid360_mount', default_value='none', choices=['none', 'chassis_up', 'chest_down', 'head_tilt']),
         DeclareLaunchArgument('mid360_xyz', default_value=''),
         DeclareLaunchArgument('mid360_rpy', default_value=''),
+        DeclareLaunchArgument('mid360_tilt_deg', default_value='45', description='Head mount pitch in degrees, -90..90'),
         DeclareLaunchArgument('mid360_points_per_second', default_value='128000'),
+        DeclareLaunchArgument('lift_height', default_value='0.0', description='Initial upper-body lift height, 0..0.8 metres'),
         DeclareLaunchArgument('mount_xyz', default_value='0 0 0.275'),
         DeclareLaunchArgument('mount_rpy', default_value='0 0 0'),
         OpaqueFunction(function=setup),

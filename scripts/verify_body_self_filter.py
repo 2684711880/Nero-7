@@ -9,7 +9,9 @@ import rclpy
 from livox_ros_driver2.msg import CustomMsg
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
-p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True)
+p.add_argument('--require-removal',action='store_true',help='Require self returns in this particular test pose')
+a=p.parse_args()
 rclpy.init();n=rclpy.create_node('verify_body_filter');raw={};filtered={};stats=[];odom=[];sensor=[]
 def key(m):return (m.header.stamp.sec,m.header.stamp.nanosec)
 def raw_cb(m):
@@ -28,7 +30,7 @@ while time.monotonic()<end and (checked<8 or len(odom)<5):
  rclpy.spin_once(n,timeout_sec=.01)
  for stamp in list(raw.keys()&filtered.keys()):
   src,out=raw.pop(stamp),filtered.pop(stamp)
-  assert out.point_num==len(out.points)<src.point_num
+  assert out.point_num==len(out.points)<=src.point_num
   for field in src.get_fields_and_field_types():
    if field not in ('points','point_num'):
     left,right=getattr(src,field),getattr(out,field)
@@ -39,7 +41,8 @@ while time.monotonic()<end and (checked<8 or len(odom)<5):
   checked+=1
 assert checked>=8 and len(odom)>=5, (checked,len(odom))
 assert stats and min(r['near_1m_kept'] for r in stats)>0
-report={'matched_scans':checked,'all_livox_metadata_and_retained_points_unchanged':True,
+if a.require_removal:assert sum(r['removed'] for r in stats)>0,'No self points encountered in this pose'
+report={'matched_scans':checked,'removal_required':a.require_removal,'all_livox_metadata_and_retained_points_unchanged':True,
  'lio_odom_messages':len(odom),'mean_removed_fraction':sum(r['removed']/r['input'] for r in stats)/len(stats),
  'mean_near_1m_kept_per_scan':sum(r['near_1m_kept'] for r in stats)/len(stats),
  'sensor_self_return_fraction':sum(r['self_hits'] for r in sensor)/max(1,sum(r['returns'] for r in sensor)),

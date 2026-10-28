@@ -1,4 +1,5 @@
 #include <rclcpp/rclcpp.hpp>
+#include <sstream>
 #include <moveit_msgs/srv/get_planning_scene.hpp>
 #include <moveit_msgs/srv/apply_planning_scene.hpp>
 #include <moveit/collision_detection/collision_matrix.h>
@@ -7,6 +8,7 @@
 int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
   auto n = rclcpp::Node::make_shared("add_simulation_ground");
+  auto rows = n->declare_parameter<std::vector<std::string>>("environment_objects", std::vector<std::string>{});
   auto get = n->create_client<moveit_msgs::srv::GetPlanningScene>("get_planning_scene");
   auto apply = n->create_client<moveit_msgs::srv::ApplyPlanningScene>("apply_planning_scene");
   if (!get->wait_for_service(std::chrono::seconds(30)) ||
@@ -19,6 +21,7 @@ int main(int argc, char** argv) {
   collision_detection::AllowedCollisionMatrix acm(fetched.get()->scene.allowed_collision_matrix);
   // Only the fixed support is mounted on the physical floor. Arms/grippers stay checked.
   acm.setEntry("simulation_ground", "base_link", true);
+  acm.setEntry("support_pedestal", "base_link", true);
   auto request = std::make_shared<moveit_msgs::srv::ApplyPlanningScene::Request>();
   request->scene.is_diff = true;
   acm.getMessage(request->scene.allowed_collision_matrix);
@@ -35,10 +38,31 @@ int main(int argc, char** argv) {
   floor.primitives.push_back(box);
   floor.primitive_poses.push_back(pose);
   request->scene.world.collision_objects.push_back(floor);
+  for (const auto& row : rows) {
+    std::istringstream in(row);
+    moveit_msgs::msg::CollisionObject object;
+    std::string kind;
+    in >> object.id >> kind;
+    if (kind != "box") return 1;
+    object.header.frame_id = "world";
+    object.operation = moveit_msgs::msg::CollisionObject::ADD;
+    shape_msgs::msg::SolidPrimitive primitive;
+    primitive.type = shape_msgs::msg::SolidPrimitive::BOX;
+    primitive.dimensions.resize(3);
+    for (auto& d : primitive.dimensions) in >> d;
+    geometry_msgs::msg::Pose p;
+    p.orientation.w = 1.0;
+    in >> p.position.x >> p.position.y >> p.position.z;
+    if (!in) return 1;
+    object.primitives.push_back(primitive);
+    object.primitive_poses.push_back(p);
+    request->scene.world.collision_objects.push_back(object);
+  }
   auto result = apply->async_send_request(request);
   if (rclcpp::spin_until_future_complete(n, result, std::chrono::seconds(10)) !=
       rclcpp::FutureReturnCode::SUCCESS || !result.get()->success) return 1;
   RCLCPP_INFO(n->get_logger(), "Gazebo ground registered in MoveIt (top z=0). Arm/ground collisions enabled.");
+  RCLCPP_INFO(n->get_logger(), "Registered %zu scene objects in world.", rows.size());
   rclcpp::shutdown();
   return 0;
 }

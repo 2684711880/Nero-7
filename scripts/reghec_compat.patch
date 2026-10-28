@@ -1,0 +1,95 @@
+diff --git a/include/expSE3.hpp b/include/expSE3.hpp
+index 62bf3fd..6d29b0f 100644
+--- a/include/expSE3.hpp
++++ b/include/expSE3.hpp
+@@ -55,7 +55,7 @@ namespace limbo {
+                 Eigen::Matrix3d SO3_1 = Sophus::SO3d::exp(so3_1).matrix();
+                 Eigen::Matrix3d SO3_2 = Sophus::SO3d::exp(so3_2).matrix();
+                 Eigen::Matrix3d deltaR = SO3_1.inverse() * SO3_2;
+-                Eigen::Vector3d so3 = Sophus::SO3d::log(deltaR);
++                Eigen::Vector3d so3 = Sophus::SO3d(deltaR).log();
+ 
+                 double distance = so3.norm() + (v1.tail(3) - v2.tail(3)).norm()* _a * _a;
+ 
+@@ -75,7 +75,7 @@ namespace limbo {
+                 Eigen::Matrix3d SO3_1 = Sophus::SO3d::exp(so3_1).matrix();
+                 Eigen::Matrix3d SO3_2 = Sophus::SO3d::exp(so3_2).matrix();
+                 Eigen::Matrix3d deltaR = SO3_1.inverse() * SO3_2;
+-                Eigen::Vector3d so3 = Sophus::SO3d::log(deltaR);
++                Eigen::Vector3d so3 = Sophus::SO3d(deltaR).log();
+ 
+                 double distance = so3.norm() + (x1.tail(3) - x2.tail(3)).norm() *  _a * _a;
+ 
+diff --git a/src/RegHEC_multi.cpp b/src/RegHEC_multi.cpp
+index c2d7ea9..027ee57 100755
+--- a/src/RegHEC_multi.cpp
++++ b/src/RegHEC_multi.cpp
+@@ -1,4 +1,4 @@
+-﻿#include <iostream>
++#include <iostream>
+ 
+ #pragma   push_macro("min")  
+ #pragma   push_macro("max")  
+@@ -311,6 +311,15 @@ int main(int argc, char** argv) {
+ 	cout << "Data is read into memory" << endl;
+ 	cout << "Number of views: " << cloudsOriginal.size() << endl;
+ 
++	Eigen::Matrix4d HE = Eigen::Matrix4d::Identity();
++	if (argc > 2) {
++		// Optional user-supplied camera-to-flange initial estimate. Default BO
++		// path below remains unchanged when no initial matrix is supplied.
++		std::ifstream initial(argv[2]);
++		for (int r=0; r<4; ++r) for (int c=0; c<4; ++c)
++			if (!(initial >> HE(r,c))) { std::cerr << "Invalid initial matrix" << std::endl; return 1; }
++		std::cout << "Using provided hand-eye initial matrix" << std::endl;
++	} else {
+ 	cout << "Start BO-IA" << endl;
+ 	//Use modified kernel ExpSE3
+ 	using Kernel2_t = kernel::ExpSE3<Params>;
+@@ -327,11 +336,11 @@ int main(int argc, char** argv) {
+ 
+ 	//Take the best sample as the initial guess of hand-eye relation
+ 	Eigen::Matrix<double, 6, 1> best = boptimizer.best_sample();
+-	Eigen::Matrix4d HE = Eigen::Matrix4d::Identity();
+ 	Sophus::Vector3d Rotbest = (best.head(3) - Eigen::Matrix<double, 3, 1>::Constant(0.5)) * 2 * 3.1415926;
+ 	Eigen::Vector3d tbest = (best.tail(3) - Eigen::Matrix<double, 3, 1>::Constant(0.5)) * sideLength + offset;
+ 	HE.block(0, 0, 3, 3) = Sophus::SO3d::exp(Rotbest).matrix();
+ 	HE.block(0, 3, 3, 1) = tbest;
++	}
+ 
+ 	//Some AA-ICPv parameter initialization
+ 	int CorresNum = 0;
+@@ -356,7 +365,7 @@ int main(int argc, char** argv) {
+ 	Sophus::Vector6d u_next;
+ 
+ 	Sophus::Vector6d u_0;
+-	u_0.head(3) = Sophus::SO3d::log(HER);
++	u_0.head(3) = Sophus::SO3d(HER).log();
+ 	u_0.tail(3) = HEt;
+ 
+ 	u.conservativeResize(u.rows(), u.cols() + 1);
+@@ -465,7 +474,7 @@ int main(int argc, char** argv) {
+ 			HE.block(0, 3, 3, 1) = HEt;
+ 
+ 			Sophus::Vector6d u_1;
+-			u_1.head(3) = Sophus::SO3d::log(HER);
++			u_1.head(3) = Sophus::SO3d(HER).log();
+ 			u_1.tail(3) = HEt;
+ 			u.conservativeResize(u.rows(), u.cols() + 1);
+ 			u.col(1) = u_1;
+@@ -506,7 +515,7 @@ int main(int argc, char** argv) {
+ 				HEt = para.tail(3);
+ 
+ 				Sophus::Vector6d g_k;
+-				g_k.head(3) = Sophus::SO3d::log(HER);
++				g_k.head(3) = Sophus::SO3d(HER).log();
+ 				g_k.tail(3) = HEt;
+ 				g.conservativeResize(g.rows(), g.cols() + 1);
+ 				g.col(g.cols() - 1) = g_k;
+@@ -646,4 +655,4 @@ int main(int argc, char** argv) {
+ 	std::cout << "Total views processed: " << cloudsOriginal.size() << std::endl;
+ 
+ 	return 0;
+-}
+\ No newline at end of file
++}

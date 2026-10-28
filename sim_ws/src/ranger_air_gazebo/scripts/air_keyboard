@@ -8,6 +8,7 @@ import rclpy
 from rclpy.signals import SignalHandlerOptions
 from geometry_msgs.msg import Twist
 from ranger_air_gazebo.arm_swing import ArmSwing
+from ranger_air_gazebo.lift_control import LiftControl
 
 
 def main():
@@ -23,9 +24,10 @@ def main():
     keys = {'w':(speed,0.,0.), 's':(-speed,0.,0.), 'a':(0.,speed,0.),
             'd':(0.,-speed,0.), 'q':(0.,0.,turn), 'e':(0.,0.,-turn)}
     swing = ArmSwing(node)
+    lift = LiftControl(node)
     saved = termios.tcgetattr(sys.stdin)
     values = (0.,0.,0.)
-    print('AIR: W/S forward/back; A/D strafe; Q/E rotate; T arm swing on/off; SPACE stop base + arms; Ctrl-C exit.\n'
+    print('AIR: W/S forward/back; A/D strafe; Q/E rotate; T arm swing on/off; R/F lift +/-5 cm; SPACE stop all; Ctrl-C exit.\n'
           'A motion key keeps moving until another key or SPACE. Keep this terminal open.', flush=True)
     try:
         tty.setcbreak(sys.stdin.fileno())
@@ -36,23 +38,31 @@ def main():
                 if key in ('\x03', '\x04', ''):
                     break
                 if key == 't':
-                    swing.toggle()
+                    if not lift.active:
+                        swing.toggle()
+                elif key in ('r', 'f'):
+                    values = (0.,0.,0.)
+                    swing.stop()
+                    lift.request(.05 if key == 'r' else -.05)
                 else:
-                    values = keys.get(key, (0.,0.,0.))
+                    values = keys.get(key, (0.,0.,0.)) if not lift.active else (0.,0.,0.)
                     if key == ' ':
                         swing.stop()
+                        lift.stop()
                 print('\rcommand vx=%+.2f vy=%+.2f wz=%+.2f   ' % values, end='', flush=True)
             msg = Twist()
             msg.linear.x, msg.linear.y, msg.angular.z = values
             pub.publish(msg)
             rclpy.spin_once(node, timeout_sec=0.)
             swing.tick()
+            lift.tick()
     except KeyboardInterrupt:
         pass
     finally:
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, saved)
         if rclpy.ok():
             swing.stop()
+            lift.stop()
             pub.publish(Twist())
         node.destroy_node()
         if rclpy.ok():

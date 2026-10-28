@@ -12,4 +12,11 @@ def planning_config(description, semantic):
               .to_moveit_configs())
     config.robot_description = {'robot_description': description}
     config.robot_description_semantic = {'robot_description_semantic': semantic}
+    manager = config.trajectory_execution['moveit_simple_controller_manager']
+    manager['controller_names'].append('upper_body_lift_controller')
+    manager['upper_body_lift_controller'] = dict(type='FollowJointTrajectory',
+        action_ns='follow_joint_trajectory', default=True, joints=['upper_body_lift_joint'])
+    config.joint_limits['robot_description_planning']['joint_limits']['upper_body_lift_joint'] = {
+        'has_velocity_limits': True, 'max_velocity': .05,
+        'has_acceleration_limits': True, 'max_acceleration': .10}
     return config

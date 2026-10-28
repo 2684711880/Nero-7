@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>nero_dual_bringup</name><version>0.1.0</version>
+  <description>Compose two unmodified official NERO drivers and MoveIt profiles.</description>
+  <maintainer email="local@example.com">258</maintainer><license>BSD-3-Clause</license>
+  <buildtool_depend>ament_cmake</buildtool_depend><buildtool_depend>ament_cmake_python</buildtool_depend>
+  <exec_depend>agx_arm_ctrl</exec_depend><exec_depend>agx_arm_moveit</exec_depend>
+  <exec_depend>agx_arm_description</exec_depend><exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend><exec_depend>action_msgs</exec_depend>
+  <exec_depend>moveit_msgs</exec_depend><exec_depend>shape_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend><exec_depend>rcl_interfaces</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

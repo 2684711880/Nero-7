@@ -6,6 +6,23 @@ hardware_ws/build/
 hardware_ws/install/
 hardware_ws/log/
 .venv-official/
+.venv-gravity/
+/build/
+/install/
+/Log/
+
+# Downloaded third-party working trees and local solver builds.
+/third_party/agilex-arm-gravity-compensation/
+/third_party/open_nero/
+/third_party/eye_hand_calib_pointcloud/
+/third_party/reghec_build/
+/third_party/reghec_deps/
+/third_party/reghec_limbo/
+/third_party/reghec_sophus/
+
+# Recreated by scripts/build_official_control.sh.
+/hardware_ws/src/agx_arm_description
+/hardware_ws/src/agx_arm_moveit
 
 # Python and editor caches
 __pycache__/
@@ -42,3 +59,9 @@ sim_ws/validation/base_modes/**/*.lock
 
 # Colcon output when invoked from the repository root
 /log/
+
+# Real camera frames and per-session hand-eye calibration results
+/calibration_data/
+/calibration_ws/build/
+/calibration_ws/install/
+/calibration_ws/log/

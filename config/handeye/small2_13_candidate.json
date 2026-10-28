@@ -1,0 +1,87 @@
+{
+  "status": "candidate_pending_independent_validation",
+  "method": "OpenCV/Park1994",
+  "sample_count": 13,
+  "base_frame": "base_link",
+  "gripper_frame": "gripper_flange",
+  "camera_frame": "handeye_color_optical",
+  "transform_convention": "T_gripper_camera maps camera optical coordinates to gripper flange; translation in metres",
+  "T_gripper_camera": [
+    [
+      -0.015820696490881442,
+      -0.9588634966209632,
+      -0.2834263580021467,
+      0.0698633043358479
+    ],
+    [
+      0.9994966717148359,
+      -0.007370600597784018,
+      -0.030855752750396214,
+      -0.007801301350600356
+    ],
+    [
+      0.027497432489399398,
+      -0.2837718609986593,
+      0.9584974815365142,
+      0.03612372733734285
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_camera_gripper": [
+    [
+      -0.01582069649088202,
+      0.9994966717148357,
+      0.027497432489398586,
+      0.007909351114993054
+    ],
+    [
+      -0.958863496620967,
+      -0.007370600597783095,
+      -0.2837718609986664,
+      0.07718276933729384
+    ],
+    [
+      -0.2834263580021426,
+      -0.03085575275039693,
+      0.9584974815365206,
+      -0.01506411479625587
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "translation_mm": [
+    69.8633043358479,
+    -7.801301350600356,
+    36.12372733734285
+  ],
+  "quaternion_xyzw": [
+    -0.09090162618235294,
+    -0.11175040755695219,
+    0.7038623407004351,
+    0.6955764128490581
+  ],
+  "source_original_samples": "/home/a/Nero-7/archive/handeye/left_d405/small2.yaml",
+  "source_filtered_samples": "/home/a/Nero-7/archive/handeye/left_d405/small2_without_samples11_10.yaml",
+  "source_filtered_samples_sha256": "a44725bfa444d9e8e116c667b61bfef7b457ebea6ddbe8ff30e83d94b2c352aa",
+  "source_candidate_launch": "/home/a/Nero-7/archive/handeye/left_d405/small2_without_samples11_10.launch.py",
+  "removed_original_sample_numbers": [
+    11,
+    10
+  ],
+  "training_position_rms_mm": 5.191781799374836,
+  "training_position_max_mm": 9.62608174074416,
+  "training_orientation_rms_deg": 1.5095441149926896,
+  "leave_one_out_position_rms_mm": 6.281809285133572,
+  "capture_session_candidate": "/home/a/Nero-7/calibration_data/rviz_20261028_104948_16221",
+  "camera_provenance_note": "User context and nearby session indicate can1/D405 serial 262622274345; RViz samples do not embed camera identity.",
+  "validation_note": "Sample-selected training and same-session leave-one-out are not independent absolute accuracy validation."
+}

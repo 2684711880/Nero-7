@@ -18,8 +18,8 @@ class CompositionTest(unittest.TestCase):
         self.assertEqual(len(r.findall('ros2_control')), 1)
         self.assertEqual(len(r.findall('.//plugin')), 2)  # hardware class plus Gazebo plugin
         controlled = r.findall('ros2_control/joint')
-        self.assertEqual(len(controlled), 26)
-        self.assertEqual(len({j.get('name') for j in controlled}), 26)
+        self.assertEqual(len(controlled), 27)
+        self.assertEqual(len({j.get('name') for j in controlled}), 27)
         for item in s.findall('disable_collisions'):
             self.assertIn(item.get('link1'), links)
             self.assertIn(item.get('link2'), links)
@@ -53,6 +53,19 @@ class CompositionTest(unittest.TestCase):
         self.assertEqual(mount_pose('chassis_up', '.3 0 .4', '0 .1 0'), ([.3, 0., .4], [0., .1, 0.]))
         with self.assertRaises(ValueError):
             mount_pose('chassis_up', 'nan 0 0')
+
+    def test_lift_guide_mass_center_and_rigid_body_inertia(self):
+        r = ET.fromstring(compose()[0])
+        rail = r.find("link[@name='upper_body_lift_rail']")
+        inertia = rail.find('inertial')
+        self.assertEqual(inertia.find('origin').get('xyz'), rail.find('collision/origin').get('xyz'))
+        mass = float(inertia.find('mass').get('value'))
+        x, y, z = map(float, rail.find('collision/geometry/box').get('size').split())
+        values = [float(inertia.find('inertia').get(k)) for k in ('ixx','iyy','izz')]
+        expected = [mass*(y*y+z*z)/12, mass*(x*x+z*z)/12, mass*(x*x+y*y)/12]
+        for actual, value in zip(values, expected): self.assertAlmostEqual(actual, value)
+        self.assertGreater(min(values), 0)
+        self.assertLessEqual(max(values), sum(values)-max(values))
 
     def test_mount_parameter(self):
         r = ET.fromstring(compose('0.02 0 0.31')[0])

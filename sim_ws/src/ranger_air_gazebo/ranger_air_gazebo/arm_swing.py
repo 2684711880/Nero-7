@@ -64,9 +64,9 @@ class ArmSwing:
             for j in range(1, 8):
                 v = q.get(f'{side}_joint{j}', float('nan'))
                 limit = .40 if j == 1 else .25
-                outside_relaxed = not 1.0 <= v <= 1.35 if j == 2 else abs(v) > limit
+                outside_relaxed = not 1.0 <= v <= 1.60 if j == 2 else abs(v) > limit
                 if not math.isfinite(v) or outside_relaxed:
-                    allowed = '[1.00, 1.35]' if j == 2 else f'[-{limit:.2f}, {limit:.2f}]'
+                    allowed = '[1.00, 1.60]' if j == 2 else f'[-{limit:.2f}, {limit:.2f}]'
                     self.node.get_logger().warning(
                         f'Swing start rejected: {side}_joint{j}={v:.3f} rad; allowed {allowed}.')
                     return

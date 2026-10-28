@@ -1,6 +1,6 @@
 {
   "random_configuration_sanity_checks": 100,
-  "method": "Triangle inequality from fixed shoulder pivot; all arm collision vertices, grippers and wrist cameras; no FOV restriction or collision-free-state assumption needed",
+  "method": "Triangle inequality from shoulder pivot over both 0..0.8 m lift endpoints; all arm collision vertices, grippers and wrist cameras; no FOV restriction or collision-free-state assumption needed",
   "limitations": [
     "Default robot mounting geometry only",
     "No held object, cable or unmodelled parts",
@@ -19,153 +19,157 @@
         0.0,
         0.0
       ],
+      "lift_range_m": [
+        0.0,
+        0.8
+      ],
       "arm_collision_links": 28,
-      "all_angles_upper_bound_m": 1.5527194141303462,
-      "recommended_blind_with_5cm_margin_m": 1.65,
+      "all_angles_upper_bound_m": 2.306426709716518,
+      "recommended_blind_with_5cm_margin_m": 2.4,
       "relaxed_max_surface_distance_m": 0.6815670089958088,
       "per_link": [
         {
           "link": "left_arm_base",
-          "all_angles_upper_bound_m": 0.6536376194216065,
+          "all_angles_upper_bound_m": 1.4187897746666616,
           "relaxed_max_surface_distance_m": 0.6536376194216065
         },
         {
           "link": "left_link1",
-          "all_angles_upper_bound_m": 0.7020893046885438,
+          "all_angles_upper_bound_m": 1.4557966002747158,
           "relaxed_max_surface_distance_m": 0.6773112288350688
         },
         {
           "link": "left_link2",
-          "all_angles_upper_bound_m": 0.8689383947450842,
+          "all_angles_upper_bound_m": 1.622645690331256,
           "relaxed_max_surface_distance_m": 0.6815670057537753
         },
         {
           "link": "left_link3",
-          "all_angles_upper_bound_m": 1.1528574988063451,
+          "all_angles_upper_bound_m": 1.9065647943925172,
           "relaxed_max_surface_distance_m": 0.5801038214405934
         },
         {
           "link": "left_link4",
-          "all_angles_upper_bound_m": 1.0550048487560737,
+          "all_angles_upper_bound_m": 1.8087121443422456,
           "relaxed_max_surface_distance_m": 0.5147954913234971
         },
         {
           "link": "left_link5",
-          "all_angles_upper_bound_m": 1.393393555802447,
+          "all_angles_upper_bound_m": 2.147100851388619,
           "relaxed_max_surface_distance_m": 0.4967427189692216
         },
         {
           "link": "left_link6",
-          "all_angles_upper_bound_m": 1.2555220626754635,
+          "all_angles_upper_bound_m": 2.0092293582616354,
           "relaxed_max_surface_distance_m": 0.49710349977997875
         },
         {
           "link": "left_link7",
-          "all_angles_upper_bound_m": 1.2543645366065812,
+          "all_angles_upper_bound_m": 2.008071832192753,
           "relaxed_max_surface_distance_m": 0.48981847623082553
         },
         {
           "link": "left_gripper_flange",
-          "all_angles_upper_bound_m": 1.3350074597449364,
+          "all_angles_upper_bound_m": 2.0887147553311083,
           "relaxed_max_surface_distance_m": 0.5013485539010707
         },
         {
           "link": "left_gripper_base",
-          "all_angles_upper_bound_m": 1.3905654055630379,
+          "all_angles_upper_bound_m": 2.1442727011492098,
           "relaxed_max_surface_distance_m": 0.5499732113783826
         },
         {
           "link": "left_gripper_link1",
-          "all_angles_upper_bound_m": 1.5527194141303462,
+          "all_angles_upper_bound_m": 2.306426709716518,
           "relaxed_max_surface_distance_m": 0.5415493703119127
         },
         {
           "link": "left_gripper_link2",
-          "all_angles_upper_bound_m": 1.5527194141303462,
+          "all_angles_upper_bound_m": 2.306426709716518,
           "relaxed_max_surface_distance_m": 0.5586735916078345
         },
         {
           "link": "left_camera_stand_link",
-          "all_angles_upper_bound_m": 1.4046749589025005,
+          "all_angles_upper_bound_m": 2.1583822544886724,
           "relaxed_max_surface_distance_m": 0.5881612825887134
         },
         {
           "link": "left_camera_link",
-          "all_angles_upper_bound_m": 1.4567687407114431,
+          "all_angles_upper_bound_m": 2.210476036297615,
           "relaxed_max_surface_distance_m": 0.5727178874669987
         },
         {
           "link": "right_arm_base",
-          "all_angles_upper_bound_m": 0.6536376194216065,
+          "all_angles_upper_bound_m": 1.4187897746666616,
           "relaxed_max_surface_distance_m": 0.6536376194216065
         },
         {
           "link": "right_link1",
-          "all_angles_upper_bound_m": 0.7020893046885438,
+          "all_angles_upper_bound_m": 1.4557966002747158,
           "relaxed_max_surface_distance_m": 0.6772054656748849
         },
         {
           "link": "right_link2",
-          "all_angles_upper_bound_m": 0.8689383947450842,
+          "all_angles_upper_bound_m": 1.622645690331256,
           "relaxed_max_surface_distance_m": 0.6815670089958088
         },
         {
           "link": "right_link3",
-          "all_angles_upper_bound_m": 1.1528574988063451,
+          "all_angles_upper_bound_m": 1.9065647943925172,
           "relaxed_max_surface_distance_m": 0.5801038242110537
         },
         {
           "link": "right_link4",
-          "all_angles_upper_bound_m": 1.0550048487560737,
+          "all_angles_upper_bound_m": 1.8087121443422456,
           "relaxed_max_surface_distance_m": 0.514797859759764
         },
         {
           "link": "right_link5",
-          "all_angles_upper_bound_m": 1.393393555802447,
+          "all_angles_upper_bound_m": 2.147100851388619,
           "relaxed_max_surface_distance_m": 0.49674271468635267
         },
         {
           "link": "right_link6",
-          "all_angles_upper_bound_m": 1.2555220626754635,
+          "all_angles_upper_bound_m": 2.0092293582616354,
           "relaxed_max_surface_distance_m": 0.4968520116500927
         },
         {
           "link": "right_link7",
-          "all_angles_upper_bound_m": 1.2543645366065812,
+          "all_angles_upper_bound_m": 2.008071832192753,
           "relaxed_max_surface_distance_m": 0.4709128220608313
         },
         {
           "link": "right_gripper_flange",
-          "all_angles_upper_bound_m": 1.3350074597449364,
+          "all_angles_upper_bound_m": 2.0887147553311083,
           "relaxed_max_surface_distance_m": 0.5014556949022123
         },
         {
           "link": "right_gripper_base",
-          "all_angles_upper_bound_m": 1.3905654055630379,
+          "all_angles_upper_bound_m": 2.1442727011492098,
           "relaxed_max_surface_distance_m": 0.550468234630782
         },
         {
           "link": "right_gripper_link1",
-          "all_angles_upper_bound_m": 1.5527194141303462,
+          "all_angles_upper_bound_m": 2.306426709716518,
           "relaxed_max_surface_distance_m": 0.5586972019303159
         },
         {
           "link": "right_gripper_link2",
-          "all_angles_upper_bound_m": 1.5527194141303462,
+          "all_angles_upper_bound_m": 2.306426709716518,
           "relaxed_max_surface_distance_m": 0.5415497900964187
         },
         {
           "link": "right_camera_stand_link",
-          "all_angles_upper_bound_m": 1.4046749589025005,
+          "all_angles_upper_bound_m": 2.1583822544886724,
           "relaxed_max_surface_distance_m": 0.584401054840159
         },
         {
           "link": "right_camera_link",
-          "all_angles_upper_bound_m": 1.4567687407114431,
+          "all_angles_upper_bound_m": 2.210476036297615,
           "relaxed_max_surface_distance_m": 0.5972976964034221
         }
       ],
-      "random_configuration_sanity_check_max_m": 1.3542687595200624,
+      "random_configuration_sanity_check_max_m": 1.961259407823418,
       "ideal_nearest_ground_horizontal_m": 2.524747392672124,
       "ground_horizontal_min_after_recommended_blind_m": 2.524747392672124
     },
@@ -180,6 +184,10 @@
         0.0,
         0.0
       ],
+      "lift_range_m": [
+        0.0,
+        0.8
+      ],
       "arm_collision_links": 28,
       "all_angles_upper_bound_m": 1.2224272492429982,
       "recommended_blind_with_5cm_margin_m": 1.3,
@@ -187,7 +195,7 @@
       "per_link": [
         {
           "link": "left_arm_base",
-          "all_angles_upper_bound_m": 0.295079749358245,
+          "all_angles_upper_bound_m": 0.29507974935824505,
           "relaxed_max_surface_distance_m": 0.295079749358245
         },
         {
@@ -257,7 +265,7 @@
         },
         {
           "link": "right_arm_base",
-          "all_angles_upper_bound_m": 0.295079749358245,
+          "all_angles_upper_bound_m": 0.29507974935824505,
           "relaxed_max_surface_distance_m": 0.295079749358245
         },
         {
@@ -326,7 +334,7 @@
           "relaxed_max_surface_distance_m": 0.768051484283951
         }
       ],
-      "random_configuration_sanity_check_max_m": 1.0518881303664689,
+      "random_configuration_sanity_check_max_m": 1.0438792917655781,
       "ideal_nearest_ground_horizontal_m": 0.5937770761451052,
       "ground_horizontal_min_after_recommended_blind_m": 1.0547037498748169
     }

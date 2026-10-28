@@ -1,4 +1,5 @@
-# All xyz/rpy are in the AIR base_link frame, metres/radians.
+# All xyz/rpy are in the AIR base_link frame at lift=0, metres/radians.
+# chest_down and head_tilt are attached to the upper body and rises with upper_body_lift_joint.
 # Estimated fixtures, not measured hardware dimensions. Change and restart.
 chassis_up:
   xyz: [0.20, 0.0, 0.31]
@@ -6,3 +7,8 @@ chassis_up:
 chest_down:
   xyz: [0.16, 0.0, 0.76]
   rpy: [3.141592653589793, 0.0, 0.0]
+
+# Sensor origin above torso at lift=0. Positive pitch tilts the sensor toward +X.
+head_tilt:
+  xyz: [0.05, 0.0, 1.02]
+  rpy: [0.0, 0.7853981633974483, 0.0]

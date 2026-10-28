@@ -23,6 +23,10 @@ ROS 2 Humble / Gazebo Classic 11 整车仿真：RANGER AIR 四轮独立转向底
 
 已测试 Ubuntu 22.04、ROS 2 Humble、Gazebo Classic 11.10.2。需要安装 ROS 2 开发环境、Gazebo ROS 集成、gazebo_ros2_control、ros2_control/ros2_controllers、MoveIt 2、KDL、OMPL、xacro、RViz2、colcon 和 rosdep。
 
+实机相关代码、标定样本与设备序列号随仓库保存；这些标定仅适用于记录的设备和安装状态，不能直接推广到另一台机器人。构建产物、虚拟环境、相机采集会话和下载的第三方工作树不随仓库上传。
+
+实机环境可用 `bash scripts/build_official_control.sh` 准备，脚本会应用 `deps/agx_arm_ros-local.patch`。重力补偿依赖可用 `bash scripts/build_nero_gravity.sh` 准备；手眼插件使用 `bash scripts/build_handeye.sh`。这些准备脚本不会替代实际硬件验收。336L 的 Python SDK 目前仍需单独配置，可通过 `ORBBEC_HANDEYE_PYTHON` 指向包含 `pyorbbecsdk` 和 ROS Python 依赖的解释器；现有默认路径是本机环境。
+
 克隆本仓库并编译整车：
 
 ```bash
@@ -212,3 +216,12 @@ bash scripts/run_store_mapping.sh mid360_mount:=chest_down
 建图后端可切换：`algorithm:=fastlio2` 或 `algorithm:=superlio`，统一用 `lio_blind:=0.3`（单位米）修改算法近距剔除。不传阈值时，FAST-LIO2 为 0.3 m、Super-LIO 为 2.0 m。RViz 中勾选 `Raw MID360 (before LIO filter)` 可检查过滤前的原始回波。
 
 建图对照实验中，`air_keyboard` 还支持 **T** 切换双臂小幅摆动（默认关闭，左右臂交替前后摆动，±17.2°、8 秒一轮）；空格同时停车和停止摆臂。用法和前置条件见 [建图说明](sim_ws/src/nero_mid360_sim/README.md)。
+## 手动 ChArUco 手眼标定
+
+与之前相同的 RViz 手动采样界面：`bash scripts/run_handeye.sh --can can1`。
+在 Calibrate 页 Take Sample → Calibrate，并主动保存样本与结果。
+
+末端 RealSense、手动摆臂拍照的眼在手上流程见 [操作说明](docs/handeye_charuco.md)。
+用户独立启动重力补偿，采集程序被动读取指定 CAN 的七轴反馈。
+入口为 `bash scripts/handeye.sh collect --can <接口> --marker-mm <实测编码黑框边长>`；
+方格 40 mm，板为按 ID 排列的 7×5 格。支持原图/位姿保存、离线求解和新姿态独立验证。

@@ -1,0 +1,9 @@
+{
+  "squares_x": 7,
+  "squares_y": 5,
+  "square_m": 0.04,
+  "dictionary": "DICT_5X5_50",
+  "marker_m": 0.03,
+  "marker_size_verified": false,
+  "note": "Photo matches IDs 0..16 in 7x5 layout. Square measured 40mm. Marker 30mm inferred from photo; measure black outer edge and pass --marker-mm for collection."
+}

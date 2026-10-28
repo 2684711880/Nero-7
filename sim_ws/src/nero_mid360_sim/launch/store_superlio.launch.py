@@ -12,11 +12,11 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def robot_view(context):
     from mobile_dual_nero.model import compose
-    from mobile_dual_nero.mid360 import mount_pose
+    from mobile_dual_nero.mid360 import mount_pose, moves_with_upper_body
     values = {key: LaunchConfiguration(key).perform(context)
-              for key in ('mid360_mount', 'mid360_xyz', 'mid360_rpy')}
+              for key in ('mid360_mount', 'mid360_xyz', 'mid360_rpy', 'lift_height', 'mid360_tilt_deg')}
     description, _ = compose(**values)
-    xyz, rpy = mount_pose(values['mid360_mount'], values['mid360_xyz'], values['mid360_rpy'])
+    xyz, rpy = mount_pose(values['mid360_mount'], values['mid360_xyz'], values['mid360_rpy'], values['mid360_tilt_deg'])
     remaps = [('/tf', '/lio/tf'), ('/tf_static', '/lio/tf_static')]
     return [
         Node(package='robot_state_publisher', executable='robot_state_publisher',
@@ -29,7 +29,7 @@ def robot_view(context):
              arguments=['--frame-id', 'imu', '--child-frame-id', 'mid360_link'],
              parameters=[{'use_sim_time': True}], remappings=remaps, output='log'),
         Node(package='nero_mid360_sim', executable='mapping_robot_pose',
-             parameters=[{'mount_xyz': xyz, 'mount_rpy': rpy, 'use_sim_time': True}],
+             parameters=[{'mount_xyz': xyz, 'mount_rpy': rpy, 'moving_mount': moves_with_upper_body(values['mid360_mount']), 'use_sim_time': True}],
              remappings=remaps, output='log'),
     ]
 
@@ -49,7 +49,7 @@ def algorithm_nodes(context):
     if self_filter:
         from mobile_dual_nero.model import compose
         values = {key: LaunchConfiguration(key).perform(context)
-                  for key in ('mid360_mount', 'mid360_xyz', 'mid360_rpy')}
+                  for key in ('mid360_mount', 'mid360_xyz', 'mid360_rpy', 'lift_height', 'mid360_tilt_deg')}
         description, _ = compose(**values)
         padding = float(LaunchConfiguration('self_filter_padding').perform(context))
         if not math.isfinite(padding) or not 0 <= padding <= .10:
@@ -78,14 +78,16 @@ def generate_launch_description():
     share = Path(get_package_share_directory('nero_mid360_sim'))
     mobile = Path(get_package_share_directory('mobile_dual_nero'))
     args = [DeclareLaunchArgument('algorithm', default_value='superlio', choices=['superlio', 'fastlio2']),
-            DeclareLaunchArgument('mid360_mount', default_value='chassis_up', choices=['chassis_up', 'chest_down']),
+            DeclareLaunchArgument('mid360_mount', default_value='chassis_up', choices=['chassis_up', 'chest_down', 'head_tilt']),
             DeclareLaunchArgument('mid360_xyz', default_value=''),
             DeclareLaunchArgument('mid360_rpy', default_value=''),
+            DeclareLaunchArgument('mid360_tilt_deg', default_value='45', description='Head pitch in degrees; positive tilts toward robot front'),
             DeclareLaunchArgument('mid360_points_per_second', default_value='128000'),
             DeclareLaunchArgument('ceiling', default_value='true', choices=['true','false']),
             DeclareLaunchArgument('lio_blind', default_value='', description='Metres; empty uses 0.15 with self_filter, otherwise Super-LIO 2.0 or FAST-LIO2 0.3'),
             DeclareLaunchArgument('self_filter', default_value='false', choices=['true','false']),
             DeclareLaunchArgument('self_filter_padding', default_value='0.025', description='Body box padding in metres, 0..0.10'),
+            DeclareLaunchArgument('lift_height', default_value='0.0'),
             DeclareLaunchArgument('gui', default_value='true'),
             DeclareLaunchArgument('rviz', default_value='true')]
     sim = IncludeLaunchDescription(
@@ -93,7 +95,7 @@ def generate_launch_description():
         launch_arguments={
             'environment': 'convenience_store', 'use_rviz': 'false',
             'command_bridge': 'false', 'startup_arm_pose': 'relaxed',
-            **{key: LaunchConfiguration(key) for key in ('mid360_mount', 'mid360_xyz', 'mid360_rpy', 'mid360_points_per_second', 'ceiling', 'gui')}
+            **{key: LaunchConfiguration(key) for key in ('mid360_mount', 'mid360_xyz', 'mid360_rpy', 'mid360_points_per_second', 'ceiling', 'gui', 'lift_height', 'mid360_tilt_deg')}
         }.items())
     rviz = Node(package='rviz2', executable='rviz2', name='nero_mapping_view',
                 parameters=[{'use_sim_time': True}],

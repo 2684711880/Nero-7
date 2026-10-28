@@ -61,7 +61,7 @@ def main():
         tilt=float(np.hypot(q.x,q.y))
         report={'joint_count':len(n.joints.name), 'physical_displacements':delta.tolist(),
                 'wrist_carriage_error_m':carried_error,'tilt_quaternion_xy_norm':tilt,
-                'passed':bool(len(n.joints.name)==26 and delta[0,0]>.2 and
+                'passed':bool(len(n.joints.name)==27 and delta[0,0]>.2 and
                               abs(delta[0,1])<.05 and carried_error<.03 and tilt<.1)}
         print(json.dumps(report),flush=True)
     finally:

@@ -9,6 +9,7 @@
 #include <std_msgs/msg/string.hpp>
 #include <cmath>
 #include <sstream>
+#include "nero_mid360_sim/interval_acceleration.hpp"
 
 namespace gazebo {
 // Geometric FOV approximation, not Livox's proprietary firing pattern.
@@ -33,6 +34,7 @@ class NeroMid360 : public ModelPlugin {
     stats_pub_ = node_->create_publisher<std_msgs::msg::String>("/mid360/diagnostics", 10);
     start_ = last_ = last_imu_ = world_->SimTime().Double();
     ready_after_ = start_ + 8.0;
+    ResetImuVelocity(start_);
     update_ = event::Events::ConnectWorldUpdateEnd(std::bind(&NeroMid360::Update, this));
     RCLCPP_INFO(node_->get_logger(), "MID360 geometric raycasts %.0f/s; self returns retained; ideal co-located IMU", rate_);
   }
@@ -40,20 +42,31 @@ class NeroMid360 : public ModelPlugin {
   builtin_interfaces::msg::Time Stamp(double t) {
     return rclcpp::Time(static_cast<int64_t>(std::llround(t*1e9)));
   }
+  void ResetImuVelocity(double now) {
+    const auto v = link_->WorldLinearVel();
+    imu_acceleration_.Reset(now, {v.X(), v.Y(), v.Z()});
+  }
   void Update() {
     const double now = world_->SimTime().Double();
-    if (now < last_) { start_=last_=last_imu_=now; cloud_.points.clear(); budget_=0; return; }
-    if (now < ready_after_) { start_=last_=last_imu_=now; return; }
+    if (now < last_) { start_=last_=last_imu_=now; ready_after_=now+8.; ResetImuVelocity(now); cloud_.points.clear(); budget_=0; return; }
+    if (now < ready_after_) { start_=last_=last_imu_=now; ResetImuVelocity(now); return; }
     const auto pose = link_->WorldPose();
     if (now - last_imu_ + 1e-9 >= imu_dt_) {
       sensor_msgs::msg::Imu msg; msg.header.stamp=Stamp(now); msg.header.frame_id=frame_;
-      // Specific force, in m/s^2, with gravity handled exactly once.
-      auto a=pose.Rot().RotateVectorReverse(link_->WorldLinearAccel()-world_->Gravity());
-      auto w=pose.Rot().RotateVectorReverse(link_->WorldAngularVel());
-      msg.linear_acceleration.x=a.X();msg.linear_acceleration.y=a.Y();msg.linear_acceleration.z=a.Z();
-      msg.angular_velocity.x=w.X();msg.angular_velocity.y=w.Y();msg.angular_velocity.z=w.Z();
-      msg.orientation_covariance[0]=-1; // no attitude truth sent to the estimator
-      imu_pub_->publish(msg);last_imu_=now;
+      // Integrate over the IMU period instead of aliasing one physics-step
+      // contact impulse. Genuine base/lift/rotational accelerations remain.
+      const auto velocity = link_->WorldLinearVel();
+      const auto integrated = imu_acceleration_.Sample(now, {velocity.X(), velocity.Y(), velocity.Z()});
+      if (integrated) {
+        const ignition::math::Vector3d world_acceleration((*integrated)[0], (*integrated)[1], (*integrated)[2]);
+        auto a=pose.Rot().RotateVectorReverse(world_acceleration-world_->Gravity());
+        auto w=pose.Rot().RotateVectorReverse(link_->WorldAngularVel());
+        msg.linear_acceleration.x=a.X();msg.linear_acceleration.y=a.Y();msg.linear_acceleration.z=a.Z();
+        msg.angular_velocity.x=w.X();msg.angular_velocity.y=w.Y();msg.angular_velocity.z=w.Z();
+        msg.orientation_covariance[0]=-1; // no attitude truth sent to the estimator
+        imu_pub_->publish(msg);
+      }
+      last_imu_=now;
     }
     budget_ += (now-last_)*rate_; last_=now;
     const int count=static_cast<int>(budget_);budget_-=count;
@@ -98,6 +111,7 @@ class NeroMid360 : public ModelPlugin {
       cloud_.points.clear();start_=now;attempts_=self_=environment_=0;
     }
   }
+  nero_mid360_sim::IntervalAcceleration imu_acceleration_;
   physics::ModelPtr model_;physics::WorldPtr world_;physics::LinkPtr link_;physics::RayShapePtr ray_;
   gazebo_ros::Node::SharedPtr node_;event::ConnectionPtr update_;
   rclcpp::Publisher<livox_ros_driver2::msg::CustomMsg>::SharedPtr cloud_pub_;

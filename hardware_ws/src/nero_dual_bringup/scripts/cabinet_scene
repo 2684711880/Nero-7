@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+from nero_dual_bringup.scene import main
+main()

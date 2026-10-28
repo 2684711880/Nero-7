@@ -1,0 +1,49 @@
+diff --git a/src/agx_arm_ctrl/agx_arm_ctrl/agx_arm_ctrl_single_node.py b/src/agx_arm_ctrl/agx_arm_ctrl/agx_arm_ctrl_single_node.py
+index 60302ca..a3a4a6c 100644
+--- a/src/agx_arm_ctrl/agx_arm_ctrl/agx_arm_ctrl_single_node.py
++++ b/src/agx_arm_ctrl/agx_arm_ctrl/agx_arm_ctrl_single_node.py
+@@ -1128,7 +1128,8 @@ def main(args=None):
+     except Exception as e:
+         print(f"Error occurred: {e}")
+     finally:
+-        rclpy.shutdown()
++        if rclpy.ok():
++            rclpy.shutdown()
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/src/agx_arm_moveit/config/agx_arm.srdf.xacro b/src/agx_arm_moveit/config/agx_arm.srdf.xacro
+index a9a384b..3df103c 100644
+--- a/src/agx_arm_moveit/config/agx_arm.srdf.xacro
++++ b/src/agx_arm_moveit/config/agx_arm.srdf.xacro
+@@ -355,6 +355,16 @@
+       <joint name="joint6" value="0" />
+       <joint name="joint7" value="0" />
+     </group_state>
++    <!-- Local named pose: J2=85 deg, J4=5 deg; SRDF values are radians. -->
++    <group_state name="park" group="arm">
++      <joint name="joint1" value="0" />
++      <joint name="joint2" value="1.4835298641951802" />
++      <joint name="joint3" value="0" />
++      <joint name="joint4" value="0.08726646259971647" />
++      <joint name="joint5" value="0" />
++      <joint name="joint6" value="0" />
++      <joint name="joint7" value="0" />
++    </group_state>
+   </xacro:if>
+ 
+   <!-- ======================== ARM DISABLE COLLISIONS ======================== -->
+diff --git a/src/agx_arm_moveit/scripts/agx_arm_control_gate b/src/agx_arm_moveit/scripts/agx_arm_control_gate
+index 1180c10..06551f0 100644
+--- a/src/agx_arm_moveit/scripts/agx_arm_control_gate
++++ b/src/agx_arm_moveit/scripts/agx_arm_control_gate
+@@ -77,7 +77,8 @@ def main(args=None):
+         pass
+     finally:
+         node.destroy_node()
+-        rclpy.shutdown()
++        if rclpy.ok():
++            rclpy.shutdown()
+ 
+ 
+ if __name__ == "__main__":

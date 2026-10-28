@@ -1,0 +1,115 @@
+{
+  "T_gripper_camera": [
+    [
+      -0.0430967373428397,
+      -0.9328512747144865,
+      -0.35767467130614683,
+      0.0826832789004441
+    ],
+    [
+      0.9990611489061533,
+      -0.04182190251951767,
+      -0.011302619871751435,
+      -0.008000462368711056
+    ],
+    [
+      -0.004414971882089586,
+      -0.35782597408964856,
+      0.9337778538228857,
+      0.032842341337766826
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_camera_gripper": [
+    [
+      -0.043096737342839614,
+      0.9990611489061529,
+      -0.0044149718820895864,
+      0.011701328692830332
+    ],
+    [
+      -0.9328512747144863,
+      -0.04182190251951773,
+      -0.35782597408964856,
+      0.08854845034312851
+    ],
+    [
+      -0.3576746713061468,
+      -0.011302619871751457,
+      0.9337778538228858,
+      -0.0011841625906195414
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_base_board_reference": [
+    [
+      -0.04213604199089274,
+      -0.997790448688543,
+      -0.05136900301991002,
+      -0.34711558844129503
+    ],
+    [
+      0.007221031058501481,
+      -0.05171745576148965,
+      0.9986356500145641,
+      -0.5679897002586836
+    ],
+    [
+      -0.9990857874456003,
+      0.04170761651636488,
+      0.009384244707484505,
+      0.18077716502767935
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "transform_convention": "T_A_B maps coordinates from B to A; metres; camera=color optical frame",
+  "method": "OpenCV PARK",
+  "samples": 14,
+  "rotation_excitation_singular_values": [
+    13.8499107885519,
+    2.1884404372307524,
+    1.624873691774534
+  ],
+  "training_board_position_rms_mm": 4.520410056607762,
+  "training_board_position_max_mm": 9.31173527770073,
+  "training_board_orientation_max_from_first_deg": 2.000802417300147,
+  "validation": "Training consistency only; independently verify with new poses before use.",
+  "status": "pending_independent_pointing_validation",
+  "can": "can0",
+  "camera_serial": "262422270020",
+  "base_frame": "base_link",
+  "gripper_frame": "gripper_flange",
+  "camera_frame": "handeye_color_optical",
+  "source_pose": "/home/a/Nero-7/archive/handeye/right_d405/right_without_sample11.launch.py",
+  "source_samples": "/home/a/Nero-7/archive/handeye/right_d405/right_without_sample11.yaml",
+  "source_pose_sha256": "66d7d56bf13e7d13d6d47a423ed3c1ac83d1d737d576efbd3e87f4d0b1afbab1",
+  "saved_vs_park_translation_mm": 0.0,
+  "saved_vs_park_rotation_deg": 0.0,
+  "statistics_method": "PARK recomputed from saved RViz samples",
+  "quaternion_xyzw": [
+    -0.12742381189733762,
+    -0.12990090550149777,
+    0.7104041972154379,
+    0.6798638124581512
+  ],
+  "tf_parent": "right_gripper_flange",
+  "tf_child": "right_handeye_color_optical",
+  "source_original_samples": "/home/a/Nero-7/archive/handeye/right_d405/right.yaml",
+  "excluded_original_sample": 11,
+  "source_samples_sha256": "77f6e9a6807cc64e4eee8eaaa2c4072b8b3dd87819347adde7a9879938236687"
+}

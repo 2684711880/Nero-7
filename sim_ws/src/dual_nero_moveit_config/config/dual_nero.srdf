@@ -350,4 +350,38 @@
   <disable_collisions link1="top_camera_stand_Link" link2="top_d435_camera_link" reason="RigidAssembly" />
   <disable_collisions link1="top_camera_stand_Link" link2="world" reason="RigidAssembly" />
   <disable_collisions link1="top_d435_camera_link" link2="world" reason="RigidAssembly" />
+  <group_state name="park" group="left_arm">
+    <joint name="left_joint1" value="0" />
+    <joint name="left_joint2" value="1.48352986419518" />
+    <joint name="left_joint3" value="0" />
+    <joint name="left_joint4" value="0.08726646259971647" />
+    <joint name="left_joint5" value="0" />
+    <joint name="left_joint6" value="0" />
+    <joint name="left_joint7" value="0" />
+  </group_state>
+  <group_state name="park" group="right_arm">
+    <joint name="right_joint1" value="0" />
+    <joint name="right_joint2" value="1.48352986419518" />
+    <joint name="right_joint3" value="0" />
+    <joint name="right_joint4" value="0.08726646259971647" />
+    <joint name="right_joint5" value="0" />
+    <joint name="right_joint6" value="0" />
+    <joint name="right_joint7" value="0" />
+  </group_state>
+  <group_state name="park" group="both_arms">
+    <joint name="left_joint1" value="0" />
+    <joint name="left_joint2" value="1.48352986419518" />
+    <joint name="left_joint3" value="0" />
+    <joint name="left_joint4" value="0.08726646259971647" />
+    <joint name="left_joint5" value="0" />
+    <joint name="left_joint6" value="0" />
+    <joint name="left_joint7" value="0" />
+    <joint name="right_joint1" value="0" />
+    <joint name="right_joint2" value="1.48352986419518" />
+    <joint name="right_joint3" value="0" />
+    <joint name="right_joint4" value="0.08726646259971647" />
+    <joint name="right_joint5" value="0" />
+    <joint name="right_joint6" value="0" />
+    <joint name="right_joint7" value="0" />
+  </group_state>
 </robot>

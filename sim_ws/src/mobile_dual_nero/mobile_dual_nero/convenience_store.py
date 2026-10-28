@@ -6,11 +6,13 @@ The ceiling collision remains active; its visual is hidden for inspection.
 """
 
 STORE_SIZE = (12.0, 10.0)
-RACK_X = (-2.5, 0.0, 2.5)
 RACK_Y = 2.3
 RACK_LENGTH = 3.0
 RACK_WIDTH = .85
-SHELF_TOPS = (.20, .65, 1.10, 1.55)
+RACK_HEIGHT = 1.80
+AISLE_WIDTH = 1.20
+RACK_X = (-(RACK_WIDTH + AISLE_WIDTH), 0.0, RACK_WIDTH + AISLE_WIDTH)
+SHELF_TOPS = (.20, .60, 1.00, 1.45)
 
 
 def convenience_store_objects(ceiling=True):
@@ -58,19 +60,19 @@ def convenience_store_objects(ceiling=True):
     for i in range(21):
         add(f'tile_y_{i}', (12, .012, .001), (0, -5 + i*.5, .001), '.63 .65 .63 1', collision=False)
 
-    # Three double-sided gondolas. Clear aisles are 1.65 m wide.
+    # Three double-sided gondolas. Shelf and price-strip outer edges leave 1.20 m clear aisles.
     for rack, x in enumerate(RACK_X):
         prefix = f'gondola_{rack}'
         add(prefix + '_plinth', (RACK_WIDTH, RACK_LENGTH, .16), (x, RACK_Y, .08), teal)
-        add(prefix + '_divider', (.045, RACK_LENGTH, 1.7), (x, RACK_Y, .95), white)
+        add(prefix + '_divider', (.045, RACK_LENGTH, RACK_HEIGHT-.16), (x, RACK_Y, (RACK_HEIGHT+.16)/2), white)
         for end, y in enumerate((RACK_Y - RACK_LENGTH/2, RACK_Y + RACK_LENGTH/2)):
-            add(prefix + f'_end_{end}', (.08, .055, 1.85), (x, y, .925), steel)
+            add(prefix + f'_end_{end}', (.08, .055, RACK_HEIGHT), (x, y, RACK_HEIGHT/2), steel)
         for tier, top in enumerate(SHELF_TOPS):
             add(prefix + f'_shelf_{tier}', (RACK_WIDTH, RACK_LENGTH, .035),
                 (x, RACK_Y, top - .0175), white)
             for side in (-1, 1):
                 add(prefix + f'_price_{tier}_{side}', (.016, RACK_LENGTH, .055),
-                    (x + side*.43, RACK_Y, top - .025), '.95 .68 .08 1', collision=False)
+                    (x + side*(RACK_WIDTH/2-.008), RACK_Y, top - .025), '.95 .68 .08 1', collision=False)
                 for slot in range(5):
                     y = RACK_Y - 1.2 + slot*.6
                     color = palette[(slot + tier + rack) % len(palette)]
@@ -87,11 +89,11 @@ def convenience_store_objects(ceiling=True):
                         add(name + '_label', (.012, .20, .08),
                             (px + side*.116, y, top+.12), white, collision=False)
         # Colored category header above the merchandise.
-        add(prefix + '_header', (.10, 2.95, .18), (x, RACK_Y, 1.96), palette[rack])
+        add(prefix + '_header', (.10, 2.95, .18), (x, RACK_Y, RACK_HEIGHT-.09), palette[rack])
 
     # West wall merchandise: low shelf + tall back panel with stocked tiers.
-    add('wall_shelf_back', (.08, 5.0, 2.15), (-5.88, 1.75, 1.075), teal)
-    for tier, top in enumerate((.22, .72, 1.22, 1.72)):
+    add('wall_shelf_back', (.08, 5.0, RACK_HEIGHT), (-5.88, 1.75, RACK_HEIGHT/2), teal)
+    for tier, top in enumerate((.22, .62, 1.02, 1.42)):
         add(f'wall_shelf_{tier}', (.60, 5, .045), (-5.56, 1.75, top-.0225), white)
         for slot in range(7):
             add(f'wall_goods_{tier}_{slot}', (.25, .38, .29),

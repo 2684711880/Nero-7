@@ -8,6 +8,8 @@ controller_manager:
       type: forward_command_controller/ForwardCommandController
     wheel_controller:
       type: forward_command_controller/ForwardCommandController
+    upper_body_lift_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
     left_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     right_arm_controller:
@@ -105,4 +107,16 @@ right_gripper_controller:
     allow_partial_joints_goal: false
     constraints:
       stopped_velocity_tolerance: 0.02
+      goal_time: 3.0
+
+upper_body_lift_controller:
+  ros__parameters:
+    joints: [upper_body_lift_joint]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.01
       goal_time: 3.0
