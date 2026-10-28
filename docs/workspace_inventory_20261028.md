@@ -19,8 +19,8 @@
 
 ## 当前标定文件
 
-- 左腕生效配置：`config/handeye/can1_d405.json`；其历史候选与样本仍被文档或 ICP 工具引用。
-- 右腕已选配置：`hardware_ws/src/nero_dual_bringup/config/right_d405_handeye.json`；双臂启动读取它。来源样本与结果已保存在 `archive/handeye/right_d405/`。
+- 左腕生效配置：`config/handeye/left/d405.json`；其历史候选与样本仍被文档或 ICP 工具引用。
+- 右腕已选配置：`config/handeye/right/d405.json`；双臂启动读取它。来源样本与结果已保存在 `archive/handeye/right_d405/`。
 - 中间 336L：最近保存结果在 `archive/handeye/fixed_336l/`；不要当作已接入生产配置。
 - `small*`、`3*4*`、`Nero-7*`、`10.28*` 等样本和输出已归档；较早样本未推断相机身份。历史会话快照保留原路径，详见归档 README。
 

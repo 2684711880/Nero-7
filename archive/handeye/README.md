@@ -7,4 +7,4 @@
 - `fixed_336l/`：中间固定 336L 的 obzg 系列结果。
 - `earlier_sessions/`：较早采集及试算结果；未依据文件名推断相机身份。空文件 `10.28` 也原样保留。
 
-实际使用的左腕配置在 `config/handeye/can1_d405.json`，右腕配置在 `hardware_ws/src/nero_dual_bringup/config/right_d405_handeye.json`；归档文件本身不会自动发布 TF。历史 `calibration_data/` 会话快照保留其生成时记录的原始路径，可能仍显示迁移前路径；可依据文件名和哈希在此目录查找。所有标定结果均需结合各自配置的验证状态使用。
+实际使用的左腕配置在 `config/handeye/left/d405.json`，右腕配置在 `config/handeye/right/d405.json`；归档文件本身不会自动发布 TF。历史 `calibration_data/` 会话快照保留其生成时记录的原始路径，可能仍显示迁移前路径；可依据文件名和哈希在此目录查找。所有标定结果均需结合各自配置的验证状态使用。

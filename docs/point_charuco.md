@@ -68,7 +68,7 @@ bash scripts/run_pointing.sh --can can1 --mock
 
 当前按用户选择使用 `small2` 剔除原始第 10、11 组后的 13 组结果：
 来源为 `config/handeye/small2_13_candidate.json` 和 `archive/handeye/left_d405/small2_without_samples11_10.yaml`。
-生效文件为 `config/handeye/can1_d405.json`，仅适用于 left / can1 机械臂、D405 `262622274345` 和当前相机安装。
+生效文件为 `config/handeye/left/d405.json`，仅适用于 left / can1 机械臂、D405 `262622274345` 和当前相机安装。
 变换方向 `T_gripper_camera`：彩色光学系 → `gripper_flange`，不是夹爪尖端。
 平移 `[69.8633, -7.8013, 36.1237]` mm。
 变换和标定板参考位姿均已按选定的 13 组样本核对，训练板位置散布 5.19 mm RMS / 9.63 mm max。

@@ -63,7 +63,7 @@ class Pointing(Node):
     def __init__(self,args):
         super().__init__('pointing')
         self.args=args;self.group=ReentrantCallbackGroup();self.busy=threading.Lock()
-        self.meta=json.loads((ROOT/'config/handeye/can1_d405.json').read_text())
+        self.meta=json.loads((ROOT/'config/handeye/left/d405.json').read_text())
         if self.meta['can']!=args.can:raise ValueError('Calibration belongs to a different CAN interface')
         self.x=np.array(self.meta['T_gripper_camera'])
         self.fk=FK(ROOT/'config/gravity/nero_standard_gripper_no_camera.urdf')

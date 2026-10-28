@@ -21,7 +21,7 @@ def setup(context):
     initial=json.loads(val('initial_q'))
     mock=val('mock')=='true'
     config,controllers=compose([v/1000. for v in offset],initial)
-    calibration=json.loads((ROOT/'config/handeye/can1_d405.json').read_text())
+    calibration=json.loads((ROOT/'config/handeye/left/d405.json').read_text())
     if not mock and calibration['can']!=val('can'):
         raise ValueError('Hand-eye result belongs to a different CAN interface')
     session=Path(val('session'));session.mkdir(parents=True,exist_ok=True)

@@ -20,7 +20,7 @@ def setup(context):
     scene_objects(**geometry)  # Validate dimensions before constructing either CAN driver.
     config, controllers = compose(geometry['support_height'])
     own = Path(get_package_share_directory('nero_dual_bringup'))
-    right_camera = json.loads((own/'config/right_d405_handeye.json').read_text())
+    right_camera = json.loads((own/'config/handeye/right/d405.json').read_text())
     xyz = [right_camera['T_gripper_camera'][i][3] for i in range(3)]
     quaternion = right_camera['quaternion_xyzw']
     driver = Path(get_package_share_directory('agx_arm_ctrl'))/'launch/start_single_agx_arm.launch.py'

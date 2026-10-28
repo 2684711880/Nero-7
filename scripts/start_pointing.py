@@ -57,7 +57,7 @@ def main():
     if a.tcp_offset_mm is None:a.tcp_offset_mm=model_gripper_center_mm()
     if not np.isfinite(a.tcp_offset_mm).all() or not .03<=a.standoff<=.5:p.error('Invalid tip offset/standoff')
     if not a.mock:
-        calibration=json.loads((ROOT/'config/handeye/can1_d405.json').read_text())
+        calibration=json.loads((ROOT/'config/handeye/left/d405.json').read_text())
         if calibration['can']!=a.can:p.error('Calibration belongs to a different CAN interface')
         try:camera_config(calibration['camera_serial'])
         except (ValueError,RuntimeError) as exc:

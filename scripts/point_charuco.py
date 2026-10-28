@@ -64,7 +64,7 @@ class Preview(Node):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--can', required=True)
-    p.add_argument('--calibration', type=Path, default=ROOT/'config/handeye/can1_d405.json')
+    p.add_argument('--calibration', type=Path, default=ROOT/'config/handeye/left/d405.json')
     p.add_argument('--target', choices=['board','marker'], required=True)
     p.add_argument('--marker-id', type=int)
     p.add_argument('--tcp-offset-mm', type=float, nargs=3, required=True,
