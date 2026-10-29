@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-29",
+  "scope": "Source packaging and regressions; no CAN commands or physical motion during publication",
+  "unit_and_ros_tests": {
+    "test_depth_hole.py": 3,
+    "test_real_hole*.py": 8,
+    "test_sim_hole_scene.py": 1,
+    "test_pointing*.py": 15,
+    "total_passed": 27
+  },
+  "build": {
+    "packages": [
+      "nero_dual_bringup",
+      "dual_nero_moveit_config"
+    ],
+    "result": "passed",
+    "environment": "Existing ROS Humble and hardware_ws/install underlay; isolated temporary build/install directories; not a clean-machine build"
+  },
+  "other_checks": [
+    "bash -n for demo shell entrypoints",
+    "Python compileall for hole scripts and launch files",
+    "git diff --cached --check"
+  ],
+  "not_tested_in_this_publication": [
+    "New physical execution",
+    "New Gazebo end-to-end run",
+    "Fresh machine dependency installation"
+  ],
+  "published_evidence": "Historical square-board simulation detection/results and RViz message traces; not reusable execution plans"
+}

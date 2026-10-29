@@ -32,6 +32,7 @@ from handeye_charuco import ROOT, FK, Board, write_json
 from handeye_rviz_inputs import quaternion
 from point_charuco import pointing_target, select_corner
 from pointing_model import mount_matrix
+from pointing_grid import GridBoard
 
 
 def pose_of(t):
@@ -63,13 +64,15 @@ class Pointing(Node):
     def __init__(self,args):
         super().__init__('pointing')
         self.args=args;self.group=ReentrantCallbackGroup();self.busy=threading.Lock()
-        self.meta=json.loads((ROOT/'config/handeye/left/d405.json').read_text())
+        self.side=args.side; self.other='right' if self.side=='left' else 'left'
+        self.meta=json.loads((ROOT/f'config/handeye/{self.side}/d405.json').read_text())
         if self.meta['can']!=args.can:raise ValueError('Calibration belongs to a different CAN interface')
         self.x=np.array(self.meta['T_gripper_camera'])
         self.fk=FK(ROOT/'config/gravity/nero_standard_gripper_no_camera.urdf')
-        self.mount=mount_matrix('left')
-        self.board=Board(json.loads((ROOT/'config/handeye_charuco.json').read_text()))
-        self.corner=select_corner(self.board,'board')
+        self.mount=mount_matrix(self.side)
+        self.board=GridBoard() if self.side=='right' else Board(json.loads((ROOT/'config/handeye_charuco.json').read_text()))
+        self.corner=self.board.corner if self.side=='right' else select_corner(self.board,'board')
+        self.width,self.height=(self.board.width,self.board.height) if self.side=='right' else (.28,.20)
         self.image=self.info=self.joint=None;self.history=deque(maxlen=150)
         self.positions={};self.arm_stamp={}
         self.trajectory=None;self.goal_handle=None;self.report=None;self.capture_q=None
@@ -133,8 +136,8 @@ class Pointing(Node):
         if not all(n in self.positions for n in names):return
         state=JointState();state.header=m.header;state.name=names
         state.position=[self.positions[n] for n in names];self.joint=state
-        if all(f'left_joint{i}' in d for i in range(1,8)):
-            self.history.append((now,np.array([d[f'left_joint{i}'] for i in range(1,8)])))
+        if all(f'{self.side}_joint{i}' in d for i in range(1,8)):
+            self.history.append((now,np.array([d[f'{self.side}_joint{i}'] for i in range(1,8)])))
 
     def base_flange(self,q):
         return self.mount@self.fk(q)
@@ -198,7 +201,7 @@ class Pointing(Node):
             m.ns='pointing';m.id=idx;m.type=kind;m.action=Marker.ADD;m.pose.orientation.w=1.;m.color.a=1.
             msg.markers.append(m);return m
         outline=marker(Marker.LINE_STRIP,0);outline.scale.x=.003;outline.color.b=1.;outline.color.g=.7
-        for p in ([0,0,0],[.28,0,0],[.28,.20,0],[0,.20,0],[0,0,0]):
+        for p in ([0,0,0],[self.width,0,0],[self.width,self.height,0],[0,self.height,0],[0,0,0]):
             v=(bb@np.r_[p,1.])[:3];outline.points.append(Point(x=float(v[0]),y=float(v[1]),z=float(v[2])))
         tip=marker(Marker.SPHERE,1);tip.scale.x=tip.scale.y=tip.scale.z=.015;tip.color.g=1.
         tip.pose.position.x,tip.pose.position.y,tip.pose.position.z=map(float,report['target_tcp_base_m'])
@@ -207,7 +210,7 @@ class Pointing(Node):
         text=marker(Marker.TEXT_VIEW_FACING,3);text.scale.z=.025;text.color.r=text.color.g=text.color.b=1.
         text.pose.position=copy.deepcopy(tip.pose.position);text.pose.position.z+=.04
         text.text='MODEL gripper center goal'+(' [MOCK]' if self.args.mock else '')
-        actual=marker(Marker.SPHERE,4);actual.header.frame_id='left_point_tcp';actual.frame_locked=True
+        actual=marker(Marker.SPHERE,4);actual.header.frame_id=self.side+'_point_tcp';actual.frame_locked=True
         actual.scale.x=actual.scale.y=actual.scale.z=.012;actual.color.r=1.;actual.color.g=.5
         self.markers.publish(msg);self.publish_menu(report['corner_base_m'])
 
@@ -221,20 +224,20 @@ class Pointing(Node):
         if not self.planner.wait_for_service(timeout_sec=5.):raise RuntimeError('MoveIt planner not ready')
         # Include the observed board as a thin collision box, with its centre transformed correctly.
         obj=CollisionObject();obj.header.frame_id='base_link';obj.id='charuco_board';obj.operation=CollisionObject.ADD
-        shape=SolidPrimitive(type=SolidPrimitive.BOX,dimensions=[.28,.20,.004]);obj.primitives=[shape]
-        center=bb.copy();center[:3,3]=(bb@np.array([.14,.10,0,1.]))[:3];obj.primitive_poses=[pose_of(center)]
+        shape=SolidPrimitive(type=SolidPrimitive.BOX,dimensions=[self.width,self.height,.004]);obj.primitives=[shape]
+        center=bb.copy();center[:3,3]=(bb@np.array([self.width/2,self.height/2,0,1.]))[:3];obj.primitive_poses=[pose_of(center)]
         if not self.scene.wait_for_service(timeout_sec=3.):raise RuntimeError('Planning scene unavailable')
         scene=ApplyPlanningScene.Request();scene.scene.is_diff=True;scene.scene.world.collision_objects=[obj]
         if not wait(self.scene.call_async(scene)).success:raise RuntimeError('Board collision scene rejected')
-        req=GetMotionPlan.Request();r=req.motion_plan_request;r.group_name='left_arm';r.pipeline_id='ompl'
+        req=GetMotionPlan.Request();r=req.motion_plan_request;r.group_name=self.side+'_arm';r.pipeline_id='ompl'
         r.allowed_planning_time=5.;r.num_planning_attempts=3
         r.max_velocity_scaling_factor=.10;r.max_acceleration_scaling_factor=.10
         r.start_state.joint_state=self.joint;r.start_state.is_diff=False
-        pc=PositionConstraint();pc.header.frame_id='base_link';pc.link_name='left_point_tcp';pc.weight=1.
+        pc=PositionConstraint();pc.header.frame_id='base_link';pc.link_name=self.side+'_point_tcp';pc.weight=1.
         pc.constraint_region.primitives=[SolidPrimitive(type=SolidPrimitive.SPHERE,dimensions=[.002])]
         goal=np.eye(4);goal[:3,:3]=bg[:3,:3];goal[:3,3]=report['target_tcp_base_m']
         pc.constraint_region.primitive_poses=[pose_of(goal)]
-        oc=OrientationConstraint();oc.header.frame_id='base_link';oc.link_name='left_point_tcp';oc.weight=1.
+        oc=OrientationConstraint();oc.header.frame_id='base_link';oc.link_name=self.side+'_point_tcp';oc.weight=1.
         oc.orientation=pose_of(goal).orientation
         oc.absolute_x_axis_tolerance=oc.absolute_y_axis_tolerance=oc.absolute_z_axis_tolerance=.02
         constraints=Constraints();constraints.position_constraints=[pc];constraints.orientation_constraints=[oc]
@@ -244,7 +247,7 @@ class Pointing(Node):
         if response.error_code.val!=1:raise RuntimeError(f'MoveIt planning failed: code={response.error_code.val}')
         self.trajectory=response.trajectory;self.start=response.trajectory_start
         self.capture_q=q;self.report=report;self.planned_at=time.monotonic()
-        self.right_capture=np.array([self.positions[f'right_joint{i}'] for i in range(1,8)])
+        self.right_capture=np.array([self.positions[f'{self.other}_joint{i}'] for i in range(1,8)])
         report.update(mock=self.args.mock,can=self.args.can,tcp_offset_mm=self.args.tcp_offset_mm,
                       corner_board_m=self.corner.tolist(),corner_definition='printed_portrait_top_left',
                       q_start_rad=q.tolist(),standoff_m=self.args.standoff,motion_sent=False,
@@ -266,7 +269,7 @@ class Pointing(Node):
         if workers:raise ValueError(f'Stop gravity compensation yourself first, then Execute. Active PID(s): {workers}')
         q=self.current_q(stationary=True)
         if np.max(np.abs(q-self.capture_q))>.02:raise ValueError('Arm moved since planning; Observe and plan again')
-        right=np.array([self.positions[f'right_joint{i}'] for i in range(1,8)])
+        right=np.array([self.positions[f'{self.other}_joint{i}'] for i in range(1,8)])
         if np.max(np.abs(right-self.right_capture))>.02:raise ValueError('Other arm moved since collision checking; replan')
         if time.monotonic()-self.planned_at>300:raise ValueError('Plan older than 5 minutes; Observe and plan again')
         # Reject a moved board as well as a moved arm.
@@ -289,7 +292,7 @@ class Pointing(Node):
         if result.error_code.val!=1:raise RuntimeError(f'Execution failed: {result.error_code.val}')
         names=self.trajectory.joint_trajectory.joint_names
         target=dict(zip(names,self.trajectory.joint_trajectory.points[-1].positions))
-        wanted=np.array([target[f'left_joint{i}'] for i in range(1,8)])
+        wanted=np.array([target[f'{self.side}_joint{i}'] for i in range(1,8)])
         deadline=time.monotonic()+5
         while time.monotonic()<deadline:
             measured=self.current_q()
@@ -307,7 +310,7 @@ class Pointing(Node):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--can',required=True);p.add_argument('--tcp-offset-mm',type=float,nargs=3,required=True)
+    p.add_argument('--can',required=True);p.add_argument('--side',choices=['left','right'],default='left');p.add_argument('--tcp-offset-mm',type=float,nargs=3,required=True)
     p.add_argument('--standoff',type=float,default=.10);p.add_argument('--session',type=Path,required=True)
     p.add_argument('--mock',action='store_true');p.add_argument('--initial-q',type=float,nargs=7,default=[0,1.2,0,.3,0,0,0])
     args,rosargs=p.parse_known_args()

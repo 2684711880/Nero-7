@@ -1,0 +1,12 @@
+{
+  "status": "executed_simulation",
+  "motion_sent_to_simulation": true,
+  "physical_hardware_commands": false,
+  "rod_tip_in_plate_m": [
+    0.0012303089525566024,
+    0.0021540593417797016,
+    0.026005764462583736
+  ],
+  "radial_error_mm": 2.480651480286847,
+  "signed_plane_offset_mm": 26.005764462583734
+}

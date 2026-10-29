@@ -48,16 +48,19 @@ def stop_launch(child, grace=10):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--can',required=True)
-    p.add_argument('--other-can',default='can0',help='Feedback-only other arm; current known mapping can0=right')
+    p.add_argument('--other-can',default=None,help='Other arm feedback interface')
     p.add_argument('--tcp-offset-mm',type=float,nargs=3,default=None,help='Default: centre between model finger origins')
     p.add_argument('--standoff',type=float,default=.10)
     p.add_argument('--mock',action='store_true');p.add_argument('--no-rviz',action='store_true')
     a=p.parse_args()
+    side={'can1':'left','can0':'right'}.get(a.can)
+    if side is None:p.error('Use can1 for left or can0 for right')
+    if a.other_can is None:a.other_can='can0' if side=='left' else 'can1'
     if a.can==a.other_can:p.error('The two arms require different CAN interfaces')
     if a.tcp_offset_mm is None:a.tcp_offset_mm=model_gripper_center_mm()
     if not np.isfinite(a.tcp_offset_mm).all() or not .03<=a.standoff<=.5:p.error('Invalid tip offset/standoff')
     if not a.mock:
-        calibration=json.loads((ROOT/'config/handeye/left/d405.json').read_text())
+        calibration=json.loads((ROOT/f'config/handeye/{side}/d405.json').read_text())
         if calibration['can']!=a.can:p.error('Calibration belongs to a different CAN interface')
         try:camera_config(calibration['camera_serial'])
         except (ValueError,RuntimeError) as exc:
@@ -81,7 +84,7 @@ def main():
         env['PYTHONPATH']=str(ROOT/'scripts')+os.pathsep+pure+os.pathsep+env.get('PYTHONPATH','')
         command=['ros2','launch',str(ROOT/'scripts/pointing.launch.py'),f'can:={a.can}',
                  'tcp_offset_mm:='+json.dumps(a.tcp_offset_mm),'initial_q:='+json.dumps(initial),
-                 f'standoff:={a.standoff}',f'other_can:={a.other_can}',f'session:={session}',f'mock:={str(a.mock).lower()}',
+                 f'standoff:={a.standoff}',f'side:={side}',f'other_can:={a.other_can}',f'session:={session}',f'mock:={str(a.mock).lower()}',
                  f'rviz:={str(not a.no_rviz).lower()}']
         child=subprocess.Popen(command,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
                                text=True,bufsize=1,start_new_session=True)

@@ -1,0 +1,3 @@
+# ROS 2 Humble system-site-packages environment. OpenCV comes from python3-opencv.
+-r official_control_requirements.txt
+pyrealsense2==2.59.1.11053

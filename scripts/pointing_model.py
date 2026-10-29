@@ -82,7 +82,8 @@ def mount_matrix(side):
     return transform(rpy_matrix(np.fromstring(o.get('rpy'),sep=' ')),np.fromstring(o.get('xyz'),sep=' '))
 
 
-def compose(offset,initial,right_initial=None):
+def compose(offset,initial,right_initial=None,side='left'):
+    if side not in ('left','right'): raise ValueError('Unknown active arm')
     config,_=compose_single(offset,initial)
     single=ET.fromstring(config['robot_description'])
     robot=ET.Element('robot',name='dual_nero_pointing')
@@ -97,18 +98,18 @@ def compose(offset,initial,right_initial=None):
     srdf=ET.Element('robot',name='dual_nero_pointing')
     one_srdf=ET.fromstring(config['robot_description_semantic'])
     mounts=ET.parse(assets/'urdf/dual_nero.xacro').getroot()
-    for side in ('left','right'):
-        prefix=side+'_'
+    for arm_side in ('left','right'):
+        prefix=arm_side+'_'
         for original in single:
             if original.tag=='link' and original.get('name')=='world':continue
             if original.tag=='joint' and original.find("parent[@link='world']") is not None:continue
-            if original.tag=='ros2_control' and side=='right':continue
+            if original.tag=='ros2_control' and arm_side!=side:continue
             child=copy.deepcopy(original)
             for e in child.iter():
                 if e.tag in ('link','joint','ros2_control') and 'name' in e.attrib:e.set('name',prefix+e.get('name'))
                 if e.tag in ('parent','child') and 'link' in e.attrib:e.set('link',prefix+e.get('link'))
             robot.append(child)
-        mount=copy.deepcopy(mounts.find(f"joint[@name='{side}_arm_joint']"))
+        mount=copy.deepcopy(mounts.find(f"joint[@name='{arm_side}_arm_joint']"))
         mount.find('child').set('link',prefix+'base_link');robot.append(mount)
         for original in one_srdf:
             child=copy.deepcopy(original)
@@ -134,12 +135,13 @@ def compose(offset,initial,right_initial=None):
         if pipeline in config and 'arm' in config[pipeline]:
             arm=config[pipeline].pop('arm')
             config[pipeline].update(left_arm=copy.deepcopy(arm),right_arm=copy.deepcopy(arm))
-    names=[f'left_joint{i}' for i in range(1,8)]
-    config['moveit_simple_controller_manager']={'controller_names':['left_arm_controller'],
-        'left_arm_controller':dict(type='FollowJointTrajectory',action_ns='follow_joint_trajectory',default=True,joints=names)}
+    names=[f'{side}_joint{i}' for i in range(1,8)]
+    controller=side+'_arm_controller'
+    config['moveit_simple_controller_manager']={'controller_names':[controller],
+        controller:dict(type='FollowJointTrajectory',action_ns='follow_joint_trajectory',default=True,joints=names)}
     controllers={'controller_manager':{'ros__parameters':{'update_rate':200,
         'joint_state_broadcaster':{'type':'joint_state_broadcaster/JointStateBroadcaster'},
-        'left_arm_controller':{'type':'joint_trajectory_controller/JointTrajectoryController'}}},
-        'left_arm_controller':{'ros__parameters':{'joints':names,'command_interfaces':['position'],
+        controller:{'type':'joint_trajectory_controller/JointTrajectoryController'}}},
+        controller:{'ros__parameters':{'joints':names,'command_interfaces':['position'],
                                                    'state_interfaces':['position','velocity']}}}
     return config,controllers

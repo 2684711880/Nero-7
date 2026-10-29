@@ -1,6 +1,14 @@
-# RANGER AIR + 双 NERO Gazebo 仿真
+# NERO-7：双臂控制、视觉戳洞与 RANGER AIR 仿真
 
 ROS 2 Humble / Gazebo Classic 11 整车仿真：RANGER AIR 四轮独立转向底盘搭载双 NERO 机械臂，支持底盘键盘控制及 MoveIt 2 机械臂规划执行。
+
+## 视觉戳洞 demo
+
+左臂侧夹 40 × 40 cm 方板，右腕 D405 深度识别约 9 cm 圆孔；右臂先到观察位，必要时转腕，再预览并确认执行孔前接近和前送。
+
+**[demo README：环境、入口、数据与验证范围](demos/hole/README.md)** · [实机完整命令](docs/real_hole_workflow.md) · [Gazebo 仿真命令](docs/sim_hole_approach.md)。实机每段先 RViz 预览，输入 `do` 才执行；左臂保持反馈只读。
+
+检测代码已随仓库保存，无需本机 ArmHub 目录。左右相机标定分别保留在 `config/handeye/left/`、`config/handeye/right/`；临时采集和轨迹计划不上传。实机工具尺寸仍为现场暂定值，精度与碰撞模型限制见 demo 文档。
 
 ## 已验证
 
@@ -184,7 +192,7 @@ bash scripts/build_official_control.sh
 source scripts/official_control_env.sh
 ```
 
-此工作空间与上述整车仿真分别使用。当前已验证消息接口，尚未启动实机驱动或验证实机运动。
+此工作空间与上述整车仿真分别使用。实机视觉孔任务已增加独立流程，当前验证范围和操作命令见 [实机说明](docs/real_hole_workflow.md)。
 
 用同一个C++发布程序控制Gazebo的步骤见 [C++话题控制仿真](docs/cpp_topic_simulation.md)。
 整车启动默认带有直线/圆弧命令接收端。

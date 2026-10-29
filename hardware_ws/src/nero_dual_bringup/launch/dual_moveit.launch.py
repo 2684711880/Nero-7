@@ -34,6 +34,10 @@ def setup(context):
                 condition=IfCondition(LaunchConfiguration('use_rviz')),
                 arguments=['-d', str(own/'config/dual.rviz')], parameters=[config])
     for side in ('left', 'right'):
+        if side == 'left' and LaunchConfiguration('left_passive').perform(context).lower() == 'true':
+            actions.append(Node(package='nero_dual_bringup', executable='pointing_passive_arm',
+                                arguments=['--side', 'left', '--can', LaunchConfiguration('left_can')], output='screen'))
+            continue
         actions.append(IncludeLaunchDescription(PythonLaunchDescriptionSource(str(driver)),
             launch_arguments={'namespace': side, 'can_port': LaunchConfiguration(side+'_can'),
                 'arm_type': 'nero', 'effector_type': 'agx_gripper', 'fast_mode': 'false',
@@ -46,11 +50,12 @@ def setup(context):
     actions += [
         Node(package='tf2_ros', executable='static_transform_publisher',
             name='right_d405_handeye', output='screen',
-            arguments=['--frame-id', 'right_gripper_flange', '--child-frame-id',
+            arguments=['--frame-id', 'right_flange_link', '--child-frame-id',
                        'right_handeye_color_optical', '--x', str(xyz[0]), '--y', str(xyz[1]),
                        '--z', str(xyz[2]), '--qx', str(quaternion[0]), '--qy', str(quaternion[1]),
                        '--qz', str(quaternion[2]), '--qw', str(quaternion[3])]),
         Node(package='nero_dual_bringup', executable='joint_bridge', output='screen'),
+        Node(package='nero_dual_bringup', executable='real_hole_preview_bridge', output='screen'),
         Node(package='robot_state_publisher', executable='robot_state_publisher',
             parameters=[{'robot_description': config['robot_description']}]),
         Node(package='moveit_ros_move_group', executable='move_group', output='screen', parameters=[config,
@@ -70,7 +75,7 @@ def setup(context):
 
 
 def generate_launch_description():
-    defaults = {'left_can': 'can1', 'right_can': 'can0', 'auto_enable': 'true',
+    defaults = {'left_can': 'can1', 'right_can': 'can0', 'auto_enable': 'true', 'left_passive': 'false',
                 'use_rviz': 'true', 'support_height': '0.28',
                 'cabinet_height': '0.60', 'cabinet_width': '1.20',
                 'cabinet_depth': '0.40', 'cabinet_front': '0.50'}

@@ -68,3 +68,13 @@ Local changes to the pinned ROS driver are preserved in `deps/agx_arm_ros-local.
 - Upstream source files are retained without edits. `hardware_ws/src/agx_arm_ctrl`
   and `agx_arm_msgs` link to the original ROS packages. Our C++ input examples are
   adapted from the upstream `test/nero/test_move_l.yaml` and `test_move_c.yaml`.
+
+## Depth-only aperture detector (ArmHub snapshot)
+
+`scripts/depth_hole.py` is copied unchanged from the user's local ArmHub project,
+`perception/detectors/depth_hole.py`, for this demo. Snapshot SHA-256:
+`a475d5a8a13b111e59cb5354ef9b1e56c9c3e62f7cc73c4c9d4db8b4d22c153e`.
+The local ArmHub checkout has no committed revision for this file and no root
+LICENSE; this records provenance without assigning an upstream license.
+Simulation, camera preview and hardware capture now import this local snapshot,
+so an external `/home/a/ArmHub` checkout is no longer required.

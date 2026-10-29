@@ -75,5 +75,13 @@ class ModelTests(unittest.TestCase):
             np.testing.assert_allclose(mount_matrix(side)[:3,3],[-.002,y,.59])
         self.assertEqual(self.cfg['moveit_simple_controller_manager']['controller_names'],['left_arm_controller'])
 
+    def test_right_arm_has_the_only_trajectory_controller(self):
+        cfg,controllers=compose(self.offset,self.initial,side='right')
+        robot=ET.fromstring(cfg['robot_description'])
+        joints=[j.get('name') for j in robot.find('ros2_control').findall('joint')]
+        self.assertEqual(joints,[f'right_joint{i}' for i in range(1,8)])
+        self.assertEqual(cfg['moveit_simple_controller_manager']['controller_names'],['right_arm_controller'])
+        self.assertEqual(controllers['right_arm_controller']['ros__parameters']['joints'],joints)
+
 
 if __name__=='__main__':unittest.main()

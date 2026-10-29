@@ -65,3 +65,13 @@ sim_ws/validation/base_modes/**/*.lock
 /calibration_ws/build/
 /calibration_ws/install/
 /calibration_ws/log/
+
+# Hole demo live observations and reusable motion plans stay on the local machine.
+/hardware_ws/validation/real_hole/*
+!/hardware_ws/validation/real_hole/rviz_preview_issue/
+/sim_ws/validation/hole_approach/latest/
+/sim_ws/validation/hole_approach/live/
+# Historical executable trajectories are not release artifacts.
+/sim_ws/validation/hole_approach/first_loop/
+/sim_ws/validation/hole_approach/square_*/plan.json
+/sim_ws/validation/hole_approach/square_*/observe_plan.json

@@ -1,0 +1,15 @@
+{
+  "dedicated": [
+    {
+      "max_start_error_deg": 0.0,
+      "segments": 1
+    }
+  ],
+  "shared": [
+    {
+      "max_start_error_deg": 0.0,
+      "segments": 1
+    }
+  ],
+  "passed": true
+}
