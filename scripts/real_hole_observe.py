@@ -30,7 +30,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     targets = parser.add_mutually_exclusive_group(required=True)
     targets.add_argument('--joints-deg', nargs=7, type=float, metavar=('J1','J2','J3','J4','J5','J6','J7'))
-    targets.add_argument('--wrist-joint', '--joint', dest='wrist_joint', type=int, choices=(5,6,7), help='相对当前位置调整的右腕关节')
+    targets.add_argument('--wrist-joint', '--joint', dest='wrist_joint', type=int, choices=(2,4,5,6,7), help='相对当前位置调整的右臂关节')
     parser.add_argument('--delta-deg', type=float, default=5., help='右腕关节相对增量，度；默认 +5')
     parser.add_argument('--plan-only', action='store_true', help='仅预览，不等待执行输入')
     parser.add_argument('--left-gripper-mm', type=float, help='左夹爪开口 mm；默认读左臂反馈')

@@ -1,0 +1,15 @@
+{
+  "description": "Approximate bottle bottom in right gripper flange coordinates; visualization only",
+  "grasp_center_from_flange_m": [
+    0.0,
+    0.0,
+    0.1413
+  ],
+  "bottle_axis_from_grasp_to_bottom": [
+    -1.0,
+    0.0,
+    0.0
+  ],
+  "grasp_to_bottom_m": 0.085,
+  "warning": "瓶底方向为 -X 的近似模型假设；执行前需按实际夹持姿态核对"
+}

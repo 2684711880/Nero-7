@@ -10,6 +10,15 @@ ROS 2 Humble / Gazebo Classic 11 整车仿真：RANGER AIR 四轮独立转向底
 
 检测代码已随仓库保存，无需本机 ArmHub 目录。左右相机标定分别保留在 `config/handeye/left/`、`config/handeye/right/`；临时采集和轨迹计划不上传。实机工具尺寸仍为现场暂定值，精度与碰撞模型限制见 demo 文档。
 
+## 固定中间相机 + 瓶底戳孔
+
+左臂持板，中间 Orbbec Gemini 336L 实时检测孔；右臂侧夹瓶身，以瓶底对准孔，右腕相机位于瓶口一侧。提供 Gazebo 仿真、只读 RViz 预览和实物分段执行入口。每次先保存新相机帧，检查孔板、瓶子、相机及轨迹，孔前和前送分别确认。
+
+- [实物配置、相机外参采集及执行步骤](docs/real_bottle_preparation.md)
+- [中间相机实时检测](docs/orbbec_hole_preview.md) · [Gazebo 仿真](docs/sim_bottle_hole.md)
+
+瓶底位置、瓶子尺寸及相机支架仍为估计值；标定只适用于对应设备与安装状态。实物曾运行两段轨迹，是否实际穿孔未独立确认；前送轨迹新速度缩放尚未实物验证。
+
 ## 已验证
 
 - 26 个控制关节、7 个控制器，由同一 robot_description、controller_manager 和 joint_state_broadcaster 管理。

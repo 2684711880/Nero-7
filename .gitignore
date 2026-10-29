@@ -75,3 +75,9 @@ sim_ws/validation/base_modes/**/*.lock
 /sim_ws/validation/hole_approach/first_loop/
 /sim_ws/validation/hole_approach/square_*/plan.json
 /sim_ws/validation/hole_approach/square_*/observe_plan.json
+
+# Fixed camera sessions, live robot targets and generated bottle trajectories
+/captures/
+/records/
+/sim_ws/validation/bottle_hole/latest/
+/sim_ws/validation/bottle_hole/live/

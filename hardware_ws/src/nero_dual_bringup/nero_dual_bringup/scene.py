@@ -78,7 +78,7 @@ def main():
         geometry = {key: node.declare_parameter(key, value).value for key, value in DEFAULTS.items()}
         objects = scene_objects(**geometry)
         query = GetPlanningScene.Request()
-        query.components.components = PlanningSceneComponents.ALLOWED_COLLISION_MATRIX
+        query.components.components = PlanningSceneComponents.ALLOWED_COLLISION_MATRIX | PlanningSceneComponents.WORLD_OBJECT_NAMES
         current = call(node, GetPlanningScene, 'get_planning_scene', query).scene
         scene = PlanningScene(is_diff=True)
         scene.allowed_collision_matrix = current.allowed_collision_matrix
@@ -104,7 +104,7 @@ def main():
             obj.primitive_poses = [pose]
             scene.world.collision_objects.append(obj)
         # Remove the cabinet/pedestal left by a prior configuration when disabled.
-        for name in {'front_cabinet', 'support_pedestal'} - {obj[0] for obj in objects}:
+        for name in ({'front_cabinet', 'support_pedestal'} & {obj.id for obj in current.world.collision_objects}) - {obj[0] for obj in objects}:
             scene.world.collision_objects.append(CollisionObject(id=name, operation=CollisionObject.REMOVE))
         result = call(node, ApplyPlanningScene, 'apply_planning_scene',
                       ApplyPlanningScene.Request(scene=scene))
