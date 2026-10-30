@@ -1,0 +1,36 @@
+{
+  "left": {
+    "samples": 17085,
+    "peak_integrated_angle_deg": 130.56474749451613,
+    "saturated_percent": 74.50980392156863,
+    "max_event_gap_s": 0.731181000000106,
+    "skipped_event_gap_total_s": 8.539734000001317,
+    "gyro_absolute_p99_deg_s": [
+      452.18914016986025,
+      219.05385835614513,
+      291.8639713623921
+    ],
+    "final_integrated_rpy_deg": [
+      -108.628331794535,
+      36.54126017511942,
+      -5.854762759420671
+    ]
+  },
+  "right": {
+    "samples": 17057,
+    "peak_integrated_angle_deg": 130.82620435487274,
+    "saturated_percent": 71.47798557776865,
+    "max_event_gap_s": 0.7359019999998964,
+    "skipped_event_gap_total_s": 8.545551000001979,
+    "gyro_absolute_p99_deg_s": [
+      307.1540226012469,
+      215.29301326595055,
+      321.6480269530427
+    ],
+    "final_integrated_rpy_deg": [
+      -81.90185680217773,
+      -48.63725585084293,
+      2.227677260203419
+    ]
+  }
+}

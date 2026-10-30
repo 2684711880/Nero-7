@@ -1,0 +1,30 @@
+{
+  "motion_commands_sent": false,
+  "limit_source": "official SDK ROBOT_JOINT_LIMIT_PRESET_RAD[nero]",
+  "arms": {
+    "left": {
+      "complete_joints_deg": [
+        -40.887,
+        90.747,
+        -61.503,
+        112.149,
+        17.582,
+        -41.966,
+        -23.406
+      ],
+      "outside_official_limits": []
+    },
+    "right": {
+      "complete_joints_deg": [
+        12.578,
+        67.083,
+        79.508,
+        88.052,
+        -95.976,
+        -32.357,
+        -89.869
+      ],
+      "outside_official_limits": []
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "verified_at": "2026-10-30T06:25:18.017447+00:00",
+  "verification": "passive_complete_joint_feedback",
+  "arms": {
+    "left": {
+      "actual_joints_deg": [
+        -4.641,
+        79.22,
+        -94.236,
+        91.546,
+        80.639,
+        -1.819,
+        4.864
+      ],
+      "max_error_deg": 0.0020000000000095497,
+      "feedback": {
+        "frame_host_monotonic": 4141.940021465,
+        "joint_oldest_monotonic": 4141.935845599,
+        "joint_newest_monotonic": 4141.936558212,
+        "pairing": "host receipt; stationary window, not hardware synchronized"
+      }
+    },
+    "right": {
+      "actual_joints_deg": [
+        4.641,
+        79.222,
+        94.236,
+        91.546,
+        -80.639,
+        1.8160000000000003,
+        4.865
+      ],
+      "max_error_deg": 0.0029999999999996696,
+      "feedback": {
+        "frame_host_monotonic": 4141.940021465,
+        "joint_oldest_monotonic": 4141.937579124,
+        "joint_newest_monotonic": 4141.938477854,
+        "pairing": "host receipt; stationary window, not hardware synchronized"
+      }
+    }
+  }
+}

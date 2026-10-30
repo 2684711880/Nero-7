@@ -1,0 +1,22 @@
+{
+  "left": {
+    "initial_base_rpy_deg": [
+      -123.53378160302795,
+      -88.28780243238415,
+      28.510944566872336
+    ],
+    "max_quaternion_step_deg": 0.10000000000003652,
+    "max_euler_component_step_deg": 179.99999999999636,
+    "scope": "synthetic smooth quaternion path through official ROS conversion; not evidence of physical IK switching"
+  },
+  "right": {
+    "initial_base_rpy_deg": [
+      123.53321946758045,
+      -88.28779762368713,
+      -28.51079689950753
+    ],
+    "max_quaternion_step_deg": 0.10000000000002235,
+    "max_euler_component_step_deg": 180.00000000001475,
+    "scope": "synthetic smooth quaternion path through official ROS conversion; not evidence of physical IK switching"
+  }
+}

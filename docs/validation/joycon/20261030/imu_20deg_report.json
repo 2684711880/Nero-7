@@ -1,0 +1,43 @@
+{
+  "motion_commands_sent": false,
+  "rotation_limit_deg": 20.0,
+  "arms": {
+    "left": {
+      "device": "/dev/input/event24",
+      "samples": 17085,
+      "bias_deg_s": [
+        -0.4751169836924726,
+        0.2089832947287166,
+        -0.41154699234926767
+      ],
+      "peak_gyro_deg_s": [
+        1057.351582789359,
+        391.60398680423947,
+        381.33901874078754
+      ],
+      "peak_angle_deg": 130.56474749451613,
+      "saturated_samples": 12730,
+      "max_event_gap_s": 0.731181000000106,
+      "skipped_gaps": 100
+    },
+    "right": {
+      "device": "/dev/input/event26",
+      "samples": 17057,
+      "bias_deg_s": [
+        -0.9839720642942318,
+        -0.11867036335134834,
+        -0.16897627570716553
+      ],
+      "peak_gyro_deg_s": [
+        935.3122060784727,
+        368.56685618024846,
+        488.6444163683582
+      ],
+      "peak_angle_deg": 130.82620435487274,
+      "saturated_samples": 12192,
+      "max_event_gap_s": 0.7359019999998964,
+      "skipped_gaps": 101
+    }
+  },
+  "duration_s": 90.00167516300007
+}

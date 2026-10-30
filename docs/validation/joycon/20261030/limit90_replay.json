@@ -1,0 +1,16 @@
+{
+  "left": {
+    "old_limit_deg": 20,
+    "new_limit_deg": 90,
+    "old_saturated_percent": 74.50980392156863,
+    "new_saturated_percent": 18.67720222417325,
+    "new_peak_desired_deg": 90.0
+  },
+  "right": {
+    "old_limit_deg": 20,
+    "new_limit_deg": 90,
+    "old_saturated_percent": 71.47798557776865,
+    "new_saturated_percent": 51.88485665709093,
+    "new_peak_desired_deg": 90.0
+  }
+}

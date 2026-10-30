@@ -2,6 +2,19 @@
 
 ROS 2 Humble / Gazebo Classic 11 整车仿真：RANGER AIR 四轮独立转向底盘搭载双 NERO 机械臂，支持底盘键盘控制及 MoveIt 2 机械臂规划执行。
 
+## 双 Joy-Con 真机遥操作
+
+左右手柄分别控制双 NERO 机械臂：摇杆XYZ、陀螺仪姿态和夹爪二态开合，支持人工示教准备姿态、镜像右臂、低速归位及控制进程清理。
+
+**[安装、完整操作命令与验证范围](scripts/JOYCON.md)** · [IMU和偶发关节抽动分析](docs/joycon_imu_analysis.md)。准备和归位速度为10%，遥操作采用官方速度比例100%、相对姿态90°软件上限及反馈检查；当前仍使用官方`move_p`，没有碰撞规划和连续IK支路保证。
+
+```bash
+# 以下命令在仓库根目录执行；启动前按说明校准手柄和核对设备。
+bash scripts/joycon.sh --stop
+bash scripts/joycon.sh --return   # 会运动：10%速度到本机记录姿态
+bash scripts/joycon.sh --execute  # 会运动：准备姿态、校准、遥操作
+```
+
 ## 视觉戳洞 demo
 
 左臂侧夹 40 × 40 cm 方板，右腕 D405 深度识别约 9 cm 圆孔；右臂先到观察位，必要时转腕，再预览并确认执行孔前接近和前送。

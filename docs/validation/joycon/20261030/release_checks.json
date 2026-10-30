@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-30",
+  "unit_tests_passed": 26,
+  "official_callback_bridge": "passed (four mock Cartesian input cases)",
+  "isolated_ros_tests": {
+    "binary_gripper": "passed; stale 120mm feedback, rising-edge handling, independent sides",
+    "delayed_left_stop": "passed; 0.8s service delay, right maximum target gap 0.022s",
+    "input_disconnect": "passed; expected controlled failure and both gates closed"
+  },
+  "test_entry": "bash scripts/test_joycon.sh",
+  "parameters": {
+    "driver_speed_percent": 100,
+    "orientation_limit_deg": 90,
+    "target_hz": 50,
+    "ready_and_return_speed_percent": 10,
+    "measured_joint_speed_guard_rad_s": 1.25
+  },
+  "release_tests_connected_can": false,
+  "release_tests_moved_hardware": false,
+  "known_limitations": [
+    "gyro-only orientation and packet loss",
+    "no collision planning",
+    "no previous-joint IK seed interface on move_p",
+    "reported occasional physical joint jerk not yet diagnosed"
+  ]
+}

@@ -81,3 +81,10 @@ sim_ws/validation/base_modes/**/*.lock
 /records/
 /sim_ws/validation/bottle_hole/latest/
 /sim_ws/validation/bottle_hole/live/
+
+# Joy-Con local captures and ready-pose history; curated evidence lives in docs.
+/hardware_ws/validation/joycon_timing/
+/hardware_ws/validation/joycon_return/
+/hardware_ws/validation/joycon_runtime/
+/config/joycon/*.bak.json
+/config/joycon/*.tmp
